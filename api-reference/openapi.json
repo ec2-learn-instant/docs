@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "http://api.trackpilots.com"
     }
   ],
   "security": [
@@ -84,6 +84,16 @@
             }
           },
           "400": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+           "500": {
             "description": "unexpected error",
             "content": {
               "application/json": {
@@ -190,22 +200,42 @@
           }
         ]
       },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
+    "Error": {
+  "type": "object",
+  "required": ["success", "message", "data", "error"],
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "example": false
+    },
+    "message": {
+      "type": "string",
+      "example": "Failed to fetch all the chatbots"
+    },
+    "data": {
+      "type": ["object", "null"],
+      "example": null
+    },
+    "error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "REQUEST_VALIDATION_FAILED"
+        },
+        "message": {
+          "type": "string",
+          "example": "Numbers of keys in metadataKeys and number of values in metadataValues should be equal"
+        },
+        "details": {
+          "type": ["object", "null"],
+          "example": null
         }
       }
+    }
+  }
+}
     },
     "securitySchemes": {
       "bearerAuth": {

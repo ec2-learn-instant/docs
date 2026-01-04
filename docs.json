@@ -14,45 +14,82 @@
         "groups": [
           {
             "group": "Getting started",
+            "icon":"rocket",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "getting-started/what-is-trackpilots",
+              "getting-started/live-demo",
+              "getting-started/use-cases"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Setup & Configuration",
+            "icon":"wrench",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "setup-and-configutation/getting-started",
+              "setup-and-configutation/create-new-team",
+              "setup-and-configutation/add-your-team-member",
+              "setup-and-configutation/start-monitoring"
+            ]
+          },
+           {
+            "group": "Quick Start",
+            "icon":"hourglass-start",
+            "pages": [
+              "quick-start/dashboard",
+              "quick-start/my-teams"
+
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Insights",
+            "icon":"chart-line",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "insights/productivity-analysis"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Proof Of Work",
+            "icon":"grip",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "proof-of-work/screenshot",
+              "proof-of-work/timesheet",
+              "proof-of-work/timeline",
+              "proof-of-work/app-usage"
             ]
-          }
-        ]
-      },
-      {
-        "tab": "changelog",
-        "groups": [
+          },
           {
-            "group": "API documentation",
+            "group": "Report Analysis",
+            "icon": "file-chart-column",
             "pages": [
-              "api-reference/introduction"
+              "report-analysis/daily-insights",
+              "report-analysis/monthly-overview",
+              "report-analysis/attendance-summary",
+              "report-analysis/delayed-check-in",
+              "report-analysis/extra-hours-summary",
+              "report-analysis/custom-report"
+            ]
+          },
+          {
+            "group": "Announcement",
+            "icon":"bullhorn",
+            "pages": [
+              "announcement/holidays"
+            ]
+          },
+          {
+            "group": "Settings",
+            "icon":"gear",
+            "pages": [
+              "settings/manage-team",
+              "settings/manage-employee",
+              "settings/work-days",
+              "settings/expected-work-hours",
+              "settings/screenshot",
+              "settings/idle-alert",
+              "settings/stealth-monitoring",
+              "settings/default-settings",
+              "settings/brand-revamp",
+              "settings/review-apps-and-sites"
             ]
           }
         ]
@@ -63,7 +100,8 @@
           {
             "group": "API documentation",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api/employee-tracking"
             ]
           },
           {
@@ -77,20 +115,14 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+    ]
+  },
+   "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["javascript", "curl", "python"]
     }
   },
   "logo": "/images/TrackPilots.png",

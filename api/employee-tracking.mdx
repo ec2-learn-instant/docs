@@ -1,0 +1,33 @@
+---
+title: Employee Tracking API
+description: APIs to track employee activity, screenshots, and work sessions.
+---
+
+# Employee Tracking API
+
+## Start Work Session
+
+**POST** `/api/v1/work/start`
+
+### Request Body
+```json
+{
+  "employeeId": "emp_123",
+  "projectId": "proj_456"
+}
+
+{
+  "status": "started",
+  "sessionId": "sess_789"
+}
+
+--- 
+## 4. (Optional) Use Mintlify API Components
+Mintlify supports built-in API blocks:
+
+```mdx
+<Endpoint
+  method="POST"
+  path="/api/v1/work/start"
+  description="Start employee work session"
+/>
