@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "willow",
+  "theme": "palm",
   "name": "Trackpilots",
   "colors": {
     "primary": "#9d6dff",
