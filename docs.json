@@ -312,7 +312,7 @@
       "languages": ["javascript", "curl", "python"]
     }
   },
-  "logo": "/images/TrackPilots.png",
+  "logo": "https://app.trackpilots.com/images/Trackpilot_logo.png",
   "navbar": {
     "links": [
       {
