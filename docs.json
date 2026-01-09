@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "willow",
   "name": "Trackpilots",
   "colors": {
     "primary": "#9d6dff",
@@ -15,83 +15,85 @@
         "groups": [
           {
             "group": "Getting started",
-            "icon":"rocket",
+            "icon": "rocket",
             "pages": [
-              "getting-started/what-is-trackpilots",
-              "getting-started/live-demo",
-              "getting-started/use-cases"
+              "docs/getting-started/what-is-trackpilots",
+              "docs/getting-started/live-demo",
+              "docs/getting-started/use-cases"
             ]
           },
           {
             "group": "Setup & Configuration",
-            "icon":"wrench",
+            "icon": "wrench",
             "pages": [
-              "setup-and-configutation/getting-started",
-              "setup-and-configutation/create-new-team",
-              "setup-and-configutation/add-your-team-member",
-              "setup-and-configutation/start-monitoring"
+              "docs/setup-and-configutation/getting-started",
+              "docs/setup-and-configutation/create-new-team",
+              "docs/setup-and-configutation/add-your-team-member",
+              "docs/setup-and-configutation/start-monitoring"
             ]
           },
-           {
+          {
             "group": "Quick Start",
-            "icon":"hourglass-start",
-            "pages": [
-              "quick-start/dashboard",
-              "quick-start/my-teams"
-
-            ]
+            "icon": "hourglass-start",
+            "pages": ["docs/quick-start/dashboard", "docs/quick-start/my-teams"]
           },
           {
             "group": "Insights",
-            "icon":"chart-line",
-            "pages": [
-              "insights/productivity-analysis"
-            ]
+            "icon": "chart-line",
+            "pages": ["docs/insights/productivity-analysis"]
           },
           {
             "group": "Proof Of Work",
-            "icon":"grip",
+            "icon": "grip",
             "pages": [
-              "proof-of-work/screenshot",
-              "proof-of-work/timesheet",
-              "proof-of-work/timeline",
-              "proof-of-work/app-usage"
+              "docs/proof-of-work/screenshot",
+              "docs/proof-of-work/timesheet",
+              "docs/proof-of-work/timeline",
+              "docs/proof-of-work/app-usage"
             ]
           },
           {
             "group": "Report Analysis",
             "icon": "file-chart-column",
             "pages": [
-              "report-analysis/daily-insights",
-              "report-analysis/monthly-overview",
-              "report-analysis/attendance-summary",
-              "report-analysis/delayed-check-in",
-              "report-analysis/extra-hours-summary",
-              "report-analysis/custom-report"
+              "docs/report-analysis/daily-insights",
+              "docs/report-analysis/monthly-overview",
+              "docs/report-analysis/attendance-summary",
+              "docs/report-analysis/delayed-check-in",
+              "docs/report-analysis/extra-hours-summary",
+              "docs/report-analysis/custom-report"
             ]
           },
           {
             "group": "Announcement",
-            "icon":"bullhorn",
-            "pages": [
-              "announcement/holidays"
-            ]
+            "icon": "bullhorn",
+            "pages": ["docs/announcement/holidays"]
           },
           {
             "group": "Settings",
-            "icon":"gear",
+            "icon": "gear",
             "pages": [
-              "settings/manage-team",
-              "settings/manage-employee",
-              "settings/work-days",
-              "settings/expected-work-hours",
-              "settings/screenshot",
-              "settings/idle-alert",
-              "settings/stealth-monitoring",
-              "settings/default-settings",
-              "settings/brand-revamp",
-              "settings/review-apps-and-sites"
+              "docs/settings/manage-team",
+              "docs/settings/manage-employee",
+              "docs/settings/work-days",
+              "docs/settings/expected-work-hours",
+              "docs/settings/screenshot",
+              "docs/settings/idle-alert",
+              "docs/settings/stealth-monitoring",
+              "docs/settings/default-settings",
+              "docs/settings/brand-revamp",
+              "docs/settings/review-apps-and-sites"
             ]
+          },
+          {
+            "group": "Access Control",
+            "icon": "bullhorn",
+            "pages": ["docs/access-control/access-controm"]
+          },
+          {
+            "group": "Billing",
+            "icon": "money-bill-wave",
+            "pages": ["docs/billing/billing"]
           }
         ]
       },
@@ -100,12 +102,11 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/getting-started"
-            ]
+            "pages": ["api-reference/getting-started"]
           },
           {
             "group": "Dashboard",
+            "icon": "rocket",
             "pages": [
               "api-reference/dashboard/work-summary",
               "api-reference/dashboard/top-performer",
@@ -116,32 +117,194 @@
               "api-reference/dashboard/weekly-summary"
             ]
           },
-           {
+          {
             "group": "My Team",
-            "pages": [
-              "api-reference/my-team/active-users"
-            ]
+            "icon": "people-group",
+            "pages": ["api-reference/my-team/active-users"]
           },
-           {
+          {
             "group": "Insights",
-            "pages": [
-              "api-reference/insights/productivity-analysis"
-            ]
+            "icon": "chart-line",
+            "pages": ["api-reference/insights/productivity-analysis"]
           },
-           {
+          {
             "group": "Proof Of Work",
+            "icon": "grip",
             "pages": [
               "api-reference/proof-of-work/screenshot",
               "api-reference/proof-of-work/timesheet",
               "api-reference/proof-of-work/timeline",
               "api-reference/proof-of-work/app-usage"
             ]
+          },
+          {
+            "group": "Report Analysis",
+            "icon": "file-chart-column",
+            "pages": [
+              "api-reference/report-analysis/daily-insights",
+              "api-reference/report-analysis/monthly-overview",
+              "api-reference/report-analysis/attendance-summary",
+              "api-reference/report-analysis/delayed-check-in",
+              "api-reference/report-analysis/extra-hours-summary",
+              "api-reference/report-analysis/custom-report"
+            ]
+          },
+          {
+            "group": "Announcement",
+            "icon": "bullhorn",
+            "pages": ["api-reference/announcement/holidays"]
+          },
+          {
+            "group": "Settings",
+            "icon": "gear",
+            "pages": [
+              {
+                "group": "Manage Team",
+                "icon": "paw",
+                "pages": [
+                  "api-reference/settings/manage-team/get-team",
+                  "api-reference/settings/manage-team/create-team",
+                  "api-reference/settings/manage-team/update-team",
+                  "api-reference/settings/manage-team/delete-team"
+                ]
+              },
+              {
+                "group": "Manage Employee",
+                "icon": "users",
+                "pages": [
+                  "api-reference/settings/manage-employee/get-employee",
+                  "api-reference/settings/manage-employee/create-employee",
+                  "api-reference/settings/manage-employee/update-employee",
+                  "api-reference/settings/manage-employee/delete-employee"
+                ]
+              },
+              {
+                "group": "Work Day",
+                "icon": "check",
+                "pages": [
+                  "api-reference/settings/work-day/get-work-day",
+                  "api-reference/settings/work-day/update-work-day"
+                ]
+              },
+              {
+                "group": "Expected Work Hours",
+                "icon": "book-open",
+                "pages": [
+                  "api-reference/settings/expected-work-hours/get-expected-work-hours",
+                  "api-reference/settings/expected-work-hours/update-expected-work-hours"
+                ]
+              },
+              {
+                "group": "Screenshot",
+                "icon": "image",
+                "pages": [
+                  "api-reference/settings/screenshot/get-screenshot",
+                  "api-reference/settings/screenshot/update-screenshot"
+                ]
+              },
+              {
+                "group": "Idle Alert",
+                "icon": "comments",
+                "pages": [
+                  "api-reference/settings/idle-alert/get-idle-alert",
+                  "api-reference/settings/idle-alert/update-idle-alert"
+                ]
+              },
+              {
+                "group": "Stealth Monitoring",
+                "icon": "eye-slash",
+                "pages": [
+                  "api-reference/settings/stealth-monitoring/get-stealth-monitoring",
+                  "api-reference/settings/stealth-monitoring/update-stealth-monitoring"
+                ]
+              },
+              {
+                "group": "Default Settings",
+                "icon": "sliders",
+                "pages": [
+                  "api-reference/settings/default-settings/get-default-settings",
+                  "api-reference/settings/default-settings/update-default-settings"
+                ]
+              },
+              {
+                "group": "Brand Rewamp",
+                "icon": "bolt",
+                "pages": [
+                  "api-reference/settings/brand-rewamp/get-brand-rewamp",
+                  "api-reference/settings/brand-rewamp/update-brand-rewamp"
+                ]
+              },
+              {
+                "group": "Review Apps and Sites",
+                "icon": "magnifying-glass",
+                "pages": [
+                  "api-reference/settings/review-apps-and-sites/get-review-apps-and-sites",
+                  "api-reference/settings/review-apps-and-sites/update-review-apps-and-sites"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Access Control",
+            "icon": "universal-access",
+            "pages": [
+              "api-reference/access-control/get-access-control",
+              "api-reference/access-control/create-access-control",
+              "api-reference/access-control/update-access-control",
+              "api-reference/access-control/delete-access-control"
+            ]
+          },
+          {
+            "group": "Billing",
+            "icon": "money-bill-wave",
+            "pages": ["api-reference/billing/get-billing"]
+          }
+        ]
+      },
+      {
+        "tab": "Changelogs",
+        "groups": [
+          {
+            "group": "Updates",
+            "icon": "arrow-rotate-right",
+            "pages": ["changelog/updates/overview"]
+          },
+          {
+            "group": "2026",
+            "icon": "calendar",
+            "pages": ["changelog/2026/january-2026"]
+          },
+          {
+            "group": "2025",
+            "icon": "calendar",
+            "pages": [
+              "changelog/2025/january-2025",
+              "changelog/2025/february-2025",
+              "changelog/2025/march-2025",
+              "changelog/2025/april-2025",
+              "changelog/2025/may-2025",
+              "changelog/2025/june-2025",
+              "changelog/2025/july-2025",
+              "changelog/2025/august-2025",
+              "changelog/2025/september-2025",
+              "changelog/2025/october-2025",
+              "changelog/2025/november-2025",
+              "changelog/2025/december-2025"
+            ]
+          },
+          {
+            "group": "2024",
+            "icon": "calendar",
+            "pages": [
+              "changelog/2024/november-2024",
+              "changelog/2024/december-2024"
+            ]
           }
         ]
       }
     ]
   },
-   "api": {
+  "api": {
     "playground": {
       "display": "interactive"
     },
@@ -154,33 +317,145 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:team@trackpilots.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.trackpilots.com"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
+    "links": [
+      {
+        "header": "Features",
+        "items": [
+          { "label": "Overview", "href": "https://trackpilots.com/features" },
+          {
+            "label": "Employee Monitoring",
+            "href": "https://trackpilots.com/features/employee-monitoring-software"
+          },
+          {
+            "label": "Productivity Analysis",
+            "href": "https://trackpilots.com/features/employee-productivity-analysis-software"
+          },
+          {
+            "label": "Time Tracking",
+            "href": "https://trackpilots.com/features/employee-time-tracking"
+          },
+          {
+            "label": "Online Attendance",
+            "href": "https://trackpilots.com/features/employee-online-attendance"
+          },
+          {
+            "label": "App & Website Tracking",
+            "href": "https://trackpilots.com/features/apps-websites-monitoring"
+          },
+          {
+            "label": "Stealth Monitoring",
+            "href": "https://trackpilots.com/features/employee-stealth-monitoring"
+          }
+        ]
+      },
+      {
+        "header": "Resources",
+        "items": [
+          {
+            "label": "Downloads",
+            "href": "https://trackpilots.com/downloads"
+          },
+          {
+            "label": "User Guide",
+            "href": "https://trackpilots.com/resources/user-guide"
+          },
+          {
+            "label": "Pricing",
+            "href": "https://trackpilots.com/pricing"
+          },
+          {
+            "label": "Uptime Status",
+            "href": "https://trackpilots.statuspage.io/"
+          },
+          { "label": "FAQ's", "href": "https://trackpilots.com/faqs" }
+        ]
+      },
+      {
+        "header": "Industry",
+        "items": [
+          {
+            "label": "All Solutions",
+            "href": "https://trackpilots.com/solutions"
+          },
+          {
+            "label": "IT Services",
+            "href": "https://trackpilots.com/solutions/it-services-time-tracking"
+          },
+          {
+            "label": "BPO / KPO",
+            "href": "https://trackpilots.com/solutions/bpo-time-tracking-tools"
+          },
+          {
+            "label": "Staffing & Recruitment",
+            "href": "https://trackpilots.com/solutions/staffing-and-recruitment-tracking"
+          },
+          {
+            "label": "Finance & Accounting",
+            "href": "https://trackpilots.com/solutions/time-tracking-software-accounting"
+          },
+          {
+            "label": "Legal",
+            "href": "https://trackpilots.com/solutions/lawyers-time-tracking"
+          }
+        ]
+      },
+
+      {
+        "header": "Company",
+        "items": [
+          { "label": "About Us", "href": "https://trackpilots.com/about-us" },
+          {
+            "label": "Contact Us",
+            "href": "https://trackpilots.com/contact-us"
+          },
+          { "label": "Careers", "href": "https://trackpilots.com/careers" },
+          {
+            "label": "Terms & Conditions",
+            "href": "https://trackpilots.com/terms-and-conditions"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "https://trackpilots.com/privacy-policy"
+          },
+          {
+            "label": "Refund Policy",
+            "href": "https://trackpilots.com/refund-policy"
+          }
+        ]
+      }
+    ],
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "linkedin": "https://www.linkedin.com/company/trackpilots"
     }
   },
-  "favicon": "/images/favicon.ico"
+  "favicon": "/images/favicon.ico",
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page Not Found",
+      "description": "Oops! The page you’re looking for doesn’t exist or may have been moved."
+    }
+  }
 }
