@@ -265,6 +265,7 @@
       },
       {
         "tab": "Changelogs",
+        "openapi": "/openapi.yaml",
         "groups": [
           {
             "group": "Updates",

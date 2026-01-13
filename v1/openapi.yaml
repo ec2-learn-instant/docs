@@ -1,0 +1,117 @@
+openapi: 3.1.0
+x-stoplight:
+  id: trackpilots_dev
+info:
+  title: "v2: Trackpilots API"
+  version: "1.0"
+  description: |-
+    Trackpilots is a powerful employee monitoring and productivity platform built for modern teams and enterprises. It helps organizations gain real-time visibility into workforce activity, improve productivity, and ensure operational transparency.
+
+    The Trackpilots API allows you to create, read, and update data across the Trackpilots platform. You can use it to integrate Trackpilots with your applications or third-party tools for seamless automation and insights.
+
+    See https://docs.trackpilots.com to learn more.
+  summary: The Trackpilots API provides programmatic access to Trackpilots data, allowing seamless integration with your systems and workflows.
+  license:
+    name: Trackpilots.
+    url: https://trackpilots.com/terms-and-conditions
+  contact:
+    name: Trackpilots Support team
+    url: https://trackpilots.com/contact-us
+    email: team@trackpilots.com
+  termsOfService: https://trackpilots.com/terms-and-conditions
+externalDocs:
+  description: Trackpilots Developer Center
+  url: https://docs.trackpilots.com
+servers:
+  - url: https://api.paddle.com
+    description: Live
+tags:
+  - name: Addresses
+    description: Address entities hold billing address information for a customer. They're sub-entities of customers.
+    externalDocs:
+      description: Address entity overview
+      url: https://developer.paddle.com/api-reference/addresses/overview
+  - name: Adjustments
+    description: Adjustment entities describe post-billing adjustments to billed or completed transactions.
+    externalDocs:
+      description: Adjustments entity overview
+      url: https://developer.paddle.com/api-reference/adjustments/overview
+  - name: Businesses
+    description: Business entities hold information about customer businesses. They're sub-entities of customers.
+    externalDocs:
+      description: Business entity overview
+      url: https://developer.paddle.com/api-reference/businesses/overview
+  - name: Customers
+    description: Customer entities hold information about the people and businesses that make purchases. They're related to addresses and businesses.
+    externalDocs:
+      description: Customer entity overview
+      url: https://developer.paddle.com/api-reference/customers/overview
+  - name: Discounts
+    description: Discount entities describe percentage or amount-based discounts for transactions. They're sometimes called coupons or promo codes.
+    externalDocs:
+      description: Discount entity overview
+      url: https://developer.paddle.com/api-reference/discounts/overview
+  - name: Event types
+    description: Event types are actions that Paddle creates events for.
+    externalDocs:
+      description: Event types overview
+      url: https://developer.paddle.com/api-reference/event-types/overview
+  - name: Events
+    description: Event entities describe something notable that happened in your Paddle system.
+    externalDocs:
+      description: Event entity overview
+      url: https://developer.paddle.com/api-reference/events/overview
+  - name: IP addresses
+    description: Get Paddle IP addresses.
+  - name: Notification logs
+    description: Notification logs are records of an attempt to deliver a notification.
+    externalDocs:
+      description: Notification logs entity overview
+      url: https://developer.paddle.com/api-reference/notification-logs/overview
+  - name: Notification setting replays
+    description: Notification settings replays describe attempts to replay notifications for a notification setting
+    externalDocs:
+      description: Notification setting replays entity overview
+      url: https://developer.paddle.com/api-reference/notification-setting-replays/overview
+  - name: Notification settings
+    description: Notification settings entities describe subscriptions to events. They're also called notification destinations.
+    externalDocs:
+      description: Notification settings entity overview
+      url: https://developer.paddle.com/api-reference/notification-settings/overview
+  - name: Notifications
+    description: Notification entities describe a notification for an event that happened in your Paddle system.
+    externalDocs:
+      description: Notification entity overview
+      url: https://developer.paddle.com/api-reference/notifications/overview
+  - name: Payouts
+    description: Payouts are payments made by Paddle.
+  - name: Prices
+    description: Price entities describe how much and how often you charge for your products. They hold charging information.
+    externalDocs:
+      description: Price entity overview
+      url: https://developer.paddle.com/api-reference/prices/overview
+  - name: Pricing preview
+    description: Pricing previews are calculated totals for prices.
+    externalDocs:
+      description: Pricing preview overview
+      url: https://developer.paddle.com/api-reference/pricing-preview/overview
+  - name: Products
+    description: Product entities describe the items that customers can purchase. They hold high-level product attributes.
+    externalDocs:
+      description: Product entity overview
+      url: https://developer.paddle.com/api-reference/products/overview
+  - name: Reports
+    description: Report entities describe a report generated in your Paddle system.
+    externalDocs:
+      description: Reports entity overview
+      url: https://developer.paddle.com/api-reference/reports/overview
+  - name: Subscriptions
+    description: Subscription entities describe a recurring billing relationship with a customer. They're closely related to transactions.
+    externalDocs:
+      description: Subscription entity overview
+      url: https://developer.paddle.com/api-reference/subscriptions/overview
+  - name: Transactions
+    description: Transaction entities calculate and capture revenue. They hold information about an amount that you're billing for.
+    externalDocs:
+      description: Transaction entity overview
+      url: https://developer.paddle.com/api-reference/transactions/overview
