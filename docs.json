@@ -7,7 +7,6 @@
     "light": "#07C983",
     "dark": "#15803D"
   },
-
   "styling": {},
   "navigation": {
     "tabs": [
@@ -100,172 +99,11 @@
       },
       {
         "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "icon": "map",
-            "pages": ["api-reference/getting-started"]
-          },
-          {
-            "group": "Dashboard",
-            "icon": "rocket",
-            "pages": [
-              "api-reference/dashboard/work-summary",
-              "api-reference/dashboard/top-performer",
-              "api-reference/dashboard/recent-screenshot",
-              "api-reference/dashboard/work-time-analysis",
-              "api-reference/dashboard/productivity-analysis",
-              "api-reference/dashboard/app-and-website-usage",
-              "api-reference/dashboard/weekly-summary"
-            ]
-          },
-          {
-            "group": "My Team",
-            "icon": "people-group",
-            "pages": ["api-reference/my-team/active-users"]
-          },
-          {
-            "group": "Insights",
-            "icon": "chart-line",
-            "pages": ["api-reference/insights/productivity-analysis"]
-          },
-          {
-            "group": "Proof Of Work",
-            "icon": "grip",
-            "pages": [
-              "api-reference/proof-of-work/screenshot",
-              "api-reference/proof-of-work/timesheet",
-              "api-reference/proof-of-work/timeline",
-              "api-reference/proof-of-work/app-usage"
-            ]
-          },
-          {
-            "group": "Report Analysis",
-            "icon": "file-chart-column",
-            "pages": [
-              "api-reference/report-analysis/daily-insights",
-              "api-reference/report-analysis/monthly-overview",
-              "api-reference/report-analysis/attendance-summary",
-              "api-reference/report-analysis/delayed-check-in",
-              "api-reference/report-analysis/extra-hours-summary",
-              "api-reference/report-analysis/custom-report"
-            ]
-          },
-          {
-            "group": "Announcement",
-            "icon": "bullhorn",
-            "pages": ["api-reference/announcement/holidays"]
-          },
-          {
-            "group": "Settings",
-            "icon": "gear",
-            "pages": [
-              {
-                "group": "Manage Team",
-                "icon": "paw",
-                "pages": [
-                  "api-reference/settings/manage-team/get-team",
-                  "api-reference/settings/manage-team/create-team",
-                  "api-reference/settings/manage-team/update-team",
-                  "api-reference/settings/manage-team/delete-team"
-                ]
-              },
-              {
-                "group": "Manage Employee",
-                "icon": "users",
-                "pages": [
-                  "api-reference/settings/manage-employee/get-employee",
-                  "api-reference/settings/manage-employee/create-employee",
-                  "api-reference/settings/manage-employee/update-employee",
-                  "api-reference/settings/manage-employee/delete-employee"
-                ]
-              },
-              {
-                "group": "Work Day",
-                "icon": "check",
-                "pages": [
-                  "api-reference/settings/work-day/get-work-day",
-                  "api-reference/settings/work-day/update-work-day"
-                ]
-              },
-              {
-                "group": "Expected Work Hours",
-                "icon": "book-open",
-                "pages": [
-                  "api-reference/settings/expected-work-hours/get-expected-work-hours",
-                  "api-reference/settings/expected-work-hours/update-expected-work-hours"
-                ]
-              },
-              {
-                "group": "Screenshot",
-                "icon": "image",
-                "pages": [
-                  "api-reference/settings/screenshot/get-screenshot",
-                  "api-reference/settings/screenshot/update-screenshot"
-                ]
-              },
-              {
-                "group": "Idle Alert",
-                "icon": "comments",
-                "pages": [
-                  "api-reference/settings/idle-alert/get-idle-alert",
-                  "api-reference/settings/idle-alert/update-idle-alert"
-                ]
-              },
-              {
-                "group": "Stealth Monitoring",
-                "icon": "eye-slash",
-                "pages": [
-                  "api-reference/settings/stealth-monitoring/get-stealth-monitoring",
-                  "api-reference/settings/stealth-monitoring/update-stealth-monitoring"
-                ]
-              },
-              {
-                "group": "Default Settings",
-                "icon": "sliders",
-                "pages": [
-                  "api-reference/settings/default-settings/get-default-settings",
-                  "api-reference/settings/default-settings/update-default-settings"
-                ]
-              },
-              {
-                "group": "Brand Rewamp",
-                "icon": "bolt",
-                "pages": [
-                  "api-reference/settings/brand-rewamp/get-brand-rewamp",
-                  "api-reference/settings/brand-rewamp/update-brand-rewamp"
-                ]
-              },
-              {
-                "group": "Review Apps and Sites",
-                "icon": "magnifying-glass",
-                "pages": [
-                  "api-reference/settings/review-apps-and-sites/get-review-apps-and-sites",
-                  "api-reference/settings/review-apps-and-sites/update-review-apps-and-sites"
-                ]
-              }
-            ]
-          },
-          {
-            "group": "Access Control",
-            "icon": "universal-access",
-            "pages": [
-              "api-reference/access-control/get-access-control",
-              "api-reference/access-control/create-access-control",
-              "api-reference/access-control/update-access-control",
-              "api-reference/access-control/delete-access-control"
-            ]
-          },
-          {
-            "group": "Billing",
-            "icon": "money-bill-wave",
-            "pages": ["api-reference/billing/get-billing"]
-          }
-        ]
+         "openapi": "/openapi.yaml"
       },
       {
         "tab": "Changelogs",
-        "openapi": "/openapi.yaml",
+        "openapi": "/openapi-paddle.yaml",
         "groups": [
           {
             "group": "Updates",
