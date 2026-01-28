@@ -191,40 +191,55 @@ paths:
 
 
 webhooks:
+
   desktop.activity_tracking.captured:
     post:
       summary: Activity Tracking Event
+      description: >
+        Triggered when a user's activity state changes on the desktop
+        (work or privacy). This event indicates whether the user is
+        currently in work mode or privacy mode.
       tags:
         - Desktop Events
       responses:
         '200':
-          description: Event processed successfully
+          description: Webhook received and processed successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActivityTrackingCapturedEvent'
 
+
   desktop.app_tracking.captured:
     post:
       summary: App Tracking Event
+      description: >
+        Triggered when the desktop app tracked the application and websites.
+        This event contains detailed information about the application,
+        time spent, and context of the switch.
       tags:
         - Desktop Events
       responses:
         '200':
-          description: Event processed successfully
+          description: Webhook received and processed successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AppTrackingCapturedEvent'
 
+
   desktop.screenshot_tracking.captured:
     post:
-      summary: Screenshot Tracking Event
+      summary: Screenshot  Tracking Event
+      description: >
+        Triggered when a screenshot is captured on the user's desktop.
+        The payload includes screenshot metadata and one or more
+        Base64-encoded image buffers.
       tags:
         - Desktop Events
       responses:
         '200':
-          description: Event processed successfully
+          description: Webhook received and processed successfully
           content:
             application/json:
               schema:
