@@ -1,0 +1,95 @@
+---
+title: "Webhooks"
+description: "Configure webhooks to receive real-time event notifications"
+icon: "webhook"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+🔔 **Real-time Event Notifications**
+
+Webhooks allow Trackpilots to send real-time event data to your application whenever an event occurs.
+</Callout>
+
+## Overview
+
+Webhooks enable your system to automatically receive event notifications from Trackpilots.  
+When a selected event occurs, Trackpilots sends a **POST request** to your configured webhook URL with the event payload.
+
+You can create and manage webhooks from the **Developer Tools** section in the Trackpilots dashboard.
+
+---
+
+## Create a Webhook
+
+Follow the steps below to create a new webhook:
+
+1. Go to **Developer Tools** in your Trackpilots dashboard.
+2. Select **Webhooks** from the menu.  
+   👉 Direct link:  
+   `https://app.trackpilots.com/developer-tools/webhooks`
+3. Click the **Create Webhook** button located at the **top-right corner**.
+4. Enter the following details:
+   - **Webhook Name** – A friendly name to identify the webhook.
+   - **Webhook URL** – The endpoint where event notifications will be sent.  
+     Example:
+     ```text
+     https://trackpilots.com/path
+     ```
+5. Select the events you want to receive notifications for.
+6. Click **Create**.
+
+🎉 Your webhook will be created successfully.
+
+---
+
+## Event Selection
+
+You can choose specific events or enable all events at once.
+
+### Select All Events
+
+- Receive notifications for **all supported events**.
+
+### Desktop Events
+
+The following desktop-related events are currently supported:
+
+- `desktop.screenshot_tracking.captured`
+- `desktop.app_tracking.captured`
+- `desktop.activity_tracking.captured`
+
+Each selected event will trigger a webhook notification when it occurs.
+
+---
+
+## Webhook Behavior
+
+- Trackpilots sends a **POST request** to the configured webhook URL.
+- The request contains event details in **JSON format**.
+- Your endpoint should respond with a **2xx HTTP status code** to acknowledge successful delivery.
+
+---
+
+## Best Practices
+
+<Callout type="warning">
+⚠️ **Ensure High Availability**
+
+Make sure your webhook endpoint is publicly accessible and highly available to avoid missed events.
+</Callout>
+
+- Validate incoming webhook payloads.
+- Log webhook requests for debugging and auditing.
+- Handle duplicate events gracefully.
+- Secure your endpoint using signature validation (recommended).
+
+---
+
+<Callout type="info">
+🚀 **More Events Coming Soon**
+
+Additional event types and webhook features will be added soon.  
+For custom webhook requirements, contact **team@trackpilots.com**.
+</Callout>

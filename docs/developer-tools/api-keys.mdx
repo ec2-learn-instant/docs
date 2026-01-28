@@ -1,0 +1,62 @@
+---
+title: "API Keys"
+description: "Create and manage API keys for accessing Trackpilots APIs"
+icon: "key"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+🔐 **Secure Your API Access**
+
+API keys are used to authenticate and authorize requests to the Trackpilots REST APIs.
+</Callout>
+
+## Overview
+
+Trackpilots uses **API Keys** to securely authenticate API requests.  
+Each API key is unique and should be kept confidential.
+
+You can generate and manage your API keys from the **Developer Tools** section in the Trackpilots dashboard.
+
+---
+
+## Create an API Key
+
+Follow the steps below to generate a new API key:
+
+1. Go to **Developer Tools** in your Trackpilots dashboard.
+2. Select **API Keys** from the menu.  
+   👉 Direct link:  
+   `https://app.trackpilots.com/developer-tools/api-keys`
+3. Click the **Create API Key** button located at the **top-right corner**.
+4. Enter a **name** for your API key.
+5. Click **Create**.
+
+🎉 Your API key will be created successfully.
+
+---
+
+## Important Notes
+
+<Callout type="warning">
+⚠️ **Store Your API Key Securely**
+
+The API key will be displayed **only once** at the time of creation.
+Make sure to copy and store it in a secure place.
+</Callout>
+
+- You **cannot view the full API key again** after creation.
+- If the key is lost or compromised, generate a **new API key**.
+- Avoid sharing your API key publicly or committing it to source control.
+
+---
+
+## Using the API Key
+
+Use the generated API key as an **authorization token** for all Trackpilots REST API requests.
+
+Example (Authorization Header):
+
+```http
+Authorization: Bearer YOUR_API_KEY

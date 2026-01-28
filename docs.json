@@ -91,6 +91,11 @@
             "pages": ["docs/access-control/access-control"]
           },
           {
+            "group": "Developer Tools",
+            "icon": "code",
+            "pages": ["docs/developer-tools/api-keys", "docs/developer-tools/webhooks"]
+          },
+          {
             "group": "Billing",
             "icon": "money-bill-wave",
             "pages": ["docs/billing/billing"]

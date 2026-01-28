@@ -202,7 +202,7 @@ webhooks:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ActivityCapturedEvent'
+                $ref: '#/components/schemas/ActivityTrackingCapturedEvent'
 
   desktop.app_tracking.captured:
     post:
@@ -215,7 +215,7 @@ webhooks:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppCapturedEvent'
+                $ref: '#/components/schemas/AppTrackingCapturedEvent'
 
   desktop.screenshot_tracking.captured:
     post:
@@ -408,100 +408,255 @@ components:
         data:
           type: array
 
-    # ------------------ Activity Tracking ------------------
-    ActivityCapturedEvent:
-      allOf:
-        - $ref: '#/components/schemas/BaseEvent'
-        - type: object
-          properties:
-            event:
-              example: desktop.activity_tracking.captured
-            data:
-              items:
-                $ref: '#/components/schemas/WorkData'
+   # ------------------ Activity Tracking ------------------
 
-    WorkData:
+    ActivityTrackingCapturedEvent:
       type: object
       properties:
-        workEventId:
+        event:
           type: string
-          format: uuid
-        workType:
+          example: desktop.activity_tracking.captured
+
+        version:
           type: string
-          enum: [start, stop, break]
-        workTime:
+          example: v1
+
+        agent:
           type: string
-          format: date-time
+          example: desktop-agent
+
+        timestamp:
+          type: integer
+          description: Event timestamp in milliseconds (epoch)
+          example: 1769592774119
+
+        data:
+          $ref: '#/components/schemas/ActivityTrackingData'
+
+      required:
+        - event
+        - version
+        - agent
+        - timestamp
+        - data
+
+
+    ActivityTrackingData:
+      type: object
+      properties:
+        workMode:
+          type: boolean
+          description: >
+            Indicates whether the user is currently in active work mode.
+            `true` means work mode, `false` means privacy mode.
+          example: false
+
         organisationId:
           type: string
           format: uuid
+
         teamId:
           type: string
           format: uuid
+
         userId:
           type: string
           format: uuid
-        operatingSystem:
-          type: string
-          enum: [windows, macos, linux]
 
-    # ------------------ App Tracking ------------------
-    AppCapturedEvent:
-      allOf:
-        - $ref: '#/components/schemas/BaseEvent'
-        - type: object
-          properties:
-            event:
-              example: desktop.app_tracking.captured
-            data:
-              items:
-                $ref: '#/components/schemas/AppData'
+      required:
+        - workMode
+        - organisationId
+        - teamId
+        - userId
 
-    AppData:
+   # ------------------ App Tracking ------------------
+    AppTrackingCapturedEvent:
       type: object
       properties:
-        appTrackingId:
+        event:
+          type: string
+          example: desktop.app_tracking.captured
+
+        version:
+          type: string
+          example: v1
+
+        agent:
+          type: string
+          example: desktop-agent
+
+        timestamp:
+          type: integer
+          description: Event timestamp in milliseconds (epoch)
+          example: 1769591645035
+
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppTrackingData'
+
+      required:
+        - event
+        - version
+        - agent
+        - timestamp
+        - data
+
+
+    AppTrackingData:
+      type: object
+      properties:
+        trackingId:
           type: string
           format: uuid
-        appName:
+          example: e2fbd487-1ede-43e9-bd62-188da02d489f
+
+        trackingAppName:
           type: string
-        appIconUrl:
+          example: Google Chrome
+
+        trackingAppTitle:
+          type: string
+          example: Screenshot Tracking Event
+
+        trackingAppUrl:
+          type: string
+          example: localhost
+
+        trackingAppFullUrl:
+          type: string
+          example: http://localhost:3000/api-reference/desktop-events/screenshot-tracking-event#response-data-items-team-id
+
+        trackingAppType:
+          type: string
+          enum:
+            - website
+            - application
+          example: website
+
+        trackingAppIconUrl:
           type: string
           format: uri
-        appFullUrl:
+          example: https://localhost/favicon.ico
+
+        trackingAppCategory:
           type: string
-        appCategory:
+          example: Unknown Category
+
+        trackingAppProductivityCategory:
           type: string
-        appProductivityCategory:
+          enum:
+            - productive
+            - unproductive
+            - neutral
+          example: neutral
+
+        trackingAppEvent:
           type: string
-          enum: [productive, neutral, unproductive]
-        appTime:
+          example: work_mode
+
+        trackingAppTimeSpend:
+          type: integer
+          description: Time spent on the app in seconds
+          example: 20
+
+        trackingAppStartTime:
           type: string
           format: date-time
+          example: 2026-01-28T09:13:21.771Z
+
+        trackingAppEndTime:
+          type: string
+          format: date-time
+          example: 2026-01-28T09:13:42.594Z
+
+        trackingMode:
+          type: string
+          enum:
+            - online
+            - offline
+          example: online
+
+        trackingReason:
+          type: string
+          example: App Switched
+
+        trackingWorkType:
+          type: string
+          enum:
+            - office
+            - remote
+            - hybrid
+          example: office
+
+        trackingOperatingSystem:
+          type: string
+          enum:
+            - windows
+            - macos
+            - linux
+          example: macos
+
         organisationId:
           type: string
           format: uuid
+
         teamId:
           type: string
           format: uuid
+
         userId:
           type: string
           format: uuid
-        operatingSystem:
-          type: string
-          enum: [windows, macos, linux]
 
-    # ------------------ Screenshot Tracking ------------------
+      required:
+        - trackingId
+        - trackingAppName
+        - trackingAppType
+        - trackingAppTimeSpend
+        - trackingAppStartTime
+        - trackingAppEndTime
+        - trackingMode
+        - organisationId
+        - teamId
+        - userId
+        - trackingOperatingSystem
+
+
+   # ------------------ Screenshot Tracking ------------------
+
     ScreenshotCapturedEvent:
-      allOf:
-        - $ref: '#/components/schemas/BaseEvent'
-        - type: object
-          properties:
-            event:
-              example: desktop.screenshot_tracking.captured
-            data:
-              items:
-                $ref: '#/components/schemas/ScreenshotData'
+      type: object
+      properties:
+        event:
+          type: string
+          example: desktop.screenshot_tracking.captured
+
+        version:
+          type: string
+          example: v1
+
+        agent:
+          type: string
+          example: desktop-agent
+
+        timestamp:
+          type: integer
+          description: Event timestamp in milliseconds (epoch)
+          example: 1769591066292
+
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScreenshotData'
+
+      required:
+        - event
+        - version
+        - agent
+        - timestamp
+        - data
+
 
     ScreenshotData:
       type: object
@@ -509,26 +664,93 @@ components:
         screenshotId:
           type: string
           format: uuid
+          example: b774c86b-26e3-415f-b6d0-20a0a01b597c
+
         screenshotAppName:
           type: string
+          example: Brave Browser
+
+        screenshotAppIconUrl:
+          type: string
+          format: uri
+          example: https://dev.trackpilots.com/favicon.ico
+
+        screenshotAppFullUrl:
+          type: string
+          example: dev.trackpilots.com
+
+        screenshotAppCategory:
+          type: string
+          example: Unknown Category
+
+        screenshotAppProductivityCategory:
+          type: string
+          enum:
+            - productive
+            - unproductive
+            - neutral
+          example: productive
+
+        isIdleScreenshot:
+          type: string
+          enum:
+            - yes
+            - no
+          example: yes
+
         screenshotTime:
           type: string
           format: date-time
+          example: 2026-01-28T09:05:00.308Z
+
         screenshotUrl:
-          type: object
-          additionalProperties: true
+          type: array
+          description: >
+            Array of screenshot image buffers.
+            Each item is a Base64-encoded image buffer.
+          items:
+            type: string
+            format: byte
+            example: iVBORw0KGgoAAAANSUhEUgAA...
+
+        screenshotOperatingSystem:
+          type: string
+          enum:
+            - windows
+            - macos
+            - linux
+          example: windows
+
+        screenshotWorkType:
+          type: string
+          enum:
+            - office
+            - remote
+            - hybrid
+          example: hybrid
+
         organisationId:
           type: string
           format: uuid
+
         teamId:
           type: string
           format: uuid
+
         userId:
           type: string
           format: uuid
-        screenshotOperatingSystem:
-          type: string
-          enum: [windows, macos, linux]
+
+      required:
+        - screenshotId
+        - screenshotAppName
+        - screenshotTime
+        - screenshotUrl
+        - organisationId
+        - teamId
+        - userId
+        - screenshotOperatingSystem
+
 
     # ------------------ Errors ------------------
     BaseError:
