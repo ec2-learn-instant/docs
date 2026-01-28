@@ -33,33 +33,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamsSuccessResponse'
-
+                $ref: '#/components/schemas/FetchAllTeamsSuccessResponse'
+            
         '401':
-          description: Authentication & Authorization errors
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/AuthHeaderMissing'
-                  - $ref: '#/components/schemas/InvalidAuthScheme'
-                  - $ref: '#/components/schemas/TokenMissing'
-                  - $ref: '#/components/schemas/TokenExpired'
-                  - $ref: '#/components/schemas/TokenInvalid'
+          $ref: '#/components/responses/UnauthorizedError'
 
         '422':
-          description: Route does not exist
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RouteNotFound'
+          $ref: '#/components/responses/RouteNotFoundError'
 
         '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
+          $ref: '#/components/responses/InternalServerError'
+
 
     post:
       summary: Create Team
@@ -79,7 +63,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamsSuccessResponse'
+                $ref: '#/components/schemas/CreateTeamsSuccessResponse'
+        
+        '400':
+          description: Validation error while creating team
+          content:
+            application/json:
+              examples:
+                teamNameMissing:
+                  summary: teamName is missing
+                  value:
+                    success: false
+                    statusCode: 400
+                    statusMessage: Failed to create team
+                    data: null
+                    error:
+                      message: Request body is not valid
+                      code: REQUEST_VALIDATION_FAILED
+                      details:
+                        - path:
+                            - teamName
+                          message: Required
+
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '422':
+          $ref: '#/components/responses/RouteNotFoundError'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
         
     patch:
       summary: Update Team Details
@@ -100,6 +114,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamsSuccessResponse'
+                
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '422':
+          $ref: '#/components/responses/RouteNotFoundError'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
       
     delete:
       summary: Delete Team
@@ -122,6 +146,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamDeleteSuccessResponse'
+          
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '422':
+          $ref: '#/components/responses/RouteNotFoundError'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 
   /teams/filter:
     post:
@@ -136,17 +170,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FilterTeamsRequest'
-            example:
-              teamIds:
-                - "9c1b7b9a-8c2f-4a9d-9f63-2a1b5c7e8d90"
-                - "7a2d1c4e-1f2a-4c9b-8e12-3f6d9a4b2c11"
+        
       responses:
         '200':
           description: Teams fetched successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FilterTeamsSuccessResponse'
+                $ref: '#/components/schemas/FetchTeamsByIdsSuccessResponse'
+        
+          
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+        '422':
+          $ref: '#/components/responses/RouteNotFoundError'
+
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
 
 webhooks:
   desktop.activity_tracking.captured:
@@ -194,11 +236,87 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    
+  responses:
+    UnauthorizedError:
+      description: Authentication & Authorization errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AuthErrorResponse'
+          examples:
+                authorizationHeaderMissing:
+                  summary: Authorization header missing
+                  value:
+                    success: false
+                    statusCode: 401
+                    statusMessage: Authentization token header is missing
+                    data: null
+                    error:
+                      message: Authentization header is missing
+                      code: AUTHORIZATION_HEADER_MISSING
+
+                invalidAuthorizationScheme:
+                  summary: Invalid authorization scheme
+                  value:
+                    success: false
+                    statusCode: 401
+                    statusMessage: Authorization scheme is invalid
+                    data: null
+                    error:
+                      message: Invalid authorization scheme
+                      code: INVALID_AUTHORIZATION_SCHEMA
+
+                tokenMissing:
+                  summary: Token missing
+                  value:
+                    success: false
+                    statusCode: 401
+                    statusMessage: Authentication token is missing
+                    data: null
+                    error:
+                      message: Token is missing
+                      code: TOKEN_MISSING
+
+                tokenExpired:
+                  summary: Token expired
+                  value:
+                    success: false
+                    statusCode: 401
+                    statusMessage: Authentication token is expired
+                    data: null
+                    error:
+                      message: Token is expired
+                      code: TOKEN_EXPIRED
+
+                tokenInvalid:
+                  summary: Token invalid
+                  value:
+                    success: false
+                    statusCode: 401
+                    statusMessage: Authentication token is invalid
+                    data: null
+                    error:
+                      message: Token is invalid
+                      code: TOKEN_INVALID
+
+    RouteNotFoundError:
+      description: Route does not exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RouteNotFound'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError'
 
   schemas:
-
     # ------------------ Teams ------------------
-    TeamsSuccessResponse:
+    FetchAllTeamsSuccessResponse:
       type: object
       properties:
         success:
@@ -215,25 +333,62 @@ components:
           example: null
         data:
           type: array
-          items:
-            $ref: '#/components/schemas/Team'
+          example:
+            - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
+              teamName: Full Stack Developer
+            - teamId: a2b5416e-f57c-4614-886f-35a5541f4321
+              teamName: Backend Team
+            - teamId: d9f4416e-f57c-4614-886f-35a5541f4399
+              teamName: UI/UX Team
 
-    Team:
+    FetchTeamsByIdsSuccessResponse:
       type: object
       properties:
-        teamId:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
           type: string
-          format: uuid
-          example: c1e4416e-f57c-4614-886f-35a5541f4316
-        teamName:
+          example: Fetched all team details successfully
+        error:
+          nullable: true
+          example: null
+        data:
+          type: array
+          example:
+            - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
+              teamName: Full Stack Developer
+
+    CreateTeamsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
           type: string
-          example: Full Stack Developer
-        teamHeadCount:
-          type: string
-          example: "3"
-        teamMembers:
-          type: string
-          example: "5"
+          example: Fetched all team details successfully
+        error:
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: c1e4416e-f57c-4614-886f-35a5541f4316
+            teamName:
+              type: string
+              example: Full Stack Developer
+
+          
     # ------------------ Base Event ------------------
     BaseEvent:
       type: object
@@ -576,3 +731,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Team'
+
+    AuthErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseError'
+        - type: object
+          properties:
+            statusCode:
+              example: 401
+            error:
+              properties:
+                code:
+                  type: string
+                  enum:
+                    - AUTHORIZATION_HEADER_MISSING
+                    - INVALID_AUTHORIZATION_SCHEMA
+                    - TOKEN_MISSING
+                    - TOKEN_EXPIRED
+                    - TOKEN_INVALID
