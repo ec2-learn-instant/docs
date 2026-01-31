@@ -28,22 +28,21 @@ paths:
       security:
         - BearerAuth: []
       responses:
-        '200':
+        "200":
           description: Fetched all team details successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FetchAllTeamsSuccessResponse'
-            
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+                $ref: "#/components/schemas/FetchAllTeamsSuccessResponse"
 
-        '422':
-          $ref: '#/components/responses/RouteNotFoundError'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
 
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
     post:
       summary: Create Team
@@ -56,16 +55,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTeamRequest'
+              $ref: "#/components/schemas/CreateTeamRequest"
       responses:
-        '200':
+        "200":
           description: Team created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateTeamsSuccessResponse'
-        
-        '400':
+                $ref: "#/components/schemas/CreateTeamsSuccessResponse"
+
+        "400":
           description: Validation error while creating team
           content:
             application/json:
@@ -85,16 +84,15 @@ paths:
                             - teamName
                           message: Required
 
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-        '422':
-          $ref: '#/components/responses/RouteNotFoundError'
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
 
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
-        
     patch:
       summary: Update Team Details
       tags:
@@ -106,25 +104,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTeamRequest'
+              $ref: "#/components/schemas/UpdateTeamRequest"
       responses:
-        '200':
+        "200":
           description: Team updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamsSuccessResponse'
-                
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+                $ref: "#/components/schemas/TeamsSuccessResponse"
 
-        '422':
-          $ref: '#/components/responses/RouteNotFoundError'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
 
-      
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
     delete:
       summary: Delete Team
       tags:
@@ -136,26 +133,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeleteTeamRequest'
+              $ref: "#/components/schemas/DeleteTeamRequest"
             example:
               teamId: "9c1b7b9a-8c2f-4a9d-9f63-2a1b5c7e8d90"
       responses:
-        '200':
+        "200":
           description: Team deleted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamDeleteSuccessResponse'
-          
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+                $ref: "#/components/schemas/TeamDeleteSuccessResponse"
 
-        '422':
-          $ref: '#/components/responses/RouteNotFoundError'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
 
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /teams/filter:
     post:
@@ -169,29 +165,127 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FilterTeamsRequest'
-        
+              $ref: "#/components/schemas/FilterTeamsRequest"
+
       responses:
-        '200':
+        "200":
           description: Teams fetched successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FetchTeamsByIdsSuccessResponse'
-        
-          
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+                $ref: "#/components/schemas/FetchTeamsByIdsSuccessResponse"
 
-        '422':
-          $ref: '#/components/responses/RouteNotFoundError'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
 
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/access-management:
+    get:
+      summary: Fetch Access Role
+      tags:
+        - Access Control
+      description: List of page-level access permissions assigned to the role.
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetch Access Management
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FetchAccessManagementSuccessResponse"
+
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      summary: Create Access Role
+      tags:
+        - Access Control
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAccessManagementRoleRequest"
+      responses:
+        "200":
+          description: Page-level access permissions have been successfully assigned to the role.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200CreateAccessManagementSuccessResponse'
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400CreateAccessManagementValidationErrorResponse"
+        '409':
+          description: A role with this name already exists. Try using a unique role name.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/409CreateAccessManagementDuplicateRoleErrorResponse'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    put:
+      summary: Update Access Role
+      tags:
+        - Access Control
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccessManagementRoleRequest'
+      responses:
+        '200':
+          description: Role updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200UpdateAccessManagementSuccessResponse'
+        '404':
+          description: RoleId not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404UpdateRoleIdNotFoundErrorResponse'
+        '409':
+          description: Duplicate role name
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/409UpdateDuplicateRoleErrorResponse'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
 webhooks:
-
   desktop.activity_tracking.captured:
     post:
       summary: Activity Tracking Event
@@ -202,13 +296,12 @@ webhooks:
       tags:
         - Desktop Events
       responses:
-        '200':
+        "200":
           description: Webhook received and processed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ActivityTrackingCapturedEvent'
-
+                $ref: "#/components/schemas/ActivityTrackingCapturedEvent"
 
   desktop.app_tracking.captured:
     post:
@@ -220,13 +313,12 @@ webhooks:
       tags:
         - Desktop Events
       responses:
-        '200':
+        "200":
           description: Webhook received and processed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppTrackingCapturedEvent'
-
+                $ref: "#/components/schemas/AppTrackingCapturedEvent"
 
   desktop.screenshot_tracking.captured:
     post:
@@ -238,12 +330,12 @@ webhooks:
       tags:
         - Desktop Events
       responses:
-        '200':
+        "200":
           description: Webhook received and processed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ScreenshotCapturedEvent'
+                $ref: "#/components/schemas/ScreenshotCapturedEvent"
 
 components:
   securitySchemes:
@@ -251,83 +343,72 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    
+
   responses:
     UnauthorizedError:
       description: Authentication & Authorization errors
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AuthErrorResponse'
+            $ref: "#/components/schemas/ErrorResponse"
           examples:
-                authorizationHeaderMissing:
-                  summary: Authorization header missing
-                  value:
-                    success: false
-                    statusCode: 401
-                    statusMessage: Authentization token header is missing
-                    data: null
-                    error:
-                      message: Authentization header is missing
-                      code: AUTHORIZATION_HEADER_MISSING
+            authorizationHeaderMissing:
+              summary: Authorization header missing
+              value:
+                success: false
+                statusCode: 401
+                statusMessage: Authentication token header is missing
+                data: null
+                error:
+                  message: Authorization header is missing
+                  code: AUTHORIZATION_HEADER_MISSING
 
-                invalidAuthorizationScheme:
-                  summary: Invalid authorization scheme
-                  value:
-                    success: false
-                    statusCode: 401
-                    statusMessage: Authorization scheme is invalid
-                    data: null
-                    error:
-                      message: Invalid authorization scheme
-                      code: INVALID_AUTHORIZATION_SCHEMA
+            invalidAuthorizationScheme:
+              summary: Invalid authorization scheme
+              value:
+                success: false
+                statusCode: 401
+                statusMessage: Invalid authentication token schema
+                data: null
+                error:
+                  message: Authorization header must start with 'Bearer'
+                  code: INVALID_API_KEY_SCHEMA
 
-                tokenMissing:
-                  summary: Token missing
-                  value:
-                    success: false
-                    statusCode: 401
-                    statusMessage: Authentication token is missing
-                    data: null
-                    error:
-                      message: Token is missing
-                      code: TOKEN_MISSING
+            apiKeyMissing:
+              summary: API key missing
+              value:
+                success: false
+                statusCode: 401
+                statusMessage: Authentication token is missing
+                data: null
+                error:
+                  message: API key value is missing
+                  code: API_KEY_MISSING
 
-                tokenExpired:
-                  summary: Token expired
-                  value:
-                    success: false
-                    statusCode: 401
-                    statusMessage: Authentication token is expired
-                    data: null
-                    error:
-                      message: Token is expired
-                      code: TOKEN_EXPIRED
-
-                tokenInvalid:
-                  summary: Token invalid
-                  value:
-                    success: false
-                    statusCode: 401
-                    statusMessage: Authentication token is invalid
-                    data: null
-                    error:
-                      message: Token is invalid
-                      code: TOKEN_INVALID
+            invalidApiKey:
+              summary: Invalid or inactive API key
+              value:
+                success: false
+                statusCode: 401
+                statusMessage: Authentication failed
+                data: null
+                error:
+                  message: Provided API key is invalid or inactive
+                  code: INVALID_API_KEY
 
     RouteNotFoundError:
       description: Route does not exist
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/RouteNotFound'
+            $ref: "#/components/schemas/RouteNotFound"
 
     InternalServerError:
       description: Internal server error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/InternalServerError'
+            $ref: "#/components/schemas/InternalServerError"
 
   schemas:
     # ------------------ Teams ------------------
@@ -403,7 +484,301 @@ components:
               type: string
               example: Full Stack Developer
 
-          
+    FetchAccessManagementSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Role management retrieved successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              roleId:
+                type: string
+                format: uuid
+                example: 4cf4bf1c-e564-40ab-9402-26e9b99a46fb
+              roleName:
+                type: string
+                example: Admin
+              roleData:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    path:
+                      type: string
+                      example: /billing
+                    access:
+                      type: string
+                      example: Full Access
+                example:
+                  - path: "/billing"
+                    access: "Full Access"
+                  - path: "/"
+                    access: "Full Access"
+    
+  
+    # -------- Access Control --------- #
+
+    CreateAccessManagementRoleRequest:
+      type: object
+      properties:
+        roleName:
+          type: string
+          example: Manager
+        roleData:
+          type: array
+          description: Route-wise access configuration defining the permission level granted to this role.
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+                example: /billing
+              access:
+                type: string
+                example: Full Access
+      required:
+        - roleName
+
+    UpdateAccessManagementRoleRequest:
+      type: object
+      required:
+        - roleId
+        - roleName
+      properties:
+        roleId:
+          type: string
+          format: uuid
+          example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
+        roleName:
+          type: string
+          example: "Admin"
+        roleData:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+                example: "/billing"
+              access:
+                type: string
+                example: "Full Access"
+          nullable: true
+
+    200CreateAccessManagementSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Page-level access permissions have been successfully assigned to the role.
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            roleId:
+              type: string
+              format: uuid
+              example: c44a66ea-d0ba-4423-9f85-25c68f7aa37b
+            roleName:
+              type: string
+              example: Manager
+          required:
+            - roleId
+            - roleName
+      required:
+        - success
+        - statusCode
+        - statusMessage
+        - error
+        - data
+
+    400CreateAccessManagementValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: Failed to create a new access role
+
+        data:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - roleName
+                  message:
+                    type: string
+                    example: roleName is required
+
+    409CreateAccessManagementDuplicateRoleErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 409
+        statusMessage:
+          type: string
+          example: A role with this name already exists. Try using a unique role name.
+        data:
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: A role with this name already exists in your organization. Please choose a different name.
+            code:
+              type: string
+              example: DUPLICATE_ROLE
+
+    # ✅ 200 Success Response
+    200UpdateAccessManagementSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Role management updated successfully.
+        error:
+          type: object
+          nullable: true
+          example: null
+        response:
+          type: object
+          properties:
+            roleId:
+              type: string
+              format: uuid
+              example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
+            roleName:
+              type: string
+              example: "Admin"
+            roleData:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: string
+                    example: "/billing"
+                  access:
+                    type: string
+                    example: "Full Access"
+              nullable: true
+
+    # ✅ 404 RoleId Not Found
+    404UpdateRoleIdNotFoundErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 404
+        statusMessage:
+          type: string
+          example: RoleId not found
+        data:
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: The specified role does not exist in this organization.
+            code:
+              type: string
+              example: ROLE_ID_NOT_FOUND
+
+    # ✅ 409 Duplicate Role Name
+    409UpdateDuplicateRoleErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 409
+        statusMessage:
+          type: string
+          example: Role name already exists
+        data:
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: A role with this name already exists in your organization. Please choose a different name.
+            code:
+              type: string
+              example: DUPLICATE_ROLE
+
+      
+
     # ------------------ Base Event ------------------
     BaseEvent:
       type: object
@@ -423,7 +798,7 @@ components:
         data:
           type: array
 
-   # ------------------ Activity Tracking ------------------
+    # ------------------ Activity Tracking ------------------
 
     ActivityTrackingCapturedEvent:
       type: object
@@ -446,7 +821,7 @@ components:
           example: 1769592774119
 
         data:
-          $ref: '#/components/schemas/ActivityTrackingData'
+          $ref: "#/components/schemas/ActivityTrackingData"
 
       required:
         - event
@@ -454,7 +829,6 @@ components:
         - agent
         - timestamp
         - data
-
 
     ActivityTrackingData:
       type: object
@@ -484,7 +858,7 @@ components:
         - teamId
         - userId
 
-   # ------------------ App Tracking ------------------
+    # ------------------ App Tracking ------------------
     AppTrackingCapturedEvent:
       type: object
       properties:
@@ -508,7 +882,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/AppTrackingData'
+            $ref: "#/components/schemas/AppTrackingData"
 
       required:
         - event
@@ -516,7 +890,6 @@ components:
         - agent
         - timestamp
         - data
-
 
     AppTrackingData:
       type: object
@@ -637,8 +1010,7 @@ components:
         - userId
         - trackingOperatingSystem
 
-
-   # ------------------ Screenshot Tracking ------------------
+    # ------------------ Screenshot Tracking ------------------
 
     ScreenshotCapturedEvent:
       type: object
@@ -663,7 +1035,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/ScreenshotData'
+            $ref: "#/components/schemas/ScreenshotData"
 
       required:
         - event
@@ -671,7 +1043,6 @@ components:
         - agent
         - timestamp
         - data
-
 
     ScreenshotData:
       type: object
@@ -766,7 +1137,6 @@ components:
         - userId
         - screenshotOperatingSystem
 
-
     # ------------------ Errors ------------------
     BaseError:
       type: object
@@ -791,7 +1161,7 @@ components:
 
     RouteNotFound:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -807,7 +1177,7 @@ components:
 
     AuthHeaderMissing:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -823,7 +1193,7 @@ components:
 
     InvalidAuthScheme:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -839,7 +1209,7 @@ components:
 
     TokenMissing:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -855,7 +1225,7 @@ components:
 
     TokenExpired:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -871,7 +1241,7 @@ components:
 
     TokenInvalid:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -887,7 +1257,7 @@ components:
 
     InternalServerError:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
@@ -900,7 +1270,6 @@ components:
                   example: Some technical error has occurred !!
                 code:
                   example: UNKNOWN_SERVER_ERROR
-
 
     CreateTeamRequest:
       type: object
@@ -944,7 +1313,7 @@ components:
         message:
           type: string
           example: "Team deleted successfully"
-    
+
     FilterTeamsRequest:
       type: object
       required:
@@ -967,11 +1336,11 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Team'
+            $ref: "#/components/schemas/Team"
 
     AuthErrorResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseError'
+        - $ref: "#/components/schemas/BaseError"
         - type: object
           properties:
             statusCode:
