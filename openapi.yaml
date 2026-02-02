@@ -19,6 +19,58 @@ tags:
   - name: Desktop Events
     description: Desktop agent webhook events
 
+webhooks:
+  desktop.activity_tracking.captured:
+    post:
+      summary: Activity Tracking Event
+      description: >
+        Triggered when a user's activity state changes on the desktop
+        (work or privacy). This event indicates whether the user is
+        currently in work mode or privacy mode.
+      tags:
+        - Desktop Events
+      responses:
+        "200":
+          description: Webhook received and processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DesktopActivityTrackingCapturedEvent"
+
+  desktop.app_tracking.captured:
+    post:
+      summary: App Tracking Event
+      description: >
+        Triggered when the desktop app tracked the application and websites.
+        This event contains detailed information about the application,
+        time spent, and context of the switch.
+      tags:
+        - Desktop Events
+      responses:
+        "200":
+          description: Webhook received and processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DesktopAppTrackingCapturedEvent"
+
+  desktop.screenshot_tracking.captured:
+    post:
+      summary: Screenshot  Tracking Event
+      description: >
+        Triggered when a screenshot is captured on the user's desktop.
+        The payload includes screenshot metadata and one or more
+        Base64-encoded image buffers.
+      tags:
+        - Desktop Events
+      responses:
+        "200":
+          description: Webhook received and processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
+
 paths:
   /v1/employees:
     get:
@@ -116,7 +168,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreateTeamsSuccessResponse"
+                $ref: "#/components/schemas/200CreateTeamsSuccessResponse"
 
         "400":
           description: Validation error while creating team
@@ -259,7 +311,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FetchAccessManagementSuccessResponse"
+                $ref: "#/components/schemas/200FetchAccessManagementSuccessResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
@@ -396,58 +448,6 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
-
-webhooks:
-  desktop.activity_tracking.captured:
-    post:
-      summary: Activity Tracking Event
-      description: >
-        Triggered when a user's activity state changes on the desktop
-        (work or privacy). This event indicates whether the user is
-        currently in work mode or privacy mode.
-      tags:
-        - Desktop Events
-      responses:
-        "200":
-          description: Webhook received and processed successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ActivityTrackingCapturedEvent"
-
-  desktop.app_tracking.captured:
-    post:
-      summary: App Tracking Event
-      description: >
-        Triggered when the desktop app tracked the application and websites.
-        This event contains detailed information about the application,
-        time spent, and context of the switch.
-      tags:
-        - Desktop Events
-      responses:
-        "200":
-          description: Webhook received and processed successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppTrackingCapturedEvent"
-
-  desktop.screenshot_tracking.captured:
-    post:
-      summary: Screenshot  Tracking Event
-      description: >
-        Triggered when a screenshot is captured on the user's desktop.
-        The payload includes screenshot metadata and one or more
-        Base64-encoded image buffers.
-      tags:
-        - Desktop Events
-      responses:
-        "200":
-          description: Webhook received and processed successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ScreenshotCapturedEvent"
 
 components:
   securitySchemes:
@@ -697,8 +697,6 @@ components:
                 enum: [office, remote, hybrid]
                 example: hybrid
                 
-
-    # ------------------ Teams ------------------
     200FetchTeamsListSuccessResponse:
       type: object
       properties:
@@ -747,7 +745,7 @@ components:
             - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
               teamName: Full Stack Developer
 
-    CreateTeamsSuccessResponse:
+    200CreateTeamsSuccessResponse:
       type: object
       properties:
         success:
@@ -774,7 +772,7 @@ components:
               type: string
               example: Full Stack Developer
 
-    FetchAccessManagementSuccessResponse:
+    200FetchAccessManagementSuccessResponse:
       type: object
       properties:
         success:
@@ -828,79 +826,6 @@ components:
                     access: "Team Data"
                   - path: "/proof-of-work/timesheet"
                     access: "Own Data"
-
-    CreateAccessManagementRoleRequest:
-      type: object
-      properties:
-        roleName:
-          type: string
-          example: Manager
-        roleData:
-          type: array
-          description: Route-wise access configuration defining the permission level granted to this role.
-          items:
-            type: object
-            example:
-              - path: "/"
-                access: "Full Access"
-              - path: "/my-team"
-                access: "Team Data"
-              - path: "/proof-of-work/screenshot"
-                access: "Own Data"
-
-            properties:
-              path:
-                type: string
-                example: /my-team
-              access:
-                type: string
-                enum:
-                  - Full Access
-                  - Team Data
-                  - Own Data
-                example: Team Data
-      required:
-        - roleName
-
-    UpdateAccessManagementRoleRequest:
-      type: object
-      required:
-        - roleId
-        - roleName
-      properties:
-        roleId:
-          type: string
-          format: uuid
-          example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
-        roleName:
-          type: string
-          example: "Admin"
-        roleData:
-          type: array
-          items:
-            type: object
-            properties:
-              path:
-                type: string
-                example: "/my-team"
-              access:
-                type: string
-                enum:
-                  - Full Access
-                  - Team Data
-                  - Own Data
-                example: "Full Access"
-          nullable: true
-
-    DeleteAccessManagementRoleRequest:
-      type: object
-      required:
-        - roleId
-      properties:
-        roleId:
-          type: string
-          format: uuid
-          example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
 
     200CreateAccessManagementSuccessResponse:
       type: object
@@ -1257,28 +1182,59 @@ components:
               type: string
               example: DUPLICATE_ROLE
 
-    # ------------------ Base Event ------------------
-    BaseEvent:
+    200UpdateTeamSuccessResponse:
       type: object
-      required: [event, version, agent, timestamp, data]
       properties:
-        event:
-          type: string
-        version:
-          type: string
-          example: v1
-        agent:
-          type: string
-          example: desktop-agent
-        timestamp:
+        success:
+          type: boolean
+          example: true
+        statusCode:
           type: integer
-          format: int64
+          example: 200
+        statusMessage:
+          type: string
+          example: Team details updated successfully.
+        error:
+          type: object
+          nullable: true
+          example: null
         data:
-          type: array
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: c1e4416e-f57c-4614-886f-35a5541f4316
+            teamName:
+              type: string
+              example: Full Stack Developer
 
-    # ------------------ Activity Tracking ------------------
+    200TeamDeletedSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Team deleted successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: c0296718-3538-461b-9045-e12d11a80605
 
-    ActivityTrackingCapturedEvent:
+    # -------- Activity Tracking -------- #
+    DesktopActivityTrackingCapturedEvent:
       type: object
       properties:
         event:
@@ -1299,7 +1255,7 @@ components:
           example: 1769592774119
 
         data:
-          $ref: "#/components/schemas/ActivityTrackingData"
+          $ref: "#/components/schemas/DesktopActivityTrackingData"
 
       required:
         - event
@@ -1308,7 +1264,7 @@ components:
         - timestamp
         - data
 
-    ActivityTrackingData:
+    DesktopActivityTrackingData:
       type: object
       properties:
         workMode:
@@ -1337,7 +1293,7 @@ components:
         - userId
 
     # ------------------ App Tracking ------------------
-    AppTrackingCapturedEvent:
+    DesktopAppTrackingCapturedEvent:
       type: object
       properties:
         event:
@@ -1360,7 +1316,7 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/AppTrackingData"
+            $ref: "#/components/schemas/DesktopAppTrackingData"
 
       required:
         - event
@@ -1369,7 +1325,7 @@ components:
         - timestamp
         - data
 
-    AppTrackingData:
+    DesktopAppTrackingData:
       type: object
       properties:
         trackingId:
@@ -1489,8 +1445,7 @@ components:
         - trackingOperatingSystem
 
     # ------------------ Screenshot Tracking ------------------
-
-    ScreenshotCapturedEvent:
+    DesktopScreenshotCapturedEvent:
       type: object
       properties:
         event:
@@ -1513,7 +1468,7 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/ScreenshotData"
+            $ref: "#/components/schemas/DesktopScreenshotData"
 
       required:
         - event
@@ -1522,7 +1477,7 @@ components:
         - timestamp
         - data
 
-    ScreenshotData:
+    DesktopScreenshotData:
       type: object
       properties:
         screenshotId:
@@ -1750,6 +1705,55 @@ components:
                 code:
                   example: UNKNOWN_SERVER_ERROR
 
+    AuthErrorResponse:
+      allOf:
+        - $ref: "#/components/schemas/BaseError"
+        - type: object
+          properties:
+            statusCode:
+              example: 401
+            error:
+              properties:
+                code:
+                  type: string
+                  enum:
+                    - AUTHORIZATION_HEADER_MISSING
+                    - INVALID_AUTHORIZATION_SCHEMA
+                    - TOKEN_MISSING
+                    - TOKEN_EXPIRED
+                    - TOKEN_INVALID
+
+  # --------- Input Request -------- #
+
+          
+    FilterTeamIdsRequest:
+      type: object
+      required:
+        - teamId
+      properties:
+        teamId:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+            example: c1e4416e-f57c-4614-886f-35a5541f4316
+          description: List of team IDs to fetch
+
+    FilterUserIdsRequest:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+            example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+          description: List of user IDs to fetch
+
     CreateTeamRequest:
       type: object
       required:
@@ -1782,100 +1786,76 @@ components:
           type: string
           format: uuid
           description: Unique ID of the team to delete
-
-    200UpdateTeamSuccessResponse:
+  
+    CreateAccessManagementRoleRequest:
       type: object
       properties:
-        success:
-          type: boolean
-          example: true
-        statusCode:
-          type: integer
-          example: 200
-        statusMessage:
+        roleName:
           type: string
-          example: Team details updated successfully.
-        error:
-          type: object
-          nullable: true
-          example: null
-        data:
-          type: object
-          properties:
-            teamId:
-              type: string
-              format: uuid
-              example: c1e4416e-f57c-4614-886f-35a5541f4316
-            teamName:
-              type: string
-              example: Full Stack Developer
+          example: Manager
+        roleData:
+          type: array
+          description: Route-wise access configuration defining the permission level granted to this role.
+          items:
+            type: object
+            example:
+              - path: "/"
+                access: "Full Access"
+              - path: "/my-team"
+                access: "Team Data"
+              - path: "/proof-of-work/screenshot"
+                access: "Own Data"
 
-    200TeamDeletedSuccessResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-        statusCode:
-          type: integer
-          example: 200
-        statusMessage:
-          type: string
-          example: Team deleted successfully
-        error:
-          type: object
-          nullable: true
-          example: null
-        data:
-          type: object
-          properties:
-            teamId:
-              type: string
-              format: uuid
-              example: c0296718-3538-461b-9045-e12d11a80605
+            properties:
+              path:
+                type: string
+                example: /my-team
+              access:
+                type: string
+                enum:
+                  - Full Access
+                  - Team Data
+                  - Own Data
+                example: Team Data
+      required:
+        - roleName
 
-    FilterTeamIdsRequest:
+    UpdateAccessManagementRoleRequest:
       type: object
       required:
-        - teamId
+        - roleId
+        - roleName
       properties:
-        teamId:
+        roleId:
+          type: string
+          format: uuid
+          example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
+        roleName:
+          type: string
+          example: "Admin"
+        roleData:
           type: array
-          minItems: 1
           items:
-            type: string
-            format: uuid
-            example: c1e4416e-f57c-4614-886f-35a5541f4316
-          description: List of team IDs to fetch
+            type: object
+            properties:
+              path:
+                type: string
+                example: "/my-team"
+              access:
+                type: string
+                enum:
+                  - Full Access
+                  - Team Data
+                  - Own Data
+                example: "Full Access"
+          nullable: true
 
-    FilterUserIdsRequest:
+    DeleteAccessManagementRoleRequest:
       type: object
       required:
-        - userId
+        - roleId
       properties:
-        userId:
-          type: array
-          minItems: 1
-          items:
-            type: string
-            format: uuid
-            example: f0ad9ad9-d421-48dc-868d-9760e33e5089
-          description: List of user IDs to fetch
-
-    AuthErrorResponse:
-      allOf:
-        - $ref: "#/components/schemas/BaseError"
-        - type: object
-          properties:
-            statusCode:
-              example: 401
-            error:
-              properties:
-                code:
-                  type: string
-                  enum:
-                    - AUTHORIZATION_HEADER_MISSING
-                    - INVALID_AUTHORIZATION_SCHEMA
-                    - TOKEN_MISSING
-                    - TOKEN_EXPIRED
-                    - TOKEN_INVALID
+        roleId:
+          type: string
+          format: uuid
+          example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
