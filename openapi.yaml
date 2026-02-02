@@ -264,6 +264,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/200UpdateAccessManagementSuccessResponse'
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateAccessManagementValidationErrorResponse"
         '404':
           description: RoleId not found
           content:
@@ -276,6 +282,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/409UpdateDuplicateRoleErrorResponse'
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      summary: Delete Access Role
+      tags:
+        - Access Control
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccessManagementRoleRequest'
+        
+      responses:
+        '200':
+          description: Role deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200DeleteAccessManagementSuccessResponse'
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400DeleteAccessManagementValidationErrorResponse"
+        '404':
+          description: RoleId not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404DeleteRoleIdNotFoundErrorResponse'
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -519,17 +564,26 @@ components:
                   properties:
                     path:
                       type: string
-                      example: /billing
+                      example: /my-team
                     access:
                       type: string
+                      enum:
+                        - Full Access
+                        - Team Data
+                        - Own Data
                       example: Full Access
                 example:
-                  - path: "/billing"
-                    access: "Full Access"
                   - path: "/"
                     access: "Full Access"
-    
-  
+                  - path: "/my-team"
+                    access: "Full Access"
+                  - path: "/insights/productivity-analysis"
+                    access: "Team Data"
+                  - path: "/proof-of-work/screenshot"
+                    access: "Team Data"
+                  - path: "/proof-of-work/timesheet"
+                    access: "Own Data"
+
     # -------- Access Control --------- #
 
     CreateAccessManagementRoleRequest:
@@ -543,13 +597,25 @@ components:
           description: Route-wise access configuration defining the permission level granted to this role.
           items:
             type: object
+            example:
+                - path: "/"
+                  access: "Full Access"
+                - path: "/my-team"
+                  access: "Team Data"
+                - path: "/proof-of-work/screenshot"
+                  access: "Own Data"
+                  
             properties:
               path:
                 type: string
-                example: /billing
+                example: /my-team
               access:
                 type: string
-                example: Full Access
+                enum:
+                  - Full Access
+                  - Team Data
+                  - Own Data
+                example: Team Data
       required:
         - roleName
 
@@ -573,11 +639,25 @@ components:
             properties:
               path:
                 type: string
-                example: "/billing"
+                example: "/my-team"
               access:
                 type: string
+                enum:
+                  - Full Access
+                  - Team Data
+                  - Own Data
                 example: "Full Access"
           nullable: true
+
+    DeleteAccessManagementRoleRequest:
+      type: object
+      required:
+        - roleId
+      properties:
+        roleId:
+          type: string
+          format: uuid
+          example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
 
     200CreateAccessManagementSuccessResponse:
       type: object
@@ -605,6 +685,29 @@ components:
             roleName:
               type: string
               example: Manager
+            roleData:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    path:
+                      type: string
+                      example: /my-team
+                    access:
+                      type: string
+                      enum:
+                        - Full Access
+                        - Team Data
+                        - Own Data
+                      example: Full Access
+                example:
+                  - path: "/"
+                    access: "Full Access"
+                  - path: "/my-team"
+                    access: "Team Data"
+                  - path: "/proof-of-work/screenshot"
+                    access: "Own Data"
+                 
           required:
             - roleId
             - roleName
@@ -719,14 +822,150 @@ components:
                 properties:
                   path:
                     type: string
-                    example: "/billing"
+                    example: "/my-team"
                   access:
                     type: string
+                    enum:
+                      - Full Access
+                      - Team Data
+                      - Own Data
                     example: "Full Access"
               nullable: true
 
+    200DeleteAccessManagementSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Role deleted successfully.
+        error:
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            roleId:
+              type: string
+              format: uuid
+              example: c0296718-3538-461b-9045-e12d11a80605
+    
+    400UpdateAccessManagementValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: Failed to update access role
+
+        data:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - roleName
+                  message:
+                    type: string
+                    example: roleName is required
+
+    400DeleteAccessManagementValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: Failed to delete role
+        data:
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - roleId
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined" 
+
     # ✅ 404 RoleId Not Found
     404UpdateRoleIdNotFoundErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 404
+        statusMessage:
+          type: string
+          example: RoleId not found
+        data:
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: The specified role does not exist in this organization.
+            code:
+              type: string
+              example: ROLE_ID_NOT_FOUND
+
+    404DeleteRoleIdNotFoundErrorResponse:
       type: object
       properties:
         success:
