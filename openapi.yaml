@@ -20,6 +20,60 @@ tags:
     description: Desktop agent webhook events
 
 paths:
+  /v1/employees:
+    get:
+      summary: Fetch All Employees
+      tags:
+        - Employees
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched all employee details successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchEmployeeListSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/employees/filter:
+    get:
+      summary: Fetch Employees by User ID
+      tags:
+        - Employees
+      security:
+        - BearerAuth: []
+      description: Returns user details for the given list of user IDs.
+      operationId: filterUserByIds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilterUserIdsRequest"
+      responses:
+        "200":
+          description: Fetched employee details successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchFilteredEmployeeListSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/teams:
     get:
       summary: Fetch All Teams
@@ -33,7 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FetchAllTeamsSuccessResponse"
+                $ref: "#/components/schemas/200FetchTeamsListSuccessResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
@@ -105,13 +159,16 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/UpdateTeamRequest"
+            example:
+              teamId: "c1e4416e-f57c-4614-886f-35a5541f4316"
+              teamName: "Full Stack Developer"
       responses:
         "200":
           description: Team updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TeamsSuccessResponse"
+                $ref: "#/components/schemas/200UpdateTeamSuccessResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
@@ -128,6 +185,8 @@ paths:
         - Teams
       description: Deletes a team using teamId provided in the request body.
       operationId: deleteTeam
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -135,14 +194,14 @@ paths:
             schema:
               $ref: "#/components/schemas/DeleteTeamRequest"
             example:
-              teamId: "9c1b7b9a-8c2f-4a9d-9f63-2a1b5c7e8d90"
+              teamId: "c0296718-3538-461b-9045-e12d11a80605"
       responses:
         "200":
           description: Team deleted successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TeamDeleteSuccessResponse"
+                $ref: "#/components/schemas/200TeamDeletedSuccessResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
@@ -160,12 +219,14 @@ paths:
         - Teams
       description: Returns team details for the given list of team IDs.
       operationId: filterTeamsByIds
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/FilterTeamsRequest"
+              $ref: "#/components/schemas/FilterTeamIdsRequest"
 
       responses:
         "200":
@@ -173,7 +234,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FetchTeamsByIdsSuccessResponse"
+                $ref: "#/components/schemas/200FetchFilteredTeamsListSuccessResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
@@ -213,6 +274,8 @@ paths:
       summary: Create Access Role
       tags:
         - Access Control
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -225,19 +288,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/200CreateAccessManagementSuccessResponse'
+                $ref: "#/components/schemas/200CreateAccessManagementSuccessResponse"
         "400":
           description: Request validation failed
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400CreateAccessManagementValidationErrorResponse"
-        '409':
+        "409":
           description: A role with this name already exists. Try using a unique role name.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/409CreateAccessManagementDuplicateRoleErrorResponse'
+                $ref: "#/components/schemas/409CreateAccessManagementDuplicateRoleErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -247,41 +310,43 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-    put:
+    patch:
       summary: Update Access Role
       tags:
         - Access Control
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateAccessManagementRoleRequest'
+              $ref: "#/components/schemas/UpdateAccessManagementRoleRequest"
       responses:
-        '200':
+        "200":
           description: Role updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/200UpdateAccessManagementSuccessResponse'
+                $ref: "#/components/schemas/200UpdateAccessManagementSuccessResponse"
         "400":
           description: Request validation failed
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400UpdateAccessManagementValidationErrorResponse"
-        '404':
+        "404":
           description: RoleId not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/404UpdateRoleIdNotFoundErrorResponse'
-        '409':
+                $ref: "#/components/schemas/404UpdateRoleIdNotFoundErrorResponse"
+        "409":
           description: Duplicate role name
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/409UpdateDuplicateRoleErrorResponse'
+                $ref: "#/components/schemas/409UpdateDuplicateRoleErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -295,32 +360,34 @@ paths:
       summary: Delete Access Role
       tags:
         - Access Control
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeleteAccessManagementRoleRequest'
-        
+              $ref: "#/components/schemas/DeleteAccessManagementRoleRequest"
+
       responses:
-        '200':
+        "200":
           description: Role deleted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/200DeleteAccessManagementSuccessResponse'
+                $ref: "#/components/schemas/200DeleteAccessManagementSuccessResponse"
         "400":
           description: Request validation failed
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400DeleteAccessManagementValidationErrorResponse"
-        '404':
+        "404":
           description: RoleId not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/404DeleteRoleIdNotFoundErrorResponse'
+                $ref: "#/components/schemas/404DeleteRoleIdNotFoundErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -456,8 +523,183 @@ components:
             $ref: "#/components/schemas/InternalServerError"
 
   schemas:
+    200FetchEmployeeListSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched all employee details successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+              userName:
+                type: string
+                example: Abirami Kannan
+
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+
+              uniqueUrl:
+                type: string
+                example: 6Vx3kEA8VU0q
+
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: null
+
+              teams:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    teamId:
+                      type: string
+                      format: uuid
+                      example: 3d4c2ced-f4d6-42ea-b6db-7dcf24a77845
+                    teamName:
+                      type: string
+                      example: Frontend Team
+                example: 
+                  - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
+                    teamName: Full Stack Developer
+                  - teamId: a2b5416e-f57c-4614-886f-35a5541f4321
+                    teamName: Backend Team
+                  - teamId: d9f4416e-f57c-4614-886f-35a5541f4399
+                    teamName: UI/UX Team
+
+              accountStatus:
+                type: string
+                enum: [active, invited]
+                example: active
+
+              roleId:
+                type: string
+                format: uuid
+                example: 271e6693-2130-4ea9-b02d-e6d57516186d
+
+              roleName:
+                type: string
+                example: No Access
+
+              workMode:
+                type: string
+                enum: [office, remote, hybrid]
+                example: hybrid
+   
+    200FetchFilteredEmployeeListSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched employee details successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+              userName:
+                type: string
+                example: Abirami Kannan
+
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+
+              uniqueUrl:
+                type: string
+                example: 6Vx3kEA8VU0q
+
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: null
+
+              teams:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    teamId:
+                      type: string
+                      format: uuid
+                      example: 3d4c2ced-f4d6-42ea-b6db-7dcf24a77845
+                    teamName:
+                      type: string
+                      example: Frontend Team
+                example: 
+                  - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
+                    teamName: Full Stack Developer
+                  - teamId: a2b5416e-f57c-4614-886f-35a5541f4321
+                    teamName: Backend Team
+                  - teamId: d9f4416e-f57c-4614-886f-35a5541f4399
+                    teamName: UI/UX Team
+
+              accountStatus:
+                type: string
+                enum: [active, invited]
+                example: active
+
+              roleId:
+                type: string
+                format: uuid
+                example: 271e6693-2130-4ea9-b02d-e6d57516186d
+
+              roleName:
+                type: string
+                example: No Access
+
+              workMode:
+                type: string
+                enum: [office, remote, hybrid]
+                example: hybrid
+                
+
     # ------------------ Teams ------------------
-    FetchAllTeamsSuccessResponse:
+    200FetchTeamsListSuccessResponse:
       type: object
       properties:
         success:
@@ -470,6 +712,7 @@ components:
           type: string
           example: Fetched all team details successfully
         error:
+          type: object
           nullable: true
           example: null
         data:
@@ -482,7 +725,7 @@ components:
             - teamId: d9f4416e-f57c-4614-886f-35a5541f4399
               teamName: UI/UX Team
 
-    FetchTeamsByIdsSuccessResponse:
+    200FetchFilteredTeamsListSuccessResponse:
       type: object
       properties:
         success:
@@ -493,8 +736,9 @@ components:
           example: 200
         statusMessage:
           type: string
-          example: Fetched all team details successfully
+          example: Fetched team details successfully
         error:
+          type: object
           nullable: true
           example: null
         data:
@@ -516,6 +760,7 @@ components:
           type: string
           example: Fetched all team details successfully
         error:
+          type: object
           nullable: true
           example: null
         data:
@@ -584,8 +829,6 @@ components:
                   - path: "/proof-of-work/timesheet"
                     access: "Own Data"
 
-    # -------- Access Control --------- #
-
     CreateAccessManagementRoleRequest:
       type: object
       properties:
@@ -598,13 +841,13 @@ components:
           items:
             type: object
             example:
-                - path: "/"
-                  access: "Full Access"
-                - path: "/my-team"
-                  access: "Team Data"
-                - path: "/proof-of-work/screenshot"
-                  access: "Own Data"
-                  
+              - path: "/"
+                access: "Full Access"
+              - path: "/my-team"
+                access: "Team Data"
+              - path: "/proof-of-work/screenshot"
+                access: "Own Data"
+
             properties:
               path:
                 type: string
@@ -686,28 +929,28 @@ components:
               type: string
               example: Manager
             roleData:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    path:
-                      type: string
-                      example: /my-team
-                    access:
-                      type: string
-                      enum:
-                        - Full Access
-                        - Team Data
-                        - Own Data
-                      example: Full Access
-                example:
-                  - path: "/"
-                    access: "Full Access"
-                  - path: "/my-team"
-                    access: "Team Data"
-                  - path: "/proof-of-work/screenshot"
-                    access: "Own Data"
-                 
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: string
+                    example: /my-team
+                  access:
+                    type: string
+                    enum:
+                      - Full Access
+                      - Team Data
+                      - Own Data
+                    example: Full Access
+              example:
+                - path: "/"
+                  access: "Full Access"
+                - path: "/my-team"
+                  access: "Team Data"
+                - path: "/proof-of-work/screenshot"
+                  access: "Own Data"
+
           required:
             - roleId
             - roleName
@@ -788,7 +1031,6 @@ components:
               type: string
               example: DUPLICATE_ROLE
 
-    # ✅ 200 Success Response
     200UpdateAccessManagementSuccessResponse:
       type: object
       properties:
@@ -805,7 +1047,7 @@ components:
           type: object
           nullable: true
           example: null
-        response:
+        data:
           type: object
           properties:
             roleId:
@@ -845,6 +1087,7 @@ components:
           type: string
           example: Role deleted successfully.
         error:
+          type: object
           nullable: true
           example: null
         data:
@@ -854,7 +1097,7 @@ components:
               type: string
               format: uuid
               example: c0296718-3538-461b-9045-e12d11a80605
-    
+
     400UpdateAccessManagementValidationErrorResponse:
       type: object
       properties:
@@ -937,9 +1180,8 @@ components:
                       - roleId
                   message:
                     type: string
-                    example: "Invalid input: expected string, received undefined" 
+                    example: "Invalid input: expected string, received undefined"
 
-    # ✅ 404 RoleId Not Found
     404UpdateRoleIdNotFoundErrorResponse:
       type: object
       properties:
@@ -990,7 +1232,6 @@ components:
               type: string
               example: ROLE_ID_NOT_FOUND
 
-    # ✅ 409 Duplicate Role Name
     409UpdateDuplicateRoleErrorResponse:
       type: object
       properties:
@@ -1015,8 +1256,6 @@ components:
             code:
               type: string
               example: DUPLICATE_ROLE
-
-      
 
     # ------------------ Base Event ------------------
     BaseEvent:
@@ -1504,6 +1743,7 @@ components:
             statusMessage:
               example: Internal server error
             error:
+              type: object
               properties:
                 message:
                   example: Some technical error has occurred !!
@@ -1543,17 +1783,58 @@ components:
           format: uuid
           description: Unique ID of the team to delete
 
-    TeamDeleteSuccessResponse:
+    200UpdateTeamSuccessResponse:
       type: object
       properties:
         success:
           type: boolean
           example: true
-        message:
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
           type: string
-          example: "Team deleted successfully"
+          example: Team details updated successfully.
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: c1e4416e-f57c-4614-886f-35a5541f4316
+            teamName:
+              type: string
+              example: Full Stack Developer
 
-    FilterTeamsRequest:
+    200TeamDeletedSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Team deleted successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: c0296718-3538-461b-9045-e12d11a80605
+
+    FilterTeamIdsRequest:
       type: object
       required:
         - teamIds
@@ -1564,18 +1845,22 @@ components:
           items:
             type: string
             format: uuid
+            example: c1e4416e-f57c-4614-886f-35a5541f4316
           description: List of team IDs to fetch
 
-    FilterTeamsSuccessResponse:
+    FilterUserIdsRequest:
       type: object
+      required:
+        - userIds
       properties:
-        success:
-          type: boolean
-          example: true
-        data:
+        userIds:
           type: array
+          minItems: 1
           items:
-            $ref: "#/components/schemas/Team"
+            type: string
+            format: uuid
+            example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+          description: List of user IDs to fetch
 
     AuthErrorResponse:
       allOf:
