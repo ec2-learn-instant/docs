@@ -1837,9 +1837,9 @@ components:
     FilterTeamIdsRequest:
       type: object
       required:
-        - teamIds
+        - teamId
       properties:
-        teamIds:
+        teamId:
           type: array
           minItems: 1
           items:
@@ -1851,9 +1851,9 @@ components:
     FilterUserIdsRequest:
       type: object
       required:
-        - userIds
+        - userId
       properties:
-        userIds:
+        userId:
           type: array
           minItems: 1
           items:
