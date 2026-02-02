@@ -44,7 +44,7 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
   /v1/employees/filter:
-    get:
+    post:
       summary: Fetch Employees by User ID
       tags:
         - Employees
