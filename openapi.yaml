@@ -212,7 +212,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /teams/filter:
+  /v1/teams/filter:
     post:
       summary: Fetch Teams by Team ID
       tags:
