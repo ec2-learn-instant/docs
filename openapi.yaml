@@ -125,6 +125,51 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
+  
+  /v1/employees/send-invite-link:
+    post:
+      summary: Create Employee via Invite Link
+      tags:
+        - Employees
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmployeeViaInviteLinkRequest"
+      responses:
+        "200":
+          description: Invite link sent successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200CreateEmployeeViaInviteSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400CreateEmployeeSendInviteValidationErrorResponse"
+        "409":
+          description: Employee email ID is already associated with another organization.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409CreateEmployeeSendInviteDuplicateErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        '422':
+          description: Unprocessable Entity - Role or Team validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/422CreateEmployeeSendInviteUnprocessableErrorResponse'
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /v1/teams:
     get:
@@ -827,6 +872,43 @@ components:
                   - path: "/proof-of-work/timesheet"
                     access: "Own Data"
 
+    200CreateEmployeeViaInviteSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Invite link sent successfully"
+
+        error:
+          nullable: true
+          example: null
+
+        response:
+          type: object
+          properties:
+            userName:
+              type: string
+              example: "Jagatheesan M"
+
+            emailId:
+              type: string
+              format: email
+              example: "mjagatheesan.g@gmail.com"
+
+            userId:
+              type: string
+              format: uuid
+              example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
+
     200CreateAccessManagementSuccessResponse:
       type: object
       properties:
@@ -876,15 +958,89 @@ components:
                 - path: "/proof-of-work/screenshot"
                   access: "Own Data"
 
+    400CreateEmployeeSendInviteValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: "Failed to sent invite link"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "userName"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
+
+    422CreateEmployeeSendInviteUnprocessableErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid roleId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
           required:
-            - roleId
-            - roleName
-      required:
-        - success
-        - statusCode
-        - statusMessage
-        - error
-        - data
+            - message
+            - code
+          properties:
+            message:
+              type: string
+              example: "Provided roleId does not exist for this organisation"
+
+            code:
+              type: string
+              enum:
+                - INVALID_ROLE_ID
+                - INVALID_TEAM_ID
+              example: "INVALID_ROLE_ID"
 
     400CreateAccessManagementValidationErrorResponse:
       type: object
@@ -930,6 +1086,37 @@ components:
                   message:
                     type: string
                     example: roleName is required
+        
+    409CreateEmployeeSendInviteDuplicateErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 409
+
+        statusMessage:
+          type: string
+          example: "Employee email ID is already associated with another organization"
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "duplicate key value violates unique constraint `unique_email_id`"
+
+            code:
+              type: string
+              example: "DUPLICATE_EMAIL_ID"
+
+        data:
+          type: object
+          nullable: true
+          example: null
 
     409CreateAccessManagementDuplicateRoleErrorResponse:
       type: object
@@ -1571,6 +1758,43 @@ components:
         - screenshotOperatingSystem
 
     # ------------------ Errors ------------------
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 401
+
+        statusMessage:
+          type: string
+          example: "Authentication failed"
+
+        data:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Authorization header is missing"
+
+            code:
+              type: string
+              enum:
+                - AUTHORIZATION_HEADER_MISSING
+                - INVALID_API_KEY_SCHEMA
+                - API_KEY_MISSING
+                - INVALID_API_KEY
+              example: "AUTHORIZATION_HEADER_MISSING"
+
     BaseError:
       type: object
       properties:
@@ -1859,3 +2083,45 @@ components:
           type: string
           format: uuid
           example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
+        
+    CreateEmployeeViaInviteLinkRequest:
+      type: object
+      required:
+        - userName
+        - emailId
+        - roleId
+        - teams
+        - workMode
+      properties:
+        userName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "Jagatheesan M"
+
+        emailId:
+          type: string
+          format: email
+          example: "mjagatheesan.g@gmail.com"
+
+        roleId:
+          type: string
+          format: uuid
+          example: "271e6693-2130-4ea9-b02d-e6d57516186d"
+
+        teams:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+          example:
+            - "5f6fe61c-15c6-47b7-899d-dba99da2464c"
+
+        workMode:
+          type: string
+          enum:
+            - remote
+            - office
+            - hybrid
+          example: "remote"
