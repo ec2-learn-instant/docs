@@ -89,8 +89,45 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      summary: Add Employee
+      tags:
+        - Employees
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddEmployeeViaManualRequest"
+      responses:
+        "200":
+          description: User added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200AddedEmployeeViaManuallySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400AddEmployeeManualValidationErrorResponse"
+        "409":
+          description: Employee email ID is already associated with another organization.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409AddEmployeeDuplicateErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
         "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+          $ref: "#/components/responses/422AddEmployeeUnprocessableErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -121,14 +158,19 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
 
         "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+          description: Fetched employee details successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidUserIdsError"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
-  
+
+
   /v1/employees/send-invite-link:
     post:
-      summary: Create Employee via Invite Link
+      summary: Add Employee via Invite Link
       tags:
         - Employees
       security:
@@ -138,35 +180,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateEmployeeViaInviteLinkRequest"
+              $ref: "#/components/schemas/AddEmployeeViaInviteLinkRequest"
       responses:
         "200":
           description: Invite link sent successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/200CreateEmployeeViaInviteSuccessResponse"
+                $ref: "#/components/schemas/200AddedEmployeeViaInviteSuccessResponse"
         "400":
           description: Request validation failed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/400CreateEmployeeSendInviteValidationErrorResponse"
+                $ref: "#/components/schemas/400AddEmployeeSendInviteValidationErrorResponse"
         "409":
           description: Employee email ID is already associated with another organization.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/409CreateEmployeeSendInviteDuplicateErrorResponse"
+                $ref: "#/components/schemas/409AddEmployeeDuplicateErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
-        '422':
-          description: Unprocessable Entity - Role or Team validation failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/422CreateEmployeeSendInviteUnprocessableErrorResponse'
+        "422":
+          $ref: "#/components/responses/422AddEmployeeUnprocessableErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -567,6 +605,35 @@ components:
           schema:
             $ref: "#/components/schemas/InternalServerError"
 
+    422AddEmployeeUnprocessableErrorResponse:
+      description: Unprocessable Entity – Invalid roleId or teamIds
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422CreateEmployeeSendInviteUnprocessableErrorSchema"
+          examples:
+            invalidRoleId:
+              summary: Invalid roleId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid roleId"
+                response: null
+                error:
+                  message: "Provided roleId does not exist for this organisation"
+                  code: INVALID_ROLE_ID
+
+            invalidTeamIds:
+              summary: Invalid teamIds
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid teamIds"
+                response: null
+                error:
+                  message: "One or more teamIds are invalid for this organisation"
+                  code: INVALID_TEAM_ID
+
   schemas:
     200FetchEmployeeListSuccessResponse:
       type: object
@@ -628,7 +695,7 @@ components:
                     teamName:
                       type: string
                       example: Frontend Team
-                example: 
+                example:
                   - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
                     teamName: Full Stack Developer
                   - teamId: a2b5416e-f57c-4614-886f-35a5541f4321
@@ -654,7 +721,7 @@ components:
                 type: string
                 enum: [office, remote, hybrid]
                 example: hybrid
-   
+
     200FetchFilteredEmployeeListSuccessResponse:
       type: object
       properties:
@@ -715,7 +782,7 @@ components:
                     teamName:
                       type: string
                       example: Frontend Team
-                example: 
+                example:
                   - teamId: c1e4416e-f57c-4614-886f-35a5541f4316
                     teamName: Full Stack Developer
                   - teamId: a2b5416e-f57c-4614-886f-35a5541f4321
@@ -741,7 +808,7 @@ components:
                 type: string
                 enum: [office, remote, hybrid]
                 example: hybrid
-                
+
     200FetchTeamsListSuccessResponse:
       type: object
       properties:
@@ -872,7 +939,7 @@ components:
                   - path: "/proof-of-work/timesheet"
                     access: "Own Data"
 
-    200CreateEmployeeViaInviteSuccessResponse:
+    200AddedEmployeeViaInviteSuccessResponse:
       type: object
       properties:
         success:
@@ -887,6 +954,43 @@ components:
         statusMessage:
           type: string
           example: "Invite link sent successfully"
+
+        error:
+          nullable: true
+          example: null
+
+        response:
+          type: object
+          properties:
+            userName:
+              type: string
+              example: "Jagatheesan M"
+
+            emailId:
+              type: string
+              format: email
+              example: "mjagatheesan.g@gmail.com"
+
+            userId:
+              type: string
+              format: uuid
+              example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
+    
+    200AddedEmployeeViaManuallySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "User added successfully"
 
         error:
           nullable: true
@@ -958,7 +1062,7 @@ components:
                 - path: "/proof-of-work/screenshot"
                   access: "Own Data"
 
-    400CreateEmployeeSendInviteValidationErrorResponse:
+    400AddEmployeeSendInviteValidationErrorResponse:
       type: object
       properties:
         success:
@@ -1005,7 +1109,7 @@ components:
                     type: string
                     example: "Invalid input: expected string, received undefined"
 
-    422CreateEmployeeSendInviteUnprocessableErrorResponse:
+    400AddEmployeeManualValidationErrorResponse:
       type: object
       properties:
         success:
@@ -1014,33 +1118,43 @@ components:
 
         statusCode:
           type: integer
-          format: int32
-          example: 422
+          example: 400
 
         statusMessage:
           type: string
-          example: "Invalid roleId"
+          example: "Failed to add user"
 
-        response:
+        data:
+          type: object
           nullable: true
           example: null
 
         error:
           type: object
-          required:
-            - message
-            - code
           properties:
             message:
               type: string
-              example: "Provided roleId does not exist for this organisation"
+              example: "Request body is not valid"
 
             code:
               type: string
-              enum:
-                - INVALID_ROLE_ID
-                - INVALID_TEAM_ID
-              example: "INVALID_ROLE_ID"
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "userName"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
 
     400CreateAccessManagementValidationErrorResponse:
       type: object
@@ -1086,8 +1200,8 @@ components:
                   message:
                     type: string
                     example: roleName is required
-        
-    409CreateEmployeeSendInviteDuplicateErrorResponse:
+
+    409AddEmployeeDuplicateErrorResponse:
       type: object
       properties:
         success:
@@ -1419,6 +1533,51 @@ components:
               type: string
               format: uuid
               example: c0296718-3538-461b-9045-e12d11a80605
+
+    InvalidUserIdsError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 422
+
+        statusMessage:
+          type: string
+          example: Invalid userId
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: One or more userId do not exist for this organisation
+
+            code:
+              type: string
+              enum:
+                - INVALID_USER_ID
+              example: INVALID_USER_ID
+
+            details:
+              type: object
+              required:
+                - invalidUserId
+              properties:
+                invalidUserId:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  example:
+                    - f0ad9ad9-d421-48dc-868d-9760e33e5080
+
+        data:
+          nullable: true
+          example: null
 
     # -------- Activity Tracking -------- #
     DesktopActivityTrackingCapturedEvent:
@@ -1947,9 +2106,8 @@ components:
                     - TOKEN_EXPIRED
                     - TOKEN_INVALID
 
-  # --------- Input Request -------- #
+    # --------- Input Request -------- #
 
-          
     FilterTeamIdsRequest:
       type: object
       required:
@@ -2010,7 +2168,7 @@ components:
           type: string
           format: uuid
           description: Unique ID of the team to delete
-  
+
     CreateAccessManagementRoleRequest:
       type: object
       properties:
@@ -2083,8 +2241,8 @@ components:
           type: string
           format: uuid
           example: "c44a66ea-d0ba-4423-9f85-25c68f7aa37b"
-        
-    CreateEmployeeViaInviteLinkRequest:
+
+    AddEmployeeViaInviteLinkRequest:
       type: object
       required:
         - userName
@@ -2125,3 +2283,90 @@ components:
             - office
             - hybrid
           example: "remote"
+
+    AddEmployeeViaManualRequest:
+      type: object
+      required:
+        - userName
+        - emailId
+        - roleId
+        - teams
+        - workMode
+        - password
+      properties:
+        userName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "Jagatheesan M"
+
+        emailId:
+          type: string
+          format: email
+          example: "mjagatheesan.g@gmail.com"
+        
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 128
+          description: >
+            Must contain at least 1 uppercase letter, 1 lowercase letter,
+            1 number, and 1 special character.
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,128}$'
+          example: "Strong@123"
+
+        roleId:
+          type: string
+          format: uuid
+          example: "271e6693-2130-4ea9-b02d-e6d57516186d"
+
+        teams:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+          example:
+            - "5f6fe61c-15c6-47b7-899d-dba99da2464c"
+
+        workMode:
+          type: string
+          enum:
+            - remote
+            - office
+            - hybrid
+          example: "remote"
+
+    422CreateEmployeeSendInviteUnprocessableErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid roleId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided roleId does not exist for this organisation"
+            code:
+              type: string
+              enum:
+                - INVALID_ROLE_ID
+                - INVALID_TEAM_ID
+              example: "INVALID_ROLE_ID"
