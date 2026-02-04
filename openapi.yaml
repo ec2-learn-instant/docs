@@ -2775,7 +2775,7 @@ components:
         - userName
         - emailId
         - roleId
-        - teams
+        - teamId
         - workMode
       properties:
         userName:
@@ -2794,7 +2794,7 @@ components:
           format: uuid
           example: "271e6693-2130-4ea9-b02d-e6d57516186d"
 
-        teams:
+        teamId:
           type: array
           minItems: 1
           items:
@@ -2817,7 +2817,7 @@ components:
         - userName
         - emailId
         - roleId
-        - teams
+        - teamId
         - workMode
         - password
       properties:
@@ -2848,7 +2848,7 @@ components:
           format: uuid
           example: "271e6693-2130-4ea9-b02d-e6d57516186d"
 
-        teams:
+        teamId:
           type: array
           minItems: 1
           items:
@@ -2871,7 +2871,7 @@ components:
         - userId
         - userName
         - roleId
-        - teams
+        - teamId
         - workMode
       properties:
         userId:
@@ -2890,7 +2890,7 @@ components:
           format: uuid
           example: "271e6693-2130-4ea9-b02d-e6d57516186d"
 
-        teams:
+        teamId:
           type: array
           minItems: 1
           items:
