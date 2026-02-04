@@ -132,6 +132,79 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+    patch:
+      summary: Update Employee
+      tags:
+        - Employees
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateEmployeeRequest"
+      responses:
+        "200":
+          description: User details updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateEmployeeSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateEmployeeValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UpdateEmployeeUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      summary: Delete Employee
+      tags:
+        - Employees
+      description: Delete a user using userId provided in the request body.
+      operationId: deleteEmployee
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteEmployeeRequest"
+            example:
+              userId: "c0296718-3538-461b-9045-e12d11a80605"
+      responses:
+        "200":
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200DeleteEmployeeSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400DeleteEmployeeValidationErrorResponse"
+
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422DeleteEmployeeUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/employees/filter:
     post:
       summary: Fetch Employees by User ID
@@ -227,9 +300,6 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
-        "422":
-          $ref: "#/components/responses/RouteNotFoundError"
-
         "500":
           $ref: "#/components/responses/InternalServerError"
 
@@ -254,36 +324,27 @@ paths:
                 $ref: "#/components/schemas/200CreateTeamsSuccessResponse"
 
         "400":
-          description: Validation error while creating team
-          content:
-            application/json:
-              examples:
-                teamNameMissing:
-                  summary: teamName is missing
-                  value:
-                    success: false
-                    statusCode: 400
-                    statusMessage: Failed to create team
-                    data: null
-                    error:
-                      message: Request body is not valid
-                      code: REQUEST_VALIDATION_FAILED
-                      details:
-                        - path:
-                            - teamName
-                          message: Required
+            description: Request validation failed
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/400CreateTeamValidationErrorResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+      
+        "409":
+          description: Team name already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409CreateTeamDuplicateErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
 
     patch:
-      summary: Update Team Details
+      summary: Update Team
       tags:
         - Teams
       security:
@@ -304,12 +365,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/200UpdateTeamSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateTeamValidationErrorResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
+        "409":
+          description: Team name already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409CreateTeamDuplicateErrorResponse"
+
         "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+          $ref: "#/components/responses/422UpdateTeamUnprocessableErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -337,12 +411,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/200TeamDeletedSuccessResponse"
-
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400DeleteTeamValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
         "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+          $ref: "#/components/responses/422DeleteTeamUnprocessableErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -399,9 +478,6 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
-        "422":
-          $ref: "#/components/responses/RouteNotFoundError"
-
         "500":
           $ref: "#/components/responses/InternalServerError"
 
@@ -439,9 +515,6 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
-        "422":
-          $ref: "#/components/responses/RouteNotFoundError"
-
         "500":
           $ref: "#/components/responses/InternalServerError"
 
@@ -470,23 +543,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/400UpdateAccessManagementValidationErrorResponse"
-        "404":
-          description: RoleId not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/404UpdateRoleIdNotFoundErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
         "409":
-          description: Duplicate role name
+          description: Role name already exists
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/409UpdateDuplicateRoleErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
 
         "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+          description: Unprocessable Entity – Invalid roleId
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/422UpdateRoleIdNotFoundErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -517,17 +589,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/400DeleteAccessManagementValidationErrorResponse"
-        "404":
-          description: RoleId not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/404DeleteRoleIdNotFoundErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
         "422":
-          $ref: "#/components/responses/RouteNotFoundError"
+          description: Unprocessable Entity – Invalid roleId
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/422DeleteRoleIdNotFoundErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -623,16 +693,112 @@ components:
                   message: "Provided roleId does not exist for this organisation"
                   code: INVALID_ROLE_ID
 
-            invalidTeamIds:
-              summary: Invalid teamIds
+            invalidTeamId:
+              summary: Invalid teamId
               value:
                 success: false
                 statusCode: 422
-                statusMessage: "Invalid teamIds"
+                statusMessage: "Invalid teamId"
                 response: null
                 error:
                   message: "One or more teamIds are invalid for this organisation"
                   code: INVALID_TEAM_ID
+
+    422UpdateEmployeeUnprocessableErrorResponse:
+      description: Unprocessable Entity – Invalid userId or roleId or teamIds
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422UpdateEmployeeUnprocessableErrorSchema"
+          examples:
+            invalidUserId:
+              summary: Invalid userId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid userId"
+                response: null
+                error:
+                  message: "Provided userId does not exist for this organisation"
+                  code: INVALID_USER_ID
+
+            invalidRoleId:
+              summary: Invalid roleId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid roleId"
+                response: null
+                error:
+                  message: "Provided roleId does not exist for this organisation"
+                  code: INVALID_ROLE_ID
+
+            invalidTeamId:
+              summary: Invalid teamId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid teamId"
+                response: null
+                error:
+                  message: "One or more teamIds are invalid for this organisation"
+                  code: INVALID_TEAM_ID
+
+    422UpdateTeamUnprocessableErrorResponse:
+      description: Unprocessable Entity – Invalid teamId
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422UpdateTeamUnprocessableErrorSchema"
+          examples:
+            invalidTeamId:
+              summary: Invalid teamId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid teamId"
+                response: null
+                error:
+                  message: "Provided teamId does not exist for this organisation"
+                  code: INVALID_TEAM_ID
+
+
+    422DeleteEmployeeUnprocessableErrorResponse:
+      description: Unprocessable Entity – Invalid userId
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422DeleteEmployeeUnprocessableErrorSchema"
+          examples:
+            invalidUserId:
+              summary: Invalid userId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid userId"
+                response: null
+                error:
+                  message: "Provided userId does not exist for this organisation"
+                  code: INVALID_USER_ID
+
+    422DeleteTeamUnprocessableErrorResponse:
+      description: Unprocessable Entity – Invalid teamId
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422DeleteTeamUnprocessableErrorSchema"
+          examples:
+            invalidTeamId:
+              summary: Invalid teamId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid teamId"
+                response: null
+                error:
+                  message: "Provided teamId does not exist for this organisation"
+                  code: INVALID_TEAM_ID
+
 
   schemas:
     200FetchEmployeeListSuccessResponse:
@@ -884,6 +1050,53 @@ components:
               type: string
               example: Full Stack Developer
 
+    400CreateTeamValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: "Failed to create team"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "teamName"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
+
     200FetchAccessManagementSuccessResponse:
       type: object
       properties:
@@ -1012,6 +1225,38 @@ components:
               type: string
               format: uuid
               example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
+
+    200UpdateEmployeeSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+
+        statusMessage:
+          type: string
+          example: User details updated successfully
+
+        error:
+          nullable: true
+          example: null
+
+        response:
+          type: object
+          properties:
+            userName:
+              type: string
+              example: Jagatheesan E
+
+            userId:
+              type: string
+              format: uuid
+              example: 1269dd50-946d-4ce6-8428-dc258710e9af
 
     200CreateAccessManagementSuccessResponse:
       type: object
@@ -1155,6 +1400,199 @@ components:
                   message:
                     type: string
                     example: "Invalid input: expected string, received undefined"
+              
+    400UpdateTeamValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: "Failed to update team details"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "teamName"
+                      - "teamId"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
+
+    400UpdateEmployeeValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: "Failed to update user details"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "userName"
+                      - "userId"
+                      - "workMode"
+                      - "roleId"
+                      - "teams"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
+
+    400DeleteEmployeeValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: "Failed to delete team"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "teamId"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
+
+    400DeleteTeamValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: "Failed to delete user"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "userId"
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected string, received undefined"
 
     400CreateAccessManagementValidationErrorResponse:
       type: object
@@ -1232,6 +1670,36 @@ components:
           nullable: true
           example: null
 
+    409CreateTeamDuplicateErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 409
+
+        statusMessage:
+          type: string
+          example: "Team name already exists"
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Team name already exists. Please choose a different team name."
+            code:
+              type: string
+              example: "DUPLICATE_TEAM_NAME"
+
+        data:
+          type: object
+          nullable: true
+          example: null
+
     409CreateAccessManagementDuplicateRoleErrorResponse:
       type: object
       properties:
@@ -1255,7 +1723,7 @@ components:
               example: A role with this name already exists in your organization. Please choose a different name.
             code:
               type: string
-              example: DUPLICATE_ROLE
+              example: DUPLICATE_ROLE_NAME
 
     200UpdateAccessManagementSuccessResponse:
       type: object
@@ -1433,7 +1901,7 @@ components:
               type: string
               example: ROLE_ID_NOT_FOUND
 
-    404DeleteRoleIdNotFoundErrorResponse:
+    422DeleteRoleIdNotFoundErrorResponse:
       type: object
       properties:
         success:
@@ -1441,10 +1909,10 @@ components:
           example: false
         statusCode:
           type: integer
-          example: 404
+          example: 422
         statusMessage:
           type: string
-          example: RoleId not found
+          example: Invalid roleId
         data:
           nullable: true
           example: null
@@ -1453,10 +1921,35 @@ components:
           properties:
             message:
               type: string
-              example: The specified role does not exist in this organization.
+              example: The specified roleId does not exist in this organization.
             code:
               type: string
-              example: ROLE_ID_NOT_FOUND
+              example: INVALID_ROLE_ID
+
+    422UpdateRoleIdNotFoundErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 422
+        statusMessage:
+          type: string
+          example: Invalid roleId
+        data:
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Provided teamId does not exist for this organisation.
+            code:
+              type: string
+              example: INVALID_ROLE_ID
 
     409UpdateDuplicateRoleErrorResponse:
       type: object
@@ -1481,7 +1974,7 @@ components:
               example: A role with this name already exists in your organization. Please choose a different name.
             code:
               type: string
-              example: DUPLICATE_ROLE
+              example: DUPLICATE_ROLE_NAME
 
     200UpdateTeamSuccessResponse:
       type: object
@@ -1530,6 +2023,30 @@ components:
           type: object
           properties:
             teamId:
+              type: string
+              format: uuid
+              example: c0296718-3538-461b-9045-e12d11a80605
+
+    200DeleteEmployeeSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: User deleted successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            userId:
               type: string
               format: uuid
               example: c0296718-3538-461b-9045-e12d11a80605
@@ -2169,6 +2686,16 @@ components:
           format: uuid
           description: Unique ID of the team to delete
 
+    DeleteEmployeeRequest:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: Unique ID of the user to delete
+
     CreateAccessManagementRoleRequest:
       type: object
       properties:
@@ -2338,6 +2865,48 @@ components:
             - hybrid
           example: "remote"
 
+    UpdateEmployeeRequest:
+      type: object
+      required:
+        - userId
+        - userName
+        - roleId
+        - teams
+        - workMode
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: "271e6693-2130-4ea9-b02d-e6d57516186d"
+
+        userName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: "Jagatheesan M"
+
+        roleId:
+          type: string
+          format: uuid
+          example: "271e6693-2130-4ea9-b02d-e6d57516186d"
+
+        teams:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uuid
+          example:
+            - "5f6fe61c-15c6-47b7-899d-dba99da2464c"
+
+        workMode:
+          type: string
+          enum:
+            - remote
+            - office
+            - hybrid
+          example: "remote"
+
     422CreateEmployeeSendInviteUnprocessableErrorSchema:
       type: object
       properties:
@@ -2370,3 +2939,127 @@ components:
                 - INVALID_ROLE_ID
                 - INVALID_TEAM_ID
               example: "INVALID_ROLE_ID"
+
+    422UpdateEmployeeUnprocessableErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid userId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided userId does not exist for this organisation"
+            code:
+              type: string
+              enum:
+                - INVALID_USER_ID
+                - INVALID_ROLE_ID
+                - INVALID_TEAM_ID
+              example: "INVALID_USER_ID"
+
+    422UpdateTeamUnprocessableErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid teamId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided teamId does not exist for this organisation"
+            code:
+              type: string
+              example: "INVALID_TEAM_ID"
+
+    422DeleteEmployeeUnprocessableErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid userId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided userId does not exist for this organisation"
+            code:
+              type: string
+              example: "INVALID_USER_ID"
+
+    422DeleteTeamUnprocessableErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid teamId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided teamId does not exist for this organisation"
+            code:
+              type: string
+              example: "INVALID_TEAM_ID"
