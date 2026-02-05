@@ -74,9 +74,9 @@ webhooks:
 paths:
   /v1/settings/default-setting:
     get:
-      summary: Default Settings
+      summary: Fetch Default Settings
       tags:
-        - Default Settings
+        - Settings - Default
       security:
         - BearerAuth: []
       responses:
@@ -95,7 +95,7 @@ paths:
     patch:
       summary: Update Default Settings
       tags:
-        - Default Settings
+        - Settings - Default
       security:
         - BearerAuth: []
       requestBody:
@@ -119,6 +119,114 @@ paths:
                 $ref: "#/components/schemas/400UpdateDefaultSettingsValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/work-day:
+    get:
+      summary: Fetch Work Day Settings
+      tags:
+        - Settings - Work Day
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched work day settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchWorkDaySettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Work Day Settings
+      tags:
+        - Settings - Work Day
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateWorkDaySettingsRequest"
+      responses:
+        "200":
+          description: Work day settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateWorkDaySettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateWorkDaySettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/expected-work-hours:
+    get:
+      summary: Fetch Expected Work Hours Settings
+      tags:
+        - Settings - Expected Work Hours
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched expected eork hours settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchExpectedWorkDaySettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Expected Work Hours Settings
+      tags:
+        - Settings - Expected Work Hours
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateExpectedWorkHourSettingsRequest"
+      responses:
+        "200":
+          description: Expected work hours settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateExpectedWorkHoursSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateExpectedWorkHoursValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
@@ -848,6 +956,24 @@ components:
                   message: "Provided teamId does not exist for this organisation"
                   code: INVALID_TEAM_ID
 
+    422InvalidUserIdUnprocessableErrorResponse:
+      description: Unprocessable Entity – Invalid userId
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422InvalidUserIdSchema"
+          examples:
+            invalidTeamId:
+              summary: Invalid userId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid userId"
+                response: null
+                error:
+                  message: "Provided userId does not exist for this organisation"
+                  code: INVALID_USER_ID
+
   schemas:
     200FetchDefaultSettingsSuccessResponse:
       type: object
@@ -957,7 +1083,253 @@ components:
                     - free
                     - starter
                   example: starter
-      
+
+    200FetchWorkDaySettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Fetched work day settings successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName:
+                type: string
+                example: Abirami Kannan
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: https://trackpilots.s3.amazonaws.com/profile-pic/sample.png
+              workDaySettings:
+                type: object
+                properties:
+                  workDays:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - monday
+                        - tuesday
+                        - wednesday
+                        - thursday
+                        - friday
+                        - saturday
+                        - sunday
+            example:
+              - userId: f0ad9ad9-d421-48dc-868d-9760e33e5089
+                userName: Abirami Kannan
+                emailId: abiramikannan2006@gmail.com
+                profilePicUrl: null
+                workDaySettings:
+                  workDays:
+                    - monday
+                    - wednesday
+                    - thursday
+                    - friday
+                    - tuesday
+                    - saturday
+
+              - userId: b514fe51-df34-414e-8bec-9dcdd23cde23
+                userName: Swetha Senthil
+                emailId: senthilsundari2802@gmail.com
+                profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.jpeg
+                workDaySettings:
+                  workDays:
+                    - tuesday
+                    - thursday
+                    - friday
+                    - saturday
+                    - wednesday
+
+              - userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+                userName: Sakthivel Govinthan
+                emailId: sakthiveltechit@gmail.com
+                profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+                workDaySettings:
+                  workDays:
+                    - monday
+                    - tuesday
+                    - wednesday
+                    - thursday
+                    - friday
+
+    200FetchExpectedWorkDaySettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Fetched expected work day settings successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName:
+                type: string
+                example: Abirami Kannan
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: https://trackpilots.s3.amazonaws.com/profile-pic/sample.png
+              workHourSettings:
+                type: object
+                properties:
+                  expectedWorkMinutesPerDay:
+                    type: integer
+                    example: 480
+                  expectedProductiveWorkMinutesPerDay:
+                    type: integer
+                    example: 360
+                  expectedInTime:
+                    type: string
+                    example: "12:30 am"
+          example:
+            - userId: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName: Abirami Kannan
+              emailId: abiramikannan2006@gmail.com
+              profilePicUrl: null
+              workHourSettings:
+                expectedWorkMinutesPerDay: 480
+                expectedProductiveWorkMinutesPerDay: 360
+                expectedInTime: "12:30 am"
+
+            - userId: b514fe51-df34-414e-8bec-9dcdd23cde23
+              userName: Swetha Senthil
+              emailId: senthilsundari2802@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.jpeg
+              workHourSettings:
+                expectedWorkMinutesPerDay: 480
+                expectedProductiveWorkMinutesPerDay: 360
+                expectedInTime: "12:30 am"
+
+            - userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+              userName: Sakthivel Govinthan
+              emailId: sakthiveltechit@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+              workHourSettings:
+                expectedWorkMinutesPerDay: 480
+                expectedProductiveWorkMinutesPerDay: 360
+                expectedInTime: "12:30 am"
+
+    200UpdateExpectedWorkHoursSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Expected work day settings updated successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            userID:
+              type: string
+              format: uuid
+              example: 8126cc3e-ca66-4c02-83f5-06273452120d
+            workHourSettings:
+              type: object
+              properties:
+                expectedWorkMinutesPerDay:
+                  type: integer
+                  example: 480
+                expectedProductiveWorkMinutesPerDay:
+                  type: integer
+                  example: 360
+                expectedInTime:
+                  type: string
+                  example: "10:30 am"
+
+    200UpdateWorkDaySettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Work day settings updated successfully
+        error:
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+            workDaySettings:
+              type: object
+              properties:
+                workDays:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - monday
+                      - tuesday
+                      - wednesday
+                      - thursday
+                      - friday
+                      - saturday
+                      - sunday
+                  example:
+                    - monday
+                    - wednesday
+                    - thursday
+                    - friday
+                    - tuesday
+                    - saturday
+
     200UpdateDefaultSettingsSuccessResponse:
       type: object
       properties:
@@ -1704,8 +2076,94 @@ components:
                   message:
                     type: string
                     example: "Invalid input: expected string, received undefined"
-    
+
     400UpdateDefaultSettingsValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: Failed to update default settings
+
+        data:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - workDaySettings
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected object, received undefined"
+
+    400UpdateExpectedWorkHoursValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: Failed to update expected work hours settings
+        data:
+          type: object
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - workHourSettings
+                  message:
+                    type: string
+                    example: "Invalid input: expected object, received undefined"
+
+    400UpdateWorkDaySettingsValidationErrorResponse:
       type: object
       properties:
         success:
@@ -3167,6 +3625,69 @@ components:
             - hybrid
           example: "remote"
 
+    UpdateWorkDaySettingsRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+        workDaySettings:
+          type: object
+          properties:
+            workDays:
+              type: array
+              items:
+                type: string
+                enum:
+                  - monday
+                  - tuesday
+                  - wednesday
+                  - thursday
+                  - friday
+                  - saturday
+                  - sunday
+              example:
+                - monday
+                - wednesday
+                - thursday
+                - friday
+                - tuesday
+                - saturday
+          required:
+            - workDays
+      required:
+        - userId
+        - workDaySettings
+
+    UpdateExpectedWorkHourSettingsRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: 8126cc3e-ca66-4c02-83f5-06273452120d
+        workHourSettings:
+          type: object
+          properties:
+            expectedWorkMinutesPerDay:
+              type: integer
+              example: 430
+            expectedProductiveWorkMinutesPerDay:
+              type: integer
+              example: 360
+            expectedInTime:
+              type: string
+              example: "08:00 am"
+          required:
+            - expectedWorkMinutesPerDay
+            - expectedProductiveWorkMinutesPerDay
+            - expectedInTime
+      required:
+        - userId
+        - workHourSettings
+
+
     UpdateDefaultSettingsRequest:
       type: object
       properties:
@@ -3463,3 +3984,28 @@ components:
             code:
               type: string
               example: "INVALID_TEAM_ID"
+
+    422InvalidUserIdSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 422
+        statusMessage:
+          type: string
+          example: Invalid userId
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Provided userId does not exist for this organisation
+            code:
+              type: string
+              example: INVALID_USER_ID
+        data:
+          nullable: true
+          example: null
