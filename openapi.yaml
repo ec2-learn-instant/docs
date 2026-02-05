@@ -72,7 +72,7 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
-  /v1/default/settings:
+  /v1/settings/default-setting:
     get:
       summary: Default Settings
       tags:
