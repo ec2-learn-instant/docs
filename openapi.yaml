@@ -72,6 +72,57 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
+  /v1/default/settings:
+    get:
+      summary: Default Settings
+      tags:
+        - Default Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Organisation settings fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDefaultSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Default Settings
+      tags:
+        - Default Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDefaultSettingsRequest"
+      responses:
+        "200":
+          description: Default settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateDefaultSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateDefaultSettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/employees:
     get:
       summary: Fetch All Employees
@@ -240,7 +291,6 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-
   /v1/employees/send-invite-link:
     post:
       summary: Add Employee via Invite Link
@@ -324,15 +374,15 @@ paths:
                 $ref: "#/components/schemas/200CreateTeamsSuccessResponse"
 
         "400":
-            description: Request validation failed
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/400CreateTeamValidationErrorResponse"
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400CreateTeamValidationErrorResponse"
 
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-      
+
         "409":
           description: Team name already exists
           content:
@@ -762,7 +812,6 @@ components:
                   message: "Provided teamId does not exist for this organisation"
                   code: INVALID_TEAM_ID
 
-
     422DeleteEmployeeUnprocessableErrorResponse:
       description: Unprocessable Entity – Invalid userId
       content:
@@ -799,8 +848,215 @@ components:
                   message: "Provided teamId does not exist for this organisation"
                   code: INVALID_TEAM_ID
 
-
   schemas:
+    200FetchDefaultSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched all team details successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+            workDaySettings:
+              type: object
+              properties:
+                workDays:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - monday
+                      - tuesday
+                      - wednesday
+                      - thursday
+                      - friday
+                      - saturday
+                      - sunday
+                  example:
+                    - monday
+                    - tuesday
+                    - wednesday
+                    - thursday
+                    - friday
+                    - saturday
+
+            workHourSettings:
+              type: object
+              properties:
+                expectedWorkMinutesPerDay:
+                  type: integer
+                  example: 480
+                expectedProductiveWorkMinutesPerDay:
+                  type: integer
+                  example: 360
+                expectedInTime:
+                  type: string
+                  example: "10:30 am"
+
+            idleAlertSettings:
+              type: object
+              properties:
+                minimumIdleTimeMinutes:
+                  type: integer
+                  example: 5
+                enableIdleTimeAlert:
+                  type: boolean
+                  example: true
+                # idleAutoLogout:
+                #   type: boolean
+                #   example: true
+
+            screenshotSettings:
+              type: object
+              properties:
+                enableScreenCapture:
+                  type: boolean
+                  example: true
+                enableBlurScreenCapture:
+                  type: boolean
+                  example: true
+                screenCaptureIntervalMinutes:
+                  type: integer
+                  example: 10
+
+            timezoneSettings:
+              type: object
+              properties:
+                timezone:
+                  type: string
+                  example: Asia/Barnaul
+
+            stealthMonitoringSettings:
+              type: object
+              properties:
+                enableStealthMonitoring:
+                  type: boolean
+                  example: true
+
+            billingSettings:
+              type: object
+              properties:
+                pricingPlan:
+                  type: string
+                  enum:
+                    - free
+                    - starter
+                  example: starter
+      
+    200UpdateDefaultSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Default settings updated successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+            workDaySettings:
+              type: object
+              properties:
+                workDays:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - monday
+                      - tuesday
+                      - wednesday
+                      - thursday
+                      - friday
+                      - saturday
+                      - sunday
+                  example:
+                    - monday
+                    - tuesday
+                    - wednesday
+                    - thursday
+                    - friday
+                    - saturday
+
+            workHourSettings:
+              type: object
+              properties:
+                expectedWorkMinutesPerDay:
+                  type: integer
+                  example: 480
+                expectedProductiveWorkMinutesPerDay:
+                  type: integer
+                  example: 360
+                expectedInTime:
+                  type: string
+                  example: "10:30 am"
+
+            idleAlertSettings:
+              type: object
+              properties:
+                minimumIdleTimeMinutes:
+                  type: integer
+                  example: 5
+                enableIdleTimeAlert:
+                  type: boolean
+                  example: true
+                # idleAutoLogout:
+                #   type: boolean
+                #   example: true
+
+            screenshotSettings:
+              type: object
+              properties:
+                enableScreenCapture:
+                  type: boolean
+                  example: true
+                enableBlurScreenCapture:
+                  type: boolean
+                  example: true
+                screenCaptureIntervalMinutes:
+                  type: integer
+                  example: 10
+
+            timezoneSettings:
+              type: object
+              properties:
+                timezone:
+                  type: string
+                  example: Asia/Barnaul
+
+            stealthMonitoringSettings:
+              type: object
+              properties:
+                enableStealthMonitoring:
+                  type: boolean
+                  example: true
+
     200FetchEmployeeListSuccessResponse:
       type: object
       properties:
@@ -1188,7 +1444,7 @@ components:
               type: string
               format: uuid
               example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
-    
+
     200AddedEmployeeViaManuallySuccessResponse:
       type: object
       properties:
@@ -1400,7 +1656,7 @@ components:
                   message:
                     type: string
                     example: "Invalid input: expected string, received undefined"
-              
+
     400UpdateTeamValidationErrorResponse:
       type: object
       properties:
@@ -1448,6 +1704,52 @@ components:
                   message:
                     type: string
                     example: "Invalid input: expected string, received undefined"
+    
+    400UpdateDefaultSettingsValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          example: 400
+
+        statusMessage:
+          type: string
+          example: Failed to update default settings
+
+        data:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - workDaySettings
+
+                  message:
+                    type: string
+                    example: "Invalid input: expected object, received undefined"
 
     400UpdateEmployeeValidationErrorResponse:
       type: object
@@ -2831,7 +3133,7 @@ components:
           type: string
           format: email
           example: "mjagatheesan.g@gmail.com"
-        
+
         password:
           type: string
           format: password
@@ -2864,6 +3166,104 @@ components:
             - office
             - hybrid
           example: "remote"
+
+    UpdateDefaultSettingsRequest:
+      type: object
+      properties:
+        workDaySettings:
+          type: object
+          required:
+            - workDays
+          properties:
+            workDays:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                enum:
+                  - monday
+                  - tuesday
+                  - wednesday
+                  - thursday
+                  - friday
+                  - saturday
+                  - sunday
+              example:
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+                - saturday
+
+        workHourSettings:
+          type: object
+          required:
+            - expectedWorkMinutesPerDay
+            - expectedProductiveWorkMinutesPerDay
+            - expectedInTime
+          properties:
+            expectedWorkMinutesPerDay:
+              type: integer
+              example: 480
+            expectedProductiveWorkMinutesPerDay:
+              type: integer
+              example: 360
+            expectedInTime:
+              type: string
+              example: "10:30 am"
+
+        idleAlertSettings:
+          type: object
+          required:
+            - minimumIdleTimeMinutes
+            - enableIdleTimeAlert
+            # - idleAutoLogout
+          properties:
+            minimumIdleTimeMinutes:
+              type: integer
+              example: 5
+            enableIdleTimeAlert:
+              type: boolean
+              example: true
+            # idleAutoLogout:
+            #   type: boolean
+            #   example: true
+
+        screenshotSettings:
+          type: object
+          required:
+            - enableScreenCapture
+            - enableBlurScreenCapture
+            - screenCaptureIntervalMinutes
+          properties:
+            enableScreenCapture:
+              type: boolean
+              example: true
+            enableBlurScreenCapture:
+              type: boolean
+              example: true
+            screenCaptureIntervalMinutes:
+              type: integer
+              example: 10
+
+        timezoneSettings:
+          type: object
+          required:
+            - timezone
+          properties:
+            timezone:
+              type: string
+              example: Asia/Barnaul
+
+        stealthMonitoringSettings:
+          type: object
+          required:
+            - enableStealthMonitoring
+          properties:
+            enableStealthMonitoring:
+              type: boolean
+              example: true
 
     UpdateEmployeeRequest:
       type: object
