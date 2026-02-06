@@ -72,332 +72,11 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
-  /v1/settings/default-setting:
-    get:
-      summary: Fetch Default Settings
-      tags:
-        - Settings - Default
-      security:
-        - BearerAuth: []
-      responses:
-        "200":
-          description: Organisation settings fetched successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchDefaultSettingsSuccessResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-    patch:
-      summary: Update Default Settings
-      tags:
-        - Settings - Default
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateDefaultSettingsRequest"
-      responses:
-        "200":
-          description: Default settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200UpdateDefaultSettingsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400UpdateDefaultSettingsValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/settings/work-day:
-    get:
-      summary: Fetch Work Day
-      tags:
-        - Settings - Work Day
-      security:
-        - BearerAuth: []
-      responses:
-        "200":
-          description: Fetched work day settings successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchWorkDaySettingsSuccessResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-    patch:
-      summary: Update Work Day
-      tags:
-        - Settings - Work Day
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateWorkDaySettingsRequest"
-      responses:
-        "200":
-          description: Work day settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200UpdateWorkDaySettingsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400UpdateWorkDaySettingsValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/settings/expected-work-hours:
-    get:
-      summary: Fetch Expected Work Hours
-      tags:
-        - Settings - Expected Work Hours
-      security:
-        - BearerAuth: []
-      responses:
-        "200":
-          description: Fetched expected eork hours settings successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchExpectedWorkDaySettingsSuccessResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-    patch:
-      summary: Update Expected Work Hours
-      tags:
-        - Settings - Expected Work Hours
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateExpectedWorkHourSettingsRequest"
-      responses:
-        "200":
-          description: Expected work hours settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200UpdateExpectedWorkHoursSettingsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400UpdateIdleAlertValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/settings/idle-alert:
-    get:
-      summary: Fetch Idle Alert
-      tags:
-        - Settings - Idle Alert
-      security:
-        - BearerAuth: []
-      responses:
-        "200":
-          description: Fetched expected eork hours settings successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchIdleAlertSettingsSuccessResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-    patch:
-      summary: Update Idle Alert
-      tags:
-        - Settings - Idle Alert
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateIdleAlertSettingsRequest"
-      responses:
-        "200":
-          description: Idle alert settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200UpdateIdleAlertSettingsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400UpdateExpectedWorkHoursValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-  
-  /v1/settings/screenshot:
-    get:
-      summary: Fetch Screenshot
-      tags:
-        - Settings - Screenshot
-      security:
-        - BearerAuth: []
-      responses:
-        "200":
-          description: Fetched screenshot settings successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchScreenshotSettingsSuccessResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-    patch:
-      summary: Update Screenshot
-      tags:
-        - Settings - Screenshot
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateScreenshotSettingsRequest"
-      responses:
-        "200":
-          description: Screenshot settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200UpdateScreenshotSettingsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400UpdateScreenshotSettingsValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-  
-  /v1/settings/stealth-monitoring:
-    get:
-      summary: Fetch Stealth Monitoring
-      tags:
-        - Settings - Stealth Monitoring
-      security:
-        - BearerAuth: []
-      responses:
-        "200":
-          description: Fetched stealth monitoring settings successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchStealthMonitoringSettingsSuccessResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-    patch:
-      summary: Update Stealth Monitoring
-      tags:
-        - Settings - Stealth Monitoring
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateStealthMonitoringSettingsRequest"
-      responses:
-        "200":
-          description: Stealth monitoring settings updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200UpdateStealthMonitoringSettingsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400UpdateStealthMonitoringSettingsValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
   /v1/employees:
     get:
       summary: Fetch All Employees
       tags:
-        - Employees
+        - Manage Employees
       security:
         - BearerAuth: []
       responses:
@@ -416,7 +95,7 @@ paths:
     post:
       summary: Add Employee
       tags:
-        - Employees
+        - Manage Employees
       security:
         - BearerAuth: []
       requestBody:
@@ -456,7 +135,7 @@ paths:
     patch:
       summary: Update Employee
       tags:
-        - Employees
+        - Manage Employees
       security:
         - BearerAuth: []
       requestBody:
@@ -490,7 +169,7 @@ paths:
     delete:
       summary: Delete Employee
       tags:
-        - Employees
+        - Manage Employees
       description: Delete a user using userId provided in the request body.
       operationId: deleteEmployee
       security:
@@ -530,7 +209,7 @@ paths:
     post:
       summary: Fetch Employees by User ID
       tags:
-        - Employees
+        - Manage Employees
       security:
         - BearerAuth: []
       description: Returns user details for the given list of user IDs.
@@ -565,7 +244,7 @@ paths:
     post:
       summary: Add Employee via Invite Link
       tags:
-        - Employees
+        - Manage Employees
       security:
         - BearerAuth: []
       requestBody:
@@ -606,7 +285,7 @@ paths:
     get:
       summary: Fetch All Teams
       tags:
-        - Teams
+        - Manage Teams
       security:
         - BearerAuth: []
       responses:
@@ -626,7 +305,7 @@ paths:
     post:
       summary: Create Team
       tags:
-        - Teams
+        - Manage Teams
       security:
         - BearerAuth: []
       requestBody:
@@ -666,7 +345,7 @@ paths:
     patch:
       summary: Update Team
       tags:
-        - Teams
+        - Manage Teams
       security:
         - BearerAuth: []
       requestBody:
@@ -711,7 +390,7 @@ paths:
     delete:
       summary: Delete Team
       tags:
-        - Teams
+        - Manage Teams
       description: Deletes a team using teamId provided in the request body.
       operationId: deleteTeam
       security:
@@ -750,7 +429,7 @@ paths:
     post:
       summary: Fetch Teams by Team ID
       tags:
-        - Teams
+        - Manage Teams
       description: Returns team details for the given list of team IDs.
       operationId: filterTeamsByIds
       security:
@@ -775,6 +454,328 @@ paths:
 
         "422":
           $ref: "#/components/responses/RouteNotFoundError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+          
+  /v1/settings/work-day:
+    get:
+      summary: Fetch Work Day Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched work day settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchWorkDaySettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Work Day Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateWorkDaySettingsRequest"
+      responses:
+        "200":
+          description: Work day settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateWorkDaySettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateWorkDaySettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/expected-work-hours:
+    get:
+      summary: Fetch Expected Work Hours Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched expected eork hours settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchExpectedWorkDaySettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Expected Work Hours Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateExpectedWorkHourSettingsRequest"
+      responses:
+        "200":
+          description: Expected work hours settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateExpectedWorkHoursSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateIdleAlertValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/screenshot:
+      get:
+        summary: Fetch Screenshot Settings
+        tags:
+          - Settings
+        security:
+          - BearerAuth: []
+        responses:
+          "200":
+            description: Fetched screenshot settings successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/200FetchScreenshotSettingsSuccessResponse"
+          "401":
+            $ref: "#/components/responses/UnauthorizedError"
+
+          "500":
+            $ref: "#/components/responses/InternalServerError"
+
+      patch:
+        summary: Update Screenshot Settings
+        tags:
+          - Settings
+        security:
+          - BearerAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateScreenshotSettingsRequest"
+        responses:
+          "200":
+            description: Screenshot settings updated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/200UpdateScreenshotSettingsSuccessResponse"
+          "400":
+            description: Request validation failed
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/400UpdateScreenshotSettingsValidationErrorResponse"
+          "401":
+            $ref: "#/components/responses/UnauthorizedError"
+
+          "422":
+            $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+          "500":
+            $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/idle-alert:
+    get:
+      summary: Fetch Idle Alert Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched expected eork hours settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchIdleAlertSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Idle Alert Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateIdleAlertSettingsRequest"
+      responses:
+        "200":
+          description: Idle alert settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateIdleAlertSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateExpectedWorkHoursValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  
+
+  /v1/settings/stealth-monitoring:
+    get:
+      summary: Fetch Stealth Monitoring Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched stealth monitoring settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchStealthMonitoringSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Stealth Monitoring Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStealthMonitoringSettingsRequest"
+      responses:
+        "200":
+          description: Stealth monitoring settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateStealthMonitoringSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateStealthMonitoringSettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/default-setting:
+    get:
+      summary: Fetch Default Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Organisation settings fetched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDefaultSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Default Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDefaultSettingsRequest"
+      responses:
+        "200":
+          description: Default settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateDefaultSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateDefaultSettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
         "500":
           $ref: "#/components/responses/InternalServerError"
