@@ -125,7 +125,7 @@ paths:
 
   /v1/settings/work-day:
     get:
-      summary: Fetch Work Day Settings
+      summary: Fetch Work Day
       tags:
         - Settings - Work Day
       security:
@@ -144,7 +144,7 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
     patch:
-      summary: Update Work Day Settings
+      summary: Update Work Day
       tags:
         - Settings - Work Day
       security:
@@ -179,7 +179,7 @@ paths:
 
   /v1/settings/expected-work-hours:
     get:
-      summary: Fetch Expected Work Hours Settings
+      summary: Fetch Expected Work Hours
       tags:
         - Settings - Expected Work Hours
       security:
@@ -198,7 +198,7 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
     patch:
-      summary: Update Expected Work Hours Settings
+      summary: Update Expected Work Hours
       tags:
         - Settings - Expected Work Hours
       security:
@@ -221,7 +221,169 @@ paths:
           content:
             application/json:
               schema:
+                $ref: "#/components/schemas/400UpdateIdleAlertValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/settings/idle-alert:
+    get:
+      summary: Fetch Idle Alert
+      tags:
+        - Settings - Idle Alert
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched expected eork hours settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchIdleAlertSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Idle Alert
+      tags:
+        - Settings - Idle Alert
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateIdleAlertSettingsRequest"
+      responses:
+        "200":
+          description: Idle alert settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateIdleAlertSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
                 $ref: "#/components/schemas/400UpdateExpectedWorkHoursValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  
+  /v1/settings/screenshot:
+    get:
+      summary: Fetch Screenshot
+      tags:
+        - Settings - Screenshot
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched screenshot settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchScreenshotSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Screenshot
+      tags:
+        - Settings - Screenshot
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateScreenshotSettingsRequest"
+      responses:
+        "200":
+          description: Screenshot settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateScreenshotSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateScreenshotSettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  
+  /v1/settings/stealth-monitoring:
+    get:
+      summary: Fetch Stealth Monitoring
+      tags:
+        - Settings - Stealth Monitoring
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched stealth monitoring settings successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchStealthMonitoringSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+    patch:
+      summary: Update Stealth Monitoring
+      tags:
+        - Settings - Stealth Monitoring
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStealthMonitoringSettingsRequest"
+      responses:
+        "200":
+          description: Stealth monitoring settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateStealthMonitoringSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateStealthMonitoringSettingsValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -1248,6 +1410,218 @@ components:
                 expectedWorkMinutesPerDay: 480
                 expectedProductiveWorkMinutesPerDay: 360
                 expectedInTime: "12:30 am"
+          
+    200FetchScreenshotSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Fetched screenshot settings successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName:
+                type: string
+                example: Abirami Kannan
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: https://trackpilots.s3.amazonaws.com/profile-pic/sample.png
+              screenshotSettings:
+                type: object
+                properties:
+                  enableScreenCapture:
+                    type: boolean
+                    example: true
+                  enableBlurScreenCapture:
+                    type: boolean
+                    example: false
+                  screenCaptureIntervalMinutes:
+                    type: integer
+                    example: 2
+
+          example:
+            - userId: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName: Abirami Kannan
+              emailId: abiramikannan2006@gmail.com
+              profilePicUrl: null
+              screenshotSettings:
+                enableScreenCapture: true
+                enableBlurScreenCapture: false
+                screenCaptureIntervalMinutes: 5
+
+            - userId: b514fe51-df34-414e-8bec-9dcdd23cde23
+              userName: Swetha Senthil
+              emailId: senthilsundari2802@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.jpeg
+              screenshotSettings:
+                enableScreenCapture: false
+                enableBlurScreenCapture: true
+                screenCaptureIntervalMinutes: 1
+
+            - userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+              userName: Sakthivel Govinthan
+              emailId: sakthiveltechit@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+              screenshotSettings:
+                enableScreenCapture: true
+                enableBlurScreenCapture: true
+                screenCaptureIntervalMinutes: 10
+        
+    200FetchStealthMonitoringSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Fetched stealth monitoring settings successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName:
+                type: string
+                example: Abirami Kannan
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: https://trackpilots.s3.amazonaws.com/profile-pic/sample.png
+              stealthMonitoringSettings:
+                type: object
+                properties:
+                  enableStealthMonitoring:
+                    type: boolean
+                    example: true
+
+          example:
+            - userId: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName: Abirami Kannan
+              emailId: abiramikannan2006@gmail.com
+              profilePicUrl: null
+              stealthMonitoringSettings:
+                enableStealthMonitoring: true
+
+            - userId: b514fe51-df34-414e-8bec-9dcdd23cde23
+              userName: Swetha Senthil
+              emailId: senthilsundari2802@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.jpeg
+              stealthMonitoringSettings:
+                enableStealthMonitoring: false
+
+            - userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+              userName: Sakthivel Govinthan
+              emailId: sakthiveltechit@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+              stealthMonitoringSettings:
+                enableStealthMonitoring: true
+
+    200FetchIdleAlertSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Fetched idle alert settings successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+                example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName:
+                type: string
+                example: Abirami Kannan
+              emailId:
+                type: string
+                format: email
+                example: abiramikannan2006@gmail.com
+              profilePicUrl:
+                type: string
+                nullable: true
+                example: https://trackpilots.s3.amazonaws.com/profile-pic/sample.png
+              idleAlertSettings:
+                type: object
+                properties:
+                  minimumIdleTimeMinutes:
+                    type: integer
+                    example: 2
+                  enableIdleTimeAlert:
+                    type: boolean
+                    example: true
+          example:
+            - userId: f0ad9ad9-d421-48dc-868d-9760e33e5089
+              userName: Abirami Kannan
+              emailId: abiramikannan2006@gmail.com
+              profilePicUrl: null
+              idleAlertSettings:
+                minimumIdleTimeMinutes: 10
+                enableIdleTimeAlert: true
+
+            - userId: b514fe51-df34-414e-8bec-9dcdd23cde23
+              userName: Swetha Senthil
+              emailId: senthilsundari2802@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.jpeg
+              idleAlertSettings:
+                minimumIdleTimeMinutes: 3
+                enableIdleTimeAlert: false
+
+            - userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+              userName: Sakthivel Govinthan
+              emailId: sakthiveltechit@gmail.com
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+              idleAlertSettings:
+                minimumIdleTimeMinutes: 5
+                enableIdleTimeAlert: false
 
     200UpdateExpectedWorkHoursSettingsSuccessResponse:
       type: object
@@ -1284,6 +1658,106 @@ components:
                 expectedInTime:
                   type: string
                   example: "10:30 am"
+
+    200UpdateStealthMonitoringSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Stealth monitoring settings updated successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            userID:
+              type: string
+              format: uuid
+              example: 8126cc3e-ca66-4c02-83f5-06273452120d
+            stealthMonitoringSettings:
+              type: object
+              properties:
+                enableStealthMonitoring:
+                  type: boolean
+                  example: true
+
+    200UpdateScreenshotSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Screenshot settings updated successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            userID:
+              type: string
+              format: uuid
+              example: 8126cc3e-ca66-4c02-83f5-06273452120d
+            screenshotSettings:
+              type: object
+              properties:
+                enableScreenCapture:
+                  type: boolean
+                  example: true
+                enableBlurScreenCapture:
+                  type: boolean
+                  example: false
+                screenCaptureIntervalMinutes:
+                  type: integer
+                  example: 5
+               
+
+    200UpdateIdleAlertSettingsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Idle alert settings updated successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+            userID:
+              type: string
+              format: uuid
+              example: 8126cc3e-ca66-4c02-83f5-06273452120d
+            idleAlertSettings:
+              type: object
+              properties:
+                minimumIdleTimeMinutes:
+                  type: integer
+                  example: 5
+                enableIdleTimeAlert:
+                  type: boolean
+                  example: true
 
     200UpdateWorkDaySettingsSuccessResponse:
       type: object
@@ -2124,6 +2598,127 @@ components:
                     example: "Invalid input: expected object, received undefined"
 
     400UpdateExpectedWorkHoursValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: Failed to update expected work hours settings
+        data:
+          type: object
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - idleAlertSettings
+                  message:
+                    type: string
+                    example: "Invalid input: expected object, received undefined"
+
+    400UpdateScreenshotSettingsValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: Failed to update screenshot settings
+        data:
+          type: object
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - screenshotSettings
+                  message:
+                    type: string
+                    example: "Invalid input: expected object, received undefined"
+
+    400UpdateStealthMonitoringSettingsValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: Failed to update stealth monitoring settings
+        data:
+          type: object
+          nullable: true
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Request body is not valid
+            code:
+              type: string
+              example: REQUEST_VALIDATION_FAILED
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - stealthMonitoringSettings
+                  message:
+                    type: string
+                    example: "Invalid input: expected object, received undefined"
+
+
+    400UpdateIdleAlertValidationErrorResponse:
       type: object
       properties:
         success:
@@ -3686,6 +4281,85 @@ components:
       required:
         - userId
         - workHourSettings
+
+    UpdateStealthMonitoringSettingsRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+        stealthMonitoringSettings:
+          type: object
+          properties:
+            enableStealthMonitoring:
+              type: boolean
+              example: true
+          required:
+            - enableStealthMonitoring
+
+      required:
+        - userId
+        - stealthMonitoringSettings
+      
+    UpdateScreenshotSettingsRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+        screenshotSettings:
+          type: object
+          properties:
+            enableScreenCapture:
+              type: boolean
+              example: true
+
+            enableBlurScreenCapture:
+              type: boolean
+              example: false
+
+            screenCaptureIntervalMinutes:
+              type: integer
+              minimum: 1
+              example: 1
+          required:
+            - enableScreenCapture
+            - enableBlurScreenCapture
+            - screenCaptureIntervalMinutes
+
+      required:
+        - userId
+        - screenshotSettings
+
+    UpdateIdleAlertSettingsRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+        idleAlertSettings:
+          type: object
+          properties:
+            minimumIdleTimeMinutes:
+              type: integer
+              minimum: 1
+              example: 19
+
+            enableIdleTimeAlert:
+              type: boolean
+              example: true
+          required:
+            - minimumIdleTimeMinutes
+            - enableIdleTimeAlert
+      required:
+        - userId
+        - idleAlertSettings
 
 
     UpdateDefaultSettingsRequest:
