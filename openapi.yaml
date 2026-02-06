@@ -457,7 +457,7 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
-          
+
   /v1/settings/work-day:
     get:
       summary: Fetch Work Day Settings
@@ -521,7 +521,7 @@ paths:
         - BearerAuth: []
       responses:
         "200":
-          description: Fetched expected eork hours settings successfully
+          description: Fetched expected work hours settings successfully
           content:
             application/json:
               schema:
@@ -1635,7 +1635,7 @@ components:
           example: 200
         statusMessage:
           type: string
-          example: Expected work day settings updated successfully
+          example: Expected work hours settings updated successfully
         error:
           type: object
           nullable: true
