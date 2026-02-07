@@ -1,14 +1,244 @@
 ---
-title: 'Default Settings'
-description: 'Display inline code and code blocks'
-icon: 'sliders'
+title: Default Settings
+description: Configure organisation-wide default settings for workdays, screenshots, idle alerts, work hours, timezone, and stealth monitoring in Trackpilots.
+icon: sliders
 ---
 
-import { Callout } from "mintlify";
+The **Default Settings** page allows administrators to configure **organisation-wide default policies** for employees. These settings are automatically applied to new team members and can be overridden at the individual employee level.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/default-settings](https://app.trackpilots.com/settings/default-settings)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Default settings define the baseline configuration for:
+
+- Workday schedules  
+- Screenshot monitoring  
+- Idle alert detection  
+- Expected work hours  
+- Organization timezone  
+- Stealth monitoring
+
+These defaults help standardize monitoring policies across the organisation.
+
+---
+
+## 🗓 Workday Settings
+
+Defines the default working days for employees.
+
+### **Options**
+
+- Monday  
+- Tuesday  
+- Wednesday  
+- Thursday  
+- Friday  
+- Saturday  
+- Sunday  
+
+### **Usage**
+
+- Enabled days are treated as working days in analytics  
+- Disabled days are excluded from productivity and attendance reports  
+
+---
+
+## 📸 Screenshot Settings
+
+Defines default screenshot monitoring behavior.
+
+### **Enable Screenshot**
+
+- **On** → Screenshots are captured by default  
+- **Off** → Screenshot monitoring disabled by default  
+
+### **Enable Blur Screenshot**
+
+- **On** → Sensitive data is blurred in screenshots  
+- **Off** → Raw screenshots are captured  
+
+### **Screen Capture Interval (Minutes)**
+
+Defines how frequently screenshots are captured.
+
+**Example:**  
+- `10` → Capture every 10 minutes  
+
+> Lower intervals increase storage usage and system load.
+
+---
+
+## 🚨 Idle Alert Settings
+
+Defines default idle monitoring configuration.
+
+### **Enable Idle Alert**
+
+- **On** → Idle detection enabled  
+- **Off** → Idle detection disabled  
+
+### **Minimum Idle Time (Minutes)**
+
+Defines inactivity duration before marking a user as idle.
+
+**Example:**  
+- `5 minutes` → Standard idle detection threshold  
+
+---
+
+## ⏱ Work Hour Settings
+
+Defines default daily work expectations.
+
+### **Expected Work Hours Per Day**
+
+Total expected working time.
+
+**Example:**  
+- `8 hours` → Full-time work schedule  
+
+---
+
+### **Expected Productive Work Hours Per Day**
+
+Expected active/productive time.
+
+**Example:**  
+- `6 hours` → Productivity benchmark  
+
+---
+
+### **Expected In Time Everyday**
+
+Expected daily login/start time.
+
+**Example:**  
+- `10:30 PM` → Shift-based schedule  
+
+---
+
+## 🌍 Timezone Settings
+
+Defines the organisation-wide timezone.
+
+### **Organization Timezone**
+
+**Example:**  
+- `UTC+07:00 - Asia/Barnaul`
+
+This timezone is used for:
+
+- Activity timestamps  
+- Attendance reports  
+- Dashboard analytics  
+- Notifications  
+
+---
+
+## 🕵️ Stealth Monitoring Settings
+
+Controls default stealth monitoring behavior.
+
+### **Enable Stealth Monitoring**
+
+- **On** → Hidden background tracking enabled by default  
+- **Off** → Standard visible agent  
+
+> This feature is currently under development.
+
+---
+
+## 💳 Organization Pricing Plan
+
+Displays the current subscription plan.
+
+### **Example**
+
+- **Starter Plan**
+
+This section determines:
+
+- Feature availability  
+- User limits  
+- Data retention policies  
+
+---
+
+## 💾 Saving Configuration
+
+Use **Save Changes** to persist organisation defaults.
+
+### **Flow**
+
+1. Update default settings  
+2. Click **Save Changes**  
+3. System stores configuration  
+4. New settings apply to new employees instantly  
+5. Existing users retain their custom overrides  
+
+---
+
+## 📊 Impact on Trackpilots Modules
+
+Default settings affect:
+
+- New employee onboarding configuration  
+- Productivity dashboards  
+- Attendance & compliance reports  
+- Monitoring policies  
+- Agent default configuration  
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only users with the following permissions can update default settings:
+
+- **Admin**
+- **Custom Role with Settings Permission**
+
+Access control is managed via **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- Default settings are stored at the **Organization Configuration Service**  
+- Employee-specific settings override organisation defaults  
+- APIs should validate:
+  - Work hours ≤ 24 hours  
+  - Productive hours ≤ work hours  
+  - Screenshot interval ≥ 1 minute  
+  - Valid timezone format  
+- Changes are propagated via configuration sync pipelines  
+
+---
+
+## ✅ Best Practices
+
+- Define defaults before onboarding employees  
+- Use blur screenshots for privacy compliance  
+- Set realistic productive hour targets  
+- Align timezone with company HQ or payroll systems  
+- Document default monitoring policies internally  
+
+---
+
+## 📌 Example Default Policy Template
+
+| Setting | Recommended Value |
+|---------|-------------------|
+| Workdays | Monday–Friday |
+| Screenshot Interval | 10 minutes |
+| Idle Time | 5 minutes |
+| Work Hours | 8 hours |
+| Productive Hours | 6 hours |
+| In-Time | 09:00 AM |
+| Timezone | Company HQ timezone |
+| Stealth Monitoring | Off (enable per corporate device) |
+
+---
+

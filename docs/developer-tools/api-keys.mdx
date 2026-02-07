@@ -12,51 +12,50 @@ import { Callout } from "mintlify";
 API keys are used to authenticate and authorize requests to the Trackpilots REST APIs.
 </Callout>
 
-## Overview
+## 📌 Overview
 
 Trackpilots uses **API Keys** to securely authenticate API requests.  
-Each API key is unique and should be kept confidential.
+Each API key is unique and must be kept confidential.
 
-You can generate and manage your API keys from the **Developer Tools** section in the Trackpilots dashboard.
+You can generate and manage API keys from the **Developer Tools** section in the Trackpilots dashboard.
 
 ---
 
-## Create an API Key
+## ➕ Create an API Key
 
-Follow the steps below to generate a new API key:
+Follow these steps to generate a new API key:
 
-1. Go to **Developer Tools** in your Trackpilots dashboard.
+1. Go to **Developer Tools** menu in your Trackpilots dashboard.
 2. Select **API Keys** from the menu.  
-   👉 Direct link:  
-   `https://app.trackpilots.com/developer-tools/api-keys`
-3. Click the **Create API Key** button located at the **top-right corner**.
-4. Enter a **name** for your API key.
+   👉 Direct link: [https://app.trackpilots.com/developer-tools/api-keys](https://app.trackpilots.com/developer-tools/api-keys)
+3. Click the **Create API Key** button in the **top-right corner**.
+4. Enter a **Name** for your API key.
 5. Click **Create**.
 
-🎉 Your API key will be created successfully.
+🎉 Your API key will be generated successfully.
 
 ---
 
-## Important Notes
+## ⚠️ Important Notes
 
 <Callout type="warning">
-⚠️ **Store Your API Key Securely**
+🔒 **Store Your API Key Securely**
 
-The API key will be displayed **only once** at the time of creation.
-Make sure to copy and store it in a secure place.
+The API key is displayed **only once** during creation.  
+Make sure to copy and store it in a secure location.
 </Callout>
 
-- You **cannot view the full API key again** after creation.
-- If the key is lost or compromised, generate a **new API key**.
-- Avoid sharing your API key publicly or committing it to source control.
+- ❌ You **cannot view the full API key again** after creation.
+- 🔄 If lost or compromised, **generate a new API key**.
+- 🚫 Never share API keys publicly or commit them to Git repositories.
 
 ---
 
-## Using the API Key
+## 🔑 Using the API Key
 
-Use the generated API key as an **authorization token** for all Trackpilots REST API requests.
+Use the API key as a **Bearer token** in the Authorization header for all Trackpilots API requests.
 
-Example (Authorization Header):
+### Example Request Header
 
 ```http
 Authorization: Bearer YOUR_API_KEY

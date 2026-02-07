@@ -1,14 +1,161 @@
 ---
-title: 'Expected Work Hours'
-description: 'Display inline code and code blocks'
-icon: 'check'
+title: Expected Work Hours
+description: Configure expected working hours, productive hours, and in-time schedules for employees in Trackpilots.
+icon: check
 ---
 
-import { Callout } from "mintlify";
+The **Expected Work Hours** settings page allows administrators to define daily work expectations for each employee, including total work hours, productive hours, and expected login (in-time).
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/expected-work-hours](https://app.trackpilots.com/settings/expected-work-hours)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Expected work hours help Trackpilots calculate productivity scores, attendance compliance, and work performance benchmarks.
+
+> Once your settings are saved, they will be applied and reflected on the dashboard within **1 hour**.
+
+---
+
+## 📋 Expected Work Hours Table
+
+The table lists all employees and their configured daily expectations.
+
+### **Table Columns**
+
+| Column | Description |
+|--------|-------------|
+| Full Name | Employee name and email address |
+| Expected Work Hours per Day | Total expected working hours per day |
+| Expected Productive Work Hours per Day | Minimum expected active/productive hours |
+| Expected In Time Everyday | Expected login/start time |
+| Action | Save changes for the employee |
+
+---
+
+## ⏱ Expected Work Hours per Day
+
+Defines the total number of hours an employee is expected to work daily.
+
+### **Examples**
+
+- 8 hours → Standard full-time employee  
+- 4 hours 30 mins → Part-time or contract employee  
+- 7 hours → Flexible schedule  
+
+This value is used for:
+
+- Attendance calculation  
+- Overtime detection  
+- Work compliance metrics  
+
+---
+
+## ⚡ Expected Productive Work Hours per Day
+
+Defines the minimum expected **productive (active) time** per day.
+
+### **Examples**
+
+- 6 hours → Full-time productivity target  
+- 4 hours → Hybrid or flexible employee  
+- 30 mins → Monitoring or test users  
+
+Used in:
+
+- Productivity scoring  
+- Idle vs active time ratio  
+- Performance benchmarks  
+
+---
+
+## 🕒 Expected In Time Everyday
+
+Defines the expected daily login/start time for the employee.
+
+### **Examples**
+
+- 08:00 AM → Standard office shift  
+- 01:30 PM → Evening shift  
+- 10:12 AM → Flexible schedule  
+
+Used in:
+
+- Late login detection  
+- Attendance compliance  
+- Shift-based analytics  
+
+---
+
+## 💾 Saving Configuration
+
+Each employee row has a **Save** action to persist configuration changes.
+
+### **Flow**
+
+1. Update expected hours and in-time values  
+2. Click **Save**  
+3. System stores configuration  
+4. Changes sync to analytics within **1 hour**  
+
+---
+
+## 📊 Impact on Trackpilots Modules
+
+Expected work hours affect:
+
+- Productivity dashboard  
+- Attendance reports  
+- Late arrival analytics  
+- Work compliance metrics  
+- Team performance insights  
+
+> Historical data is not recalculated. Changes apply to future analytics.
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only users with appropriate roles can update expected work hours:
+
+- **Admin**
+- **Custom Role with Work Hours Permission**
+
+Permissions are managed via **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- Expected hours are stored per user in the **User Configuration Service**  
+- Values are synced to analytics pipelines hourly  
+- APIs should validate:
+  - Work hours ≤ 24 hours  
+  - Productive hours ≤ Work hours  
+  - In-time in valid time format (HH:mm)  
+- Defaults are applied when no custom configuration exists  
+
+---
+
+## ✅ Best Practices
+
+- Set standard work hours for all full-time employees  
+- Define realistic productive hour expectations  
+- Align in-time with company attendance policies  
+- Regularly review part-time and contractor schedules  
+- Avoid setting productive hours equal to total hours (leave buffer for breaks)  
+
+---
+
+## 📌 Example Work Hour Policies
+
+| Employee Type | Work Hours | Productive Hours | In-Time |
+|---------------|------------|------------------|----------|
+| Full-Time Staff | 8h | 6h | 08:00 AM |
+| Hybrid Staff | 7h | 5h 30m | 09:00 AM |
+| Part-Time | 4h 30m | 3h | 01:00 PM |
+| Night Shift | 8h | 6h | 10:00 PM |
+
+---
+

@@ -1,14 +1,123 @@
 ---
-title: 'Work Days'
-description: 'Display inline code and code blocks'
-icon: 'check'
+title: Work Days Settings
+description: Configure working days for employees in Trackpilots.
+icon: check
 ---
 
-import { Callout } from "mintlify";
+The **Work Days** settings page allows administrators to configure working days for each employee. This configuration is used to calculate productivity metrics, attendance tracking, and work-hour analytics.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/work-days](https://app.trackpilots.com/settings/work-days)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Work day settings define which days an employee is expected to work.  
+These settings help Trackpilots:
+
+- Calculate active working hours  
+- Filter non-working days from reports  
+- Improve productivity and attendance accuracy  
+- Support custom schedules for teams and individuals  
+
+> Once your settings are saved, they will be applied and reflected on the dashboard within **1 hour**.
+
+---
+
+## 📋 Work Days Table
+
+The table displays all employees and their configured working days.
+
+### **Table Columns**
+
+| Column      | Description |
+|-------------|-------------|
+| Full Name   | Employee name and email address |
+| Monday      | Working day toggle for Monday |
+| Tuesday     | Working day toggle for Tuesday |
+| Wednesday   | Working day toggle for Wednesday |
+| Thursday    | Working day toggle for Thursday |
+| Friday      | Working day toggle for Friday |
+| Saturday    | Working day toggle for Saturday |
+| Sunday      | Working day toggle for Sunday |
+
+Each day can be enabled or disabled per employee.
+
+---
+
+## 👤 Employee Work Day Configuration
+
+Admins can configure work days individually for each employee.
+
+### **Use Cases**
+
+- Full-time employees (Monday–Friday)  
+- Shift-based employees (Custom days)  
+- Weekend teams (Saturday–Sunday enabled)  
+- Remote or hybrid flexible schedules  
+
+---
+
+## ⚙️ How It Works
+
+1. Admin selects an employee  
+2. Admin enables or disables specific weekdays  
+3. Settings are saved  
+4. Changes propagate to analytics within **1 hour**  
+
+---
+
+## 📊 Impact on Analytics
+
+Work day settings affect the following modules:
+
+- Productivity dashboards  
+- Attendance reports  
+- Work-hour calculations  
+- Idle vs active time metrics  
+- Compliance reports  
+
+> Non-working days are excluded from productivity calculations by default.
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only users with the following roles can modify work days:
+
+- **Admin**
+- **Custom Role with Work Days Permission**
+
+Developers can manage access using **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- Work day configurations are stored per user in the **User Settings Service**  
+- Changes are cached and synced to analytics pipelines hourly  
+- API consumers should respect work day flags when computing metrics  
+- Historical data remains unchanged; only future analytics are affected  
+
+---
+
+## ✅ Best Practices
+
+- Define standard work days for all employees  
+- Customize schedules only when required  
+- Align work days with payroll and attendance systems  
+- Review configurations monthly for accuracy  
+
+---
+
+## 🚀 Example Work Day Policy
+
+| Role | Work Days |
+|------|-----------|
+| Full-time Staff | Monday – Friday |
+| Support Team | Monday – Saturday |
+| Weekend Ops | Saturday – Sunday |
+| Remote Contractors | Custom |
+
+---
+

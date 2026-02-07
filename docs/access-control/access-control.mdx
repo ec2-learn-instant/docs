@@ -1,14 +1,93 @@
 ---
-title: 'Access Control'
-description: 'Display inline code and code blocks'
-icon: 'code'
+title: Access Management
+description: Manage custom roles, page permissions, and data access control in Trackpilots.
+icon: code
 ---
 
-import { Callout } from "mintlify";
+The **Access Management** feature allows you to create custom roles and control what pages and data users can access in the Trackpilots dashboard. This helps organisations enforce security, role-based access control (RBAC), and data visibility rules.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+**URL:** https://app.trackpilots.com/access-control/access-management  
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## ➕ Create a New Role
+
+You can create custom roles such as **Admin, Manager, Team Lead, HR, or Custom Roles**.
+
+### 📝 Steps to Create a Role
+
+1. Click **Create a New Role**
+2. Enter the **Role Name**
+3. Configure **Page Permissions**
+4. Configure **Data Access Control**
+5. Click **Save**
+
+---
+
+## 📋 Role List
+
+The role table displays all created roles and their assigned permissions.
+
+### 📌 Columns
+
+- **Role Name** – Name of the role  
+- **Page Permissions** – Pages accessible for the role  
+- **Action**
+  - ✏️ **Edit** – Modify role permissions  
+  - 🗑️ **Delete** – Remove the role  
+
+### ⭐ Default Roles
+
+- **Admin** – Full access to all pages and data  
+- **Manager** – Limited access to selected pages and data  
+- **Manager Head** – Custom restricted access  
+- **No Access** – No pages mapped. Users cannot access any pages.  
+
+---
+
+## 📄 Page Permissions
+
+**Page Permissions control which pages or menus a user can view and use in the dashboard.**
+
+### 📚 Available Pages
+
+- Dashboard  
+- My Team  
+- Insights  
+- Proof of Work  
+- Report Analysis  
+- Announcement  
+- Settings  
+
+---
+
+## 🗂️ Data Access Control
+
+**Data Access Control defines what data a user can view or manage inside the permitted pages.**
+
+### 🔑 Access Levels
+
+- **Own Data** – User can access only their own data  
+- **Team Data** – User can access their team’s data  
+- **Full Access** – User can access all organisational data  
+
+---
+
+## ⚠️ Important Warning
+
+> ⚠️ If no page is selected, the user will be blocked from accessing all pages in the dashboard.
+
+---
+
+## ✅ Best Practices
+
+- 🔒 Assign **Full Access** only to Admin roles  
+- 👥 Use **Team Data** for Managers and Team Leads  
+- 👤 Use **Own Data** for individual contributors  
+- 🔍 Always review permissions before assigning roles  
+
+---
+
+## 📌 Summary
+
+Access Management ensures secure and controlled access to Trackpilots features. By defining custom roles, page permissions, and data access levels, organisations can protect sensitive data and enforce structured team workflows.

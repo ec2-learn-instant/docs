@@ -1,13 +1,197 @@
 ---
-title: 'Manage Employee'
-description: 'Display inline code and code blocks'
-icon: 'users'
+title: Manage Employees
+description: Manage team members, roles, work modes, and access control in Trackpilots.
+icon: users
 ---
-import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Manage Employees** section allows administrators to add, invite, manage, and control employee access within Trackpilots.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+🔗 **URL:** [https://app.trackpilots.com/settings/manage-employee](https://app.trackpilots.com/settings/manage-team)
+
+---
+
+## 📌 Overview
+
+This page provides a centralized dashboard to:
+
+- View all employees in the organization  
+- Manage team member [teams](/docs/settings/manage-team) and [page access roles](/docs/access-control/access-control)
+- Invite or manually add employees  
+- Edit or remove employees  
+
+---
+
+## 📋 Employee List Table
+
+The employee table displays key metadata about each team member.
+
+### **Table Columns**
+
+| Column        | Description |
+|---------------|-------------|
+| Employee      | Employee name and email address |
+| Role           | Assigned access role (Admin, Manager, Team Head, No Access, etc.) |
+| Work Mode      | Office, Remote, or Hybrid |
+| OS             | Operating system used by the employee device |
+| Version        | Installed Trackpilots desktop agent version |
+| Last Login     | Last active login timestamp |
+| Actions        | Edit or Delete employee |
+
+---
+
+## ➕ Add a New Employee
+
+Trackpilots supports two methods to onboard employees.
+
+---
+
+### 📨 Invite Employee (Recommended)
+
+Admins can invite employees via email.
+
+#### **Flow**
+
+1. Admin enters employee details  
+2. System sends an invitation email  
+3. Employee accepts the invite  
+4. Employee sets their own password  
+5. Employee is added to the team  
+
+#### **Fields**
+
+- **Employee Name** *(required)*
+- **Employee Email ID** *(required)*
+- **Employee Work Mode** *(Office / Remote / Hybrid)*
+- **Page Access Control Role** *(required)*
+- **Teams** *(required)*
+
+---
+
+### 👤 Add Manual Employee
+
+Admins can directly create employee accounts without sending an invite.
+
+> Recommended for company-owned systems or stealth monitoring setups.
+
+#### **Fields**
+
+- **Employee Name** *(required)*
+- **Employee Email ID** *(required)*
+- **Employee Work Mode** *(required)*
+- **Page Access Control Role** *(required)*
+- **Teams** *(required)*
+- **Password** *(required)*
+
+#### **Security Note**
+
+> Make sure to securely share the password with the employee.  
+> Do not expose credentials in public channels.  
+> Admins may log in first and hand over the system if required.
+
+---
+
+## 🔐 Page Access Control Roles
+
+Roles define which pages and features an employee can access.
+
+Typical roles:
+
+- **Admin** – Full system access  
+- **Manager** – Limited admin access  
+- **Team Lead** – Limited admin access  
+- **No Access** – Disabled or restricted account  
+
+> Custom roles can be created using **[Create Page Access Role](/docs/access-control/access-control)**.
+
+---
+
+## 👥 Teams Management
+
+Employees can be assigned to one or multiple teams.
+
+- Create teams using **Create New Team**
+- Assign employees for structured monitoring and reporting
+- Teams help in filtering analytics and tracking productivity
+
+---
+
+## ✏️ Edit Employee
+
+Admins can update:
+
+- Name  
+- Email  
+- Role  
+- Work Mode  
+- Teams  
+- Access permissions  
+
+---
+
+## ❌ Delete Employee
+
+Deleting an employee will:
+
+- Revoke system access  
+- Remove tracking permissions  
+- Disable login credentials  
+
+> Historical logs remain preserved for audit and compliance.
+
+---
+
+## 🖥 OS Detection
+
+Trackpilots automatically detects the employee system OS:
+
+- 🪟 Windows  
+- 🐧 Linux  
+- 🍎 macOS  
+
+This helps in debugging agent issues and deployment tracking.
+
+---
+
+## 📦 Agent Version Tracking
+
+The **Version** column shows the installed Trackpilots desktop agent version.
+
+Use this to:
+
+- Ensure latest agent rollout  
+- Identify outdated clients  
+- Debug compatibility issues  
+
+---
+
+## 🕒 Last Login Tracking
+
+Displays the last time the employee logged in.
+
+Useful for:
+
+- Inactive user detection  
+- License optimization  
+- Security audits  
+
+---
+
+## ✅ Best Practices
+
+- Use **Invite Employee** for normal onboarding  
+- Use **Manual Add** only for controlled environments  
+- Always assign **roles and teams**  
+- Regularly review inactive employees  
+- Enforce strong passwords  
+
+---
+
+## 🧩 API & Developer Notes
+
+- Employee data is synced with **Trackpilots Identity Service**
+- Roles map to **RBAC (Role-Based Access Control) policies**
+- Team mappings are used in **Analytics, Reports, and Monitoring Services**
+- Deleting users does **not delete historical tracking data**
+
+---
+

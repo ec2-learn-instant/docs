@@ -1,7 +1,7 @@
 ---
 title: "Webhooks"
-description: "Configure webhooks to receive real-time event notifications"
-icon: "webhook"
+description: "Configure webhooks to receive real-time event notifications from Trackpilots"
+icon: "link"
 ---
 
 import { Callout } from "mintlify";
@@ -12,67 +12,168 @@ import { Callout } from "mintlify";
 Webhooks allow Trackpilots to send real-time event data to your application whenever an event occurs.
 </Callout>
 
-## Overview
+---
+
+## 📌 Overview
 
 Webhooks enable your system to automatically receive event notifications from Trackpilots.  
-When a selected event occurs, Trackpilots sends a **POST request** to your configured webhook URL with the event payload.
+Whenever a selected event occurs, Trackpilots sends a **POST request** to your configured webhook URL with the event payload.
 
 You can create and manage webhooks from the **Developer Tools** section in the Trackpilots dashboard.
 
 ---
 
-## Create a Webhook
+## ➕ Create a Webhook
 
 Follow the steps below to create a new webhook:
 
-1. Go to **Developer Tools** in your Trackpilots dashboard.
-2. Select **Webhooks** from the menu.  
-   👉 Direct link:  
-   `https://app.trackpilots.com/developer-tools/webhooks`
-3. Click the **Create Webhook** button located at the **top-right corner**.
-4. Enter the following details:
-   - **Webhook Name** – A friendly name to identify the webhook.
-   - **Webhook URL** – The endpoint where event notifications will be sent.  
-     Example:
+1. Open **Developer Tools** in your Trackpilots dashboard.
+2. Click **Webhooks** in the menu.  
+   👉 Direct link: https://app.trackpilots.com/developer-tools/webhooks
+3. Click the **Create Webhook** button in the **top-right corner**.
+4. Fill in the details:
+   - 🏷️ **Webhook Name** – Friendly name for identification  
+   - 🌐 **Webhook URL** – The endpoint where events will be delivered  
      ```text
-     https://trackpilots.com/path
+     https://yourdomain.com/webhooks/trackpilots
      ```
-5. Select the events you want to receive notifications for.
+5. Select the events you want to receive.
 6. Click **Create**.
 
-🎉 Your webhook will be created successfully.
+🎉 Your webhook is now active.
 
 ---
 
-## Event Selection
+## 📡 Supported Events
 
-You can choose specific events or enable all events at once.
+### 🌍 All Events
+- Enable this option to receive **all available Trackpilots events**.
 
-### Select All Events
+### 💻 Desktop Events
 
-- Receive notifications for **all supported events**.
+Currently supported desktop tracking events:
 
-### Desktop Events
+- 📸 `desktop.screenshot_tracking.captured`
+- 🧠 `desktop.app_tracking.captured`
+- 🕒 `desktop.activity_tracking.captured`
 
-The following desktop-related events are currently supported:
-
-- `desktop.screenshot_tracking.captured`
-- `desktop.app_tracking.captured`
-- `desktop.activity_tracking.captured`
-
-Each selected event will trigger a webhook notification when it occurs.
+Each event triggers a webhook call when captured.
 
 ---
 
-## Webhook Behavior
+## ⚙️ Webhook Delivery Behavior
 
-- Trackpilots sends a **POST request** to the configured webhook URL.
-- The request contains event details in **JSON format**.
-- Your endpoint should respond with a **2xx HTTP status code** to acknowledge successful delivery.
+- Trackpilots sends a **POST request** to your webhook URL  
+- Payload is delivered in **JSON format**  
+- Your server must return **HTTP 2xx** to confirm successful delivery  
 
 ---
 
-## Best Practices
+## 🧑‍💻 Sample Webhook Receiver (Node.js + Express)
+
+Below is a secure Express.js webhook receiver with **HMAC signature verification**.
+
+```js
+import express from "express";
+import crypto from "crypto";
+
+const app = express();
+
+// Webhook endpoint
+app.post(
+  "/webhooks/trackpilots",
+  express.raw({ type: "application/json", limit: "50mb" }),
+  (req, res) => {
+    try {
+      console.log("✅ Webhook received successfully from Trackpilots...");
+
+      // 🔐 Trackpilots webhook secret
+      const webhookSecret = process.env.TRACKPILOTS_WEBHOOKS_SECRET_KEY;
+
+      // Read headers
+      const signature = req.headers["x-webhook-signature"];
+      const timestamp = req.headers["x-webhook-timestamp"];
+
+      if (!signature || !timestamp) {
+        return res.status(400).send("Missing webhook signature headers");
+      }
+
+      // Raw body buffer
+      const rawBody = req.body;
+
+      // 🔏 Build payload for signing
+      const payloadToSign = `${timestamp}.${rawBody.toString()}`;
+
+      const expectedSignature = crypto
+        .createHmac("sha256", webhookSecret)
+        .update(payloadToSign)
+        .digest("hex");
+
+      // 🛑 Verify signature
+      if (signature !== expectedSignature) {
+        return res.status(401).send("Invalid webhook signature");
+      }
+
+      // ✅ Verified → Parse event
+      const event = JSON.parse(rawBody.toString());
+      console.log("🎯 Verified Trackpilots Event:", event);
+
+      // Respond success
+      res.status(200).send("Webhook processed successfully ✅");
+    } catch (error) {
+      console.error("❌ Webhook processing error:", error);
+      return res.status(500).send("Webhook processing failed");
+    }
+  }
+);
+
+// Start server
+app.listen(3000, () => {
+  console.log("🚀 Webhook server running on http://localhost:3000");
+});
+```
+
+## 🔐 Signature Verification Flow
+
+Trackpilots secures webhooks using HMAC SHA256 signature validation to ensure authenticity and integrity.
+
+## 📤 Trackpilots Sends
+
+Each webhook request includes:
+- 🧾 x-webhook-signature
+- ⏱️ x-webhook-timestamp
+- 📦 Raw JSON request body
+
+## 🧮 Your Server Generates
+
+Your server must compute the expected signature:
+
+> HMAC_SHA256(timestamp + "." + body, WEBHOOK_SECRET)
+
+## ✅ Signature Match Rule
+
+If the computed signature matches the received signature:
+👉 The webhook request is trusted and verified.
+
+This ensures the request is authentic and not tampered with.
+
+## 🧪 Test Webhooks Locally
+
+You can test Trackpilots webhooks in your local environment using ngrok.
+
+## 🚀 Start ngrok
+>  ngrok http 3000
+
+This exposes your local webhook server to the internet.
+
+## 🌐 Set Webhook URL in Trackpilots
+
+Use the generated ngrok public URL:
+>  https://YOUR_NGROK_URL/webhooks/trackpilots
+
+Paste this URL into the Webhook URL field in the Trackpilots dashboard.
+
+## ⚠️ Security Best Practices
 
 <Callout type="warning">
 ⚠️ **Ensure High Availability**
@@ -85,11 +186,33 @@ Make sure your webhook endpoint is publicly accessible and highly available to a
 - Handle duplicate events gracefully.
 - Secure your endpoint using signature validation (recommended).
 
----
+<Callout type="warning"> 
+🛡️ **Always verify webhook signatures:**
+Never trust incoming webhook requests without validation.
+</Callout>
 
+
+## 🔒 Recommended Practices
+
+   - Store webhook secrets in environment variables
+   - Reject requests with invalid signatures
+   - Log webhook events for auditing and debugging
+   - Always use HTTPS
+   - Apply IP allowlisting for enterprise-grade security
+
+## ✅ Summary
+
+Webhooks enable real-time integrations with Trackpilots, including:
+   - ⚙️ Automation workflows
+   - 📊 Analytics pipelines
+   - 🚨 Alert systems
+   - 🧠 Productivity monitoring integrations
+
+---
 <Callout type="info">
 🚀 **More Events Coming Soon**
 
 Additional event types and webhook features will be added soon.  
 For custom webhook requirements, contact **team@trackpilots.com**.
 </Callout>
+

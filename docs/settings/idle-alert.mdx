@@ -1,14 +1,149 @@
 ---
-title: 'Idle Alert'
-description: 'Display inline code and code blocks'
-icon: 'comments'
+title: Idle Alert Settings
+description: Configure idle detection alerts and minimum idle time thresholds for employees in Trackpilots.
+icon: comments
 ---
 
-import { Callout } from "mintlify";
+The **Idle Alert Settings** page allows administrators to configure idle detection policies for employees, including enabling idle alerts and defining minimum idle time thresholds.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/idle-alert](https://app.trackpilots.com/settings/idle-alert)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Idle alerts help organizations monitor inactivity and improve productivity tracking by detecting periods when employees are not actively using their devices.
+
+> Once your new settings are saved, they will be applied and reflected on your dashboard within **1 hour**.
+
+---
+
+## 📋 Idle Alert Settings Table
+
+The table lists all employees and their idle alert configuration.
+
+### **Table Columns**
+
+| Column | Description |
+|--------|-------------|
+| Full Name | Employee name and email address |
+| Idle Alert On/Off | Enable or disable idle alert monitoring |
+| Minimum Idle Time (Minutes) | Time threshold to classify inactivity as idle |
+| Action | Save configuration for the employee |
+
+---
+
+## 🚨 Idle Alert On/Off
+
+Controls whether idle alerts are enabled for the employee.
+
+### **Options**
+
+- **On** → Idle monitoring enabled  
+- **Off** → Idle monitoring disabled  
+
+### **Use Cases**
+
+- Enable for productivity tracking  
+- Disable for privacy-sensitive roles or executives  
+- Disable for system accounts or test users  
+
+---
+
+## ⏱ Minimum Idle Time (In Minutes)
+
+Defines the inactivity duration after which an employee is considered **idle**.
+
+### **Examples**
+
+- **5 minutes** → Standard idle detection  
+- **10–15 minutes** → Relaxed monitoring  
+- **1–3 minutes** → Strict monitoring (high sensitivity)  
+
+### **Used For**
+
+- Idle time reporting  
+- Productivity score calculations  
+- Attendance compliance checks  
+- Idle alert notifications  
+
+---
+
+## 💾 Saving Configuration
+
+Each employee row includes a **Save** button to persist configuration changes.
+
+### **Flow**
+
+1. Configure idle alert settings  
+2. Click **Save**  
+3. System stores the policy  
+4. Agent syncs settings within **1 hour**  
+
+---
+
+## 📊 Impact on Trackpilots Modules
+
+Idle alert settings affect:
+
+- Idle vs Active Time Metrics  
+- Productivity Dashboards  
+- Attendance & Compliance Reports  
+- Activity Timeline  
+- Real-time Notifications (if enabled)  
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only users with appropriate permissions can modify idle alert settings:
+
+- **Admin**
+- **Custom Role with Idle Alert Permission**
+
+Access is controlled using **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- Idle alert policies are stored per user in **Monitoring Policy Service**  
+- Desktop agents detect inactivity using keyboard/mouse activity signals  
+- API validation rules:
+  - Minimum idle time must be ≥ 1 minute  
+  - Idle alert flag must be boolean  
+- Historical idle data is not recalculated when settings change  
+
+---
+
+## ⚠️ Privacy & Compliance Notes
+
+- Inform employees about idle monitoring policies  
+- Avoid overly aggressive idle thresholds that violate labor laws  
+- Follow local regulations for employee monitoring  
+- Provide transparency in company monitoring policies  
+
+---
+
+## ✅ Best Practices
+
+- Use **5 minutes** as default idle threshold  
+- Avoid thresholds below **2 minutes** for normal employees  
+- Disable idle alerts for leadership roles if required  
+- Periodically review idle metrics for accuracy  
+- Align idle settings with HR attendance policies  
+
+---
+
+## 📌 Example Idle Alert Policy Matrix
+
+| Role | Idle Alert | Minimum Idle Time |
+|------|------------|-------------------|
+| Full-Time Staff | On | 5 min |
+| Remote Contractors | On | 10 min |
+| Support Team | On | 3 min |
+| Executives | Off | - |
+| Test Accounts | Off | - |
+
+---
+

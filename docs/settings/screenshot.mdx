@@ -1,14 +1,165 @@
 ---
-title: 'Screenshot'
-description: 'Display inline code and code blocks'
-icon: 'image'
+title: Screenshot Settings
+description: Configure screen capture settings, blur options, and capture intervals for employees in Trackpilots.
+icon: image
 ---
 
-import { Callout } from "mintlify";
+The **Screenshot Settings** page allows administrators to configure screen capture policies for employees, including enabling screenshots, blur settings, and capture intervals.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/screenshot](https://app.trackpilots.com/settings/screenshot)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Screenshot monitoring helps organizations:
+
+- Verify active work  
+- Improve accountability  
+- Detect idle or non-work activity  
+- Support compliance and audit requirements  
+
+> Once your new settings are saved, they will be applied and reflected on your dashboard within **1 hour**.
+
+---
+
+## 📋 Screenshot Settings Table
+
+The table lists all employees and their screenshot capture configuration.
+
+### **Table Columns**
+
+| Column | Description |
+|--------|-------------|
+| Full Name | Employee name and email address |
+| Screen Capture On/Off | Enable or disable screenshot capture |
+| Blur Screenshot | Blur sensitive content in screenshots |
+| Screen Capture Interval (Minutes) | Frequency of screenshot capture |
+| Action | Save configuration for the employee |
+
+---
+
+## 📸 Screen Capture On/Off
+
+Controls whether screenshots are captured for the employee.
+
+### **Options**
+
+- **On** → Screenshot monitoring enabled  
+- **Off** → Screenshot monitoring disabled  
+
+### **Use Cases**
+
+- Enable for monitored employees  
+- Disable for executives, privacy-sensitive roles, or compliance restrictions  
+
+---
+
+## 🫥 Blur Screenshot
+
+Blurs sensitive information in screenshots to protect privacy.
+
+### **Purpose**
+
+- Mask passwords, financial data, and personal content  
+- Ensure compliance with privacy regulations (GDPR, HIPAA, SOC2)  
+
+### **Recommended For**
+
+- Remote employees  
+- Contractors  
+- BYOD devices  
+
+---
+
+## ⏱ Screen Capture Interval (In Minutes)
+
+Defines how frequently screenshots are captured.
+
+### **Examples**
+
+- **1 minute** → High monitoring (strict compliance)  
+- **5 minutes** → Standard monitoring  
+- **10–15 minutes** → Light monitoring  
+
+> Lower intervals increase storage usage and system load.
+
+---
+
+## 💾 Saving Configuration
+
+Each employee row includes a **Save** button to persist settings.
+
+### **Flow**
+
+1. Configure screenshot settings  
+2. Click **Save**  
+3. System stores configuration  
+4. Agent syncs settings within **1 hour**  
+
+---
+
+## 📊 Impact on Trackpilots Modules
+
+Screenshot settings affect:
+
+- Screenshot Timeline  
+- Activity Playback  
+- Productivity & Compliance Reports  
+- Audit Logs  
+- Remote Work Monitoring  
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only users with the following roles can modify screenshot settings:
+
+- **Admin**
+- **Custom Role with Screenshot Permission**
+
+Access is controlled using **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- Screenshot configuration is stored per user in **Monitoring Policy Service**  
+- Agent polls policy updates hourly  
+- API validation rules:
+  - Interval must be ≥ 1 minute  
+  - Blur flag must be boolean  
+  - Capture flag must be boolean  
+- Historical screenshots are not deleted when disabling capture  
+
+---
+
+## ⚠️ Privacy & Compliance Notes
+
+- Inform employees before enabling screenshots  
+- Use blur mode for privacy compliance  
+- Avoid capturing personal applications unless legally permitted  
+- Follow local labor and privacy laws  
+
+---
+
+## ✅ Best Practices
+
+- Use **5-minute interval** for balanced monitoring  
+- Enable **Blur Screenshot** for remote teams  
+- Disable screenshots for sensitive departments (HR, Legal) if required  
+- Regularly review screenshot storage and retention policies  
+
+---
+
+## 📌 Example Screenshot Policy Matrix
+
+| Role | Capture | Blur | Interval |
+|------|----------|------|----------|
+| Full-Time Staff | On | On | 5 min |
+| Remote Contractors | On | On | 10 min |
+| Support Team | On | Off | 1 min |
+| Executives | Off | - | - |
+
+---
+

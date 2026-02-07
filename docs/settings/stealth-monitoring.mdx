@@ -1,14 +1,158 @@
 ---
-title: 'Stealth Monitoring'
-description: 'Display inline code and code blocks'
+title: Stealth Monitoring Settings
+description: Configure stealth monitoring mode for employees in Trackpilots to enable hidden background tracking on company systems.
 icon: 'eye-slash'
 ---
 
-import { Callout } from "mintlify";
+The **Stealth Monitoring** settings page allows administrators to enable hidden background monitoring for employees. When enabled, work tracking starts automatically when the system boots and stops when the system shuts down, without exposing the Trackpilots app to the user.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/stealth-monitoring](https://app.trackpilots.com/settings/stealth-monitoring)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Stealth Monitoring is designed for **company-owned devices and controlled environments** where monitoring must run silently in the background.
+
+### When enabled:
+
+- Work tracking starts automatically on system startup  
+- Tracking stops automatically on system shutdown  
+- The Trackpilots desktop app is hidden from the user  
+- Users cannot view or control the monitoring agent  
+
+> Once your new settings are saved, they will be applied and reflected on your dashboard and employee systems within **1 hour**.
+
+---
+
+## 📋 Stealth Monitoring Table
+
+The table lists all employees and their stealth monitoring configuration.
+
+### **Table Columns**
+
+| Column | Description |
+|--------|-------------|
+| Full Name | Employee name and email address |
+| Device Status | Current device status (Work Mode / Offline) |
+| Enable Stealth Monitoring | Toggle stealth monitoring on or off |
+| Action | Save configuration for the employee |
+
+---
+
+## 🕵️ Enable Stealth Monitoring
+
+Controls whether stealth monitoring is enabled for the employee device.
+
+### **Options**
+
+- **On** → Hidden background monitoring enabled  
+- **Off** → Standard visible Trackpilots agent  
+
+### **Behavior**
+
+| Mode | Behavior |
+|------|----------|
+| On | Agent runs silently on system startup |
+| Off | Agent runs normally with visible UI |
+
+---
+
+## 🖥 Device Status
+
+Shows the current status of the employee’s device.
+
+### **Possible States**
+
+- **Work Mode** → Device is active and tracking  
+- **Offline** → Device is not connected or powered off  
+
+This helps admins verify whether stealth policies are applied.
+
+---
+
+## 💾 Saving Configuration
+
+Each employee row includes a **Save** action to persist stealth monitoring settings.
+
+### **Flow**
+
+1. Toggle stealth monitoring for the employee  
+2. Click **Save**  
+3. System stores the configuration  
+4. Agent syncs and applies policy within **1 hour**  
+
+---
+
+## 📊 Impact on Trackpilots Modules
+
+Stealth monitoring affects:
+
+- Work activity tracking  
+- Screenshot capturing  
+- App & website tracking  
+- Idle detection  
+- Attendance and productivity analytics  
+
+> Stealth mode does not change tracking logic, only visibility and startup behavior.
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only users with the following permissions can manage stealth monitoring:
+
+- **Admin**
+- **Custom Role with Stealth Monitoring Permission**
+
+Access control is managed using **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- Stealth monitoring policies are stored in the **Agent Policy Service**  
+- Desktop agents run as background services/daemons in stealth mode  
+- Policies are synced via secure agent configuration endpoints  
+- API validation rules:
+  - Stealth flag must be boolean  
+  - Device must be registered before enabling stealth  
+- Changes apply only to future sessions; active sessions may require restart  
+
+---
+
+## ⚠️ Legal & Compliance Warning
+
+Stealth monitoring is subject to **strict legal and regulatory requirements**.
+
+### **Important**
+
+- Use only on **company-owned devices**  
+- Inform employees and obtain consent where required  
+- Follow local labor and privacy laws (GDPR, IT Act, SOC2, ISO 27001)  
+- Avoid enabling stealth on personal (BYOD) devices without explicit policy  
+
+---
+
+## ✅ Best Practices
+
+- Enable stealth mode only for corporate-managed laptops  
+- Maintain internal monitoring policy documentation  
+- Provide transparency to employees  
+- Periodically audit stealth-enabled devices  
+- Combine with blur screenshots for privacy protection  
+
+---
+
+## 📌 Example Stealth Monitoring Policy Matrix
+
+| Role | Device Type | Stealth Monitoring |
+|------|-------------|-------------------|
+| Full-Time Staff | Company Laptop | On |
+| Remote Contractors | BYOD | Optional |
+| Support Team | Company Laptop | On |
+| Executives | Company Laptop | Optional |
+| Test Accounts | Any | Off |
+
+---
+

@@ -1,14 +1,174 @@
 ---
-title: 'Review Apps & Sites'
-description: 'Display inline code and code blocks'
+title: Review Apps and Sites
+description: Review, classify, and manage productivity ratings for applications and websites tracked in Trackpilots.
 icon: 'magnifying-glass'
 ---
 
-import { Callout } from "mintlify";
+The **Review Apps and Sites** page allows administrators to review tracked applications and websites, classify them as productive or unproductive, and control how they impact productivity analytics.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+🔗 **URL:**  [https://app.trackpilots.com/settings/review-apps-and-sites](https://app.trackpilots.com/settings/review-apps-and-sites)
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📌 Overview
+
+Trackpilots automatically tracks applications and websites used by employees.  
+The **Review Apps and Sites** module lets admins:
+
+- Categorize apps and domains as **Productive**, **Unproductive**, or **Neutral**  
+- Ignore idle time for specific apps/sites  
+- Maintain a global productivity classification catalog  
+
+> Once your new settings are saved, they will be applied and visible on your dashboard within **1 hour**.
+
+---
+
+## 🔎 Filters & Search
+
+### **Role Filter**
+Allows filtering tracked apps/sites based on employee roles (e.g., *Full Stack Developer*).
+
+### **Type Filter**
+- **All Types**
+- **Application**
+- **Website**
+
+### **Search**
+Search by:
+- Application name  
+- Domain name  
+
+---
+
+## 📋 Apps & Sites Table
+
+The table lists all tracked applications and websites.
+
+### **Table Columns**
+
+| Column | Description |
+|--------|-------------|
+| Name or Domain | Application name or website domain/IP |
+| Type | Application or Website |
+| Productivity Rating | Classification category |
+| Ignore Idle | Whether idle time should be ignored for this entry |
+| Save | Save classification changes |
+| Icon | App or website icon |
+
+---
+
+## 📊 Productivity Rating
+
+Defines how an app or site impacts productivity metrics.
+
+### **Available Ratings**
+
+| Rating | Description |
+|--------|-------------|
+| Productive | Work-related tools and platforms |
+| Neutral | Neither productive nor unproductive |
+| Unproductive | Non-work-related or distracting tools |
+
+### **Examples**
+
+- **Productive**: IDEs, GitHub, Jira, Analytics tools  
+- **Neutral**: Email, internal dashboards, general tools  
+- **Unproductive**: Social media, entertainment sites  
+
+---
+
+## ⏸ Ignore Idle
+
+Controls whether idle time should be ignored when this app/site is active.
+
+### **Use Cases**
+
+- Video calls and meetings  
+- Monitoring dashboards  
+- Long-running background tools  
+
+When enabled, idle detection will **not penalize productivity metrics** for this app/site.
+
+---
+
+## 💾 Saving Classification
+
+Each row includes a **Save** action to persist changes.
+
+### **Flow**
+
+1. Select productivity rating  
+2. Configure ignore idle option  
+3. Click **Save**  
+4. System updates classification catalog  
+5. Analytics updates within **1 hour**  
+
+---
+
+## 📊 Impact on Trackpilots Analytics
+
+Review Apps and Sites affects:
+
+- Productivity scores  
+- Active vs idle time calculations  
+- Focus time metrics  
+- Team performance dashboards  
+- Compliance and audit reports  
+
+> Classification changes affect **future analytics only**; historical data is not retroactively recalculated.
+
+---
+
+## 🔐 Permissions & Access Control
+
+Only authorized users can manage app/site classifications:
+
+- **Admin**
+- **Custom Role with Productivity Settings Permission**
+
+Access control is managed via **[Page Access Control Roles](/docs/access-control/access-control)**.
+
+---
+
+## 🧩 Developer Notes
+
+- App and site metadata is stored in the **Activity Classification Service**  
+- Domains and app names are normalized for consistent classification  
+- Policies are cached and synced to analytics pipelines hourly  
+- API validation rules:
+  - Productivity rating must be enum (`productive | neutral | unproductive`)  
+  - Ignore idle must be boolean  
+  - Domain/app name must be unique per organization  
+
+---
+
+## ⚠️ Best Practices
+
+- Classify core work tools as **Productive**  
+- Keep social media and entertainment as **Unproductive**  
+- Use **Neutral** for email and general tools  
+- Enable **Ignore Idle** for meeting tools (Zoom, Meet, Teams)  
+- Review classification monthly for accuracy  
+
+---
+
+## 📌 Example Productivity Policy Matrix
+
+| Category | Example Apps/Sites | Rating |
+|----------|--------------------|--------|
+| Development Tools | VS Code, Android Studio, GitHub | Productive |
+| Project Management | Jira, Trello, ClickUp | Productive |
+| Email & Admin | Gmail, Outlook | Neutral |
+| Social Media | Facebook, Instagram, Twitter | Unproductive |
+| Streaming | YouTube, Netflix | Unproductive |
+
+---
+
+## 🚀 Pagination & Performance
+
+- Supports pagination (e.g., **25 records per page**)  
+- Search and filtering are indexed for large datasets  
+- Organizations can manage **thousands of tracked apps and domains**  
+
+---
+
