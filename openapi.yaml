@@ -72,6 +72,43 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
+  /v1/dashboard/recent-screenshot:
+    post:
+      summary: Fetch Recent Screenshot
+      description: >
+        Fetch the latest 20 screenshots captured today.
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardRecentScreenshotRequest"
+      responses:
+        "200":
+          description: Recent screenshot fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardScreenshotResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardRecentScreenshotValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/employees:
     get:
       summary: Fetch All Employees
@@ -567,58 +604,58 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
   /v1/settings/screenshot:
-      get:
-        summary: Fetch Screenshot Settings
-        tags:
-          - Settings
-        security:
-          - BearerAuth: []
-        responses:
-          "200":
-            description: Fetched screenshot settings successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/200FetchScreenshotSettingsSuccessResponse"
-          "401":
-            $ref: "#/components/responses/UnauthorizedError"
-
-          "500":
-            $ref: "#/components/responses/InternalServerError"
-
-      patch:
-        summary: Update Screenshot Settings
-        tags:
-          - Settings
-        security:
-          - BearerAuth: []
-        requestBody:
-          required: true
+    get:
+      summary: Fetch Screenshot Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Fetched screenshot settings successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UpdateScreenshotSettingsRequest"
-        responses:
-          "200":
-            description: Screenshot settings updated successfully
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/200UpdateScreenshotSettingsSuccessResponse"
-          "400":
-            description: Request validation failed
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/400UpdateScreenshotSettingsValidationErrorResponse"
-          "401":
-            $ref: "#/components/responses/UnauthorizedError"
+                $ref: "#/components/schemas/200FetchScreenshotSettingsSuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-          "422":
-            $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
-          "500":
-            $ref: "#/components/responses/InternalServerError"
+    patch:
+      summary: Update Screenshot Settings
+      tags:
+        - Settings
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateScreenshotSettingsRequest"
+      responses:
+        "200":
+          description: Screenshot settings updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200UpdateScreenshotSettingsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400UpdateScreenshotSettingsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422InvalidUserIdUnprocessableErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /v1/settings/idle-alert:
     get:
@@ -673,7 +710,6 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
-  
 
   /v1/settings/stealth-monitoring:
     get:
@@ -995,6 +1031,35 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/InternalServerError"
+
+    422UnprocessableUserIdorTeamIdErrorResponse:
+      description: Unprocessable Entity – Invalid userId or teamIds
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422UnprocessableUserIdorTeamIdErrorSchema"
+          examples:
+            invalidUserId:
+              summary: Invalid userId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid userId"
+                response: null
+                error:
+                  message: "Provided userId does not exist for this organisation"
+                  code: INVALID_USER_ID
+
+            invalidTeamId:
+              summary: Invalid teamId
+              value:
+                success: false
+                statusCode: 422
+                statusMessage: "Invalid teamId"
+                response: null
+                error:
+                  message: "One or more teamIds are invalid for this organisation"
+                  code: INVALID_TEAM_ID
 
     422AddEmployeeUnprocessableErrorResponse:
       description: Unprocessable Entity – Invalid roleId or teamIds
@@ -1411,7 +1476,7 @@ components:
                 expectedWorkMinutesPerDay: 480
                 expectedProductiveWorkMinutesPerDay: 360
                 expectedInTime: "12:30 am"
-          
+
     200FetchScreenshotSettingsSuccessResponse:
       type: object
       properties:
@@ -1488,7 +1553,7 @@ components:
                 enableScreenCapture: true
                 enableBlurScreenCapture: true
                 screenCaptureIntervalMinutes: 10
-        
+
     200FetchStealthMonitoringSettingsSuccessResponse:
       type: object
       properties:
@@ -1725,7 +1790,6 @@ components:
                 screenCaptureIntervalMinutes:
                   type: integer
                   example: 5
-               
 
     200UpdateIdleAlertSettingsSuccessResponse:
       type: object
@@ -1952,7 +2016,7 @@ components:
                 nullable: true
                 example: null
 
-              teams:
+              teamId:
                 type: array
                 items:
                   type: object
@@ -2039,7 +2103,7 @@ components:
                 nullable: true
                 example: null
 
-              teams:
+              teamId:
                 type: array
                 items:
                   type: object
@@ -2292,6 +2356,176 @@ components:
               format: uuid
               example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
 
+    200FetchDashboardScreenshotResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched recent screenshots successfully
+
+        error:
+          type: object
+          nullable: true
+          description: Error object if request fails, null if successful
+
+        data:
+          type: array
+          description: List of screenshots captured in the requested time interval
+          items:
+            $ref: "#/components/schemas/ScreenshotIntervalData"
+
+    ScreenshotIntervalData:
+      type: object
+      properties:
+        organisationId:
+          type: string
+          format: uuid
+          example: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
+
+        teamId:
+          type: string
+          format: uuid
+          example: 5f6fe61c-15c6-47b7-899d-dba99da2464c
+
+        userId:
+          type: string
+          format: uuid
+          example: ab7c4f30-1024-471a-a767-739df0dc53fd
+
+        screenshotThumbnailUrl:
+          type: string
+          format: uri
+          example: "https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/sample.png"
+
+        screenshotImageUrl:
+          type: string
+          format: uri
+          example: "https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/sample.png"
+
+        capturedAt:
+          type: string
+          format: date-time
+          example: "2026-02-07T16:43:08.364Z"
+
+        isIdle:
+          type: boolean
+          example: false
+
+        productivityStatus:
+          type: string
+          description: Productivity classification of the activity
+          enum: [productive, neutral, unproductive]
+          example: productive
+
+        application:
+          $ref: "#/components/schemas/ScreenshotApplicationInfo"
+
+        user:
+          $ref: "#/components/schemas/ScreenshotUserInfo"
+
+      example:
+        - organisationId: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
+          teamId: 5f6fe61c-15c6-47b7-899d-dba99da2464c
+          userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+          screenshotThumbnailUrl: https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/f0e4b58f-c4f9-4d50-b624-ba77465b489a.png
+          screenshotImageUrl: https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/f0e4b58f-c4f9-4d50-b624-ba77465b489a.png
+          capturedAt: "2026-02-07T16:37:07.474Z"
+          isIdle: false
+          productivityStatus: productive
+          application:
+            name: Visual Studio Code
+            iconUrl: https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png
+            type: application
+            category: Developer Tools
+            websiteUrl: null
+          user:
+            userName: Sakthivel Govinthan
+            profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+
+        - organisationId: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
+          teamId: 5f6fe61c-15c6-47b7-899d-dba99da2464c
+          userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+          screenshotThumbnailUrl: https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/5b38bc83-5a9d-4a7f-91d2-1294aa630c03.png
+          screenshotImageUrl: https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/5b38bc83-5a9d-4a7f-91d2-1294aa630c03.png
+          capturedAt: "2026-02-07T16:43:08.364Z"
+          isIdle: false
+          productivityStatus: productive
+          application:
+            name: Google Chrome
+            iconUrl: https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png
+            type: website
+            category: Unknown Category
+            websiteUrl: chatgpt.com
+          user:
+            userName: Sakthivel Govinthan
+            profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+
+        - organisationId: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
+          teamId: 5f6fe61c-15c6-47b7-899d-dba99da2464c
+          userId: ab7c4f30-1024-471a-a767-739df0dc53fd
+          screenshotThumbnailUrl: https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/1054e6ac-89d8-47d7-a1a2-8c43fcdd320d.png
+          screenshotImageUrl: https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/1054e6ac-89d8-47d7-a1a2-8c43fcdd320d.png
+          capturedAt: "2026-02-07T16:07:03.917Z"
+          isIdle: false
+          productivityStatus: productive
+          application:
+            name: Google Chrome
+            iconUrl: https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png
+            type: application
+            category: Unknown Category
+            websiteUrl: null
+          user:
+            userName: Meganathan Govintharaj
+            profilePicUrl: null
+
+    ScreenshotApplicationInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Google Chrome
+
+        iconUrl:
+          type: string
+          format: uri
+          example: "https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png"
+
+        type:
+          type: string
+          description: Application type
+          enum: [application, website]
+          example: website
+
+        category:
+          type: string
+          example: Developer Tools
+
+        websiteUrl:
+          type: string
+          nullable: true
+          example: "chatgpt.com"
+
+    ScreenshotUserInfo:
+      type: object
+      properties:
+        userName:
+          type: string
+          example: Sakthivel Govinthan
+
+        profilePicUrl:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+
     200AddedEmployeeViaManuallySuccessResponse:
       type: object
       properties:
@@ -2456,6 +2690,44 @@ components:
                   message:
                     type: string
                     example: "Invalid input: expected string, received undefined"
+
+    400FetchDashboardRecentScreenshotValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch recent screenshot data"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
 
     400AddEmployeeManualValidationErrorResponse:
       type: object
@@ -2718,7 +2990,6 @@ components:
                     type: string
                     example: "Invalid input: expected object, received undefined"
 
-
     400UpdateIdleAlertValidationErrorResponse:
       type: object
       properties:
@@ -2850,7 +3121,7 @@ components:
                       - "userId"
                       - "workMode"
                       - "roleId"
-                      - "teams"
+                      - "teamId"
 
                   message:
                     type: string
@@ -4167,6 +4438,43 @@ components:
             - hybrid
           example: "remote"
 
+    FetchDashboardRecentScreenshotRequest:
+      type: object
+      description: >
+        Request payload to fetch recent dashboard screenshots.
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+
+      properties:
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
     AddEmployeeViaManualRequest:
       type: object
       required:
@@ -4303,7 +4611,7 @@ components:
       required:
         - userId
         - stealthMonitoringSettings
-      
+
     UpdateScreenshotSettingsRequest:
       type: object
       properties:
@@ -4361,7 +4669,6 @@ components:
       required:
         - userId
         - idleAlertSettings
-
 
     UpdateDefaultSettingsRequest:
       type: object
@@ -4502,6 +4809,39 @@ components:
             - office
             - hybrid
           example: "remote"
+
+    422UnprocessableUserIdorTeamIdErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid userId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided userId does not exist for this organisation"
+            code:
+              type: string
+              enum:
+                - INVALID_USER_ID
+                - INVALID_TEAM_ID
+              example: "INVALID_USER_ID"
 
     422CreateEmployeeSendInviteUnprocessableErrorSchema:
       type: object
