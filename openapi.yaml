@@ -72,7 +72,7 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
-  /v1/dashboard/apps-and-websites:
+  /v1/dashboard/apps-and-websites-usage:
     post:
       summary: Fetch Apps And Websites
       tags:
