@@ -4533,11 +4533,11 @@ components:
             time:
               type: object
               properties:
-                startTime:
+                startDate:
                   type: string
                   format: date-time
                   example: "2026-01-28T09:13:21.771Z"
-                endTime:
+                endDate:
                   type: string
                   format: date-time
                   example: "2026-01-28T09:13:42.594Z"
@@ -5050,16 +5050,16 @@ components:
 
       required:
         - timeZone
-        - startTime
-        - endTime
+        - startDate
+        - endDate
 
       properties:
-        startTime:
+        startDate:
           type: string
           format: date-time
           example: "2026-02-08 00:00:00"
 
-        endTime:
+        endDate:
           type: string
           format: date-time
           example: "2026-02-08 23:59:59"
@@ -5098,16 +5098,16 @@ components:
 
       required:
         - timeZone
-        - startTime
-        - endTime
+        - startDate
+        - endDate
 
       properties:
-        startTime:
+        startDate:
           type: string
           format: date-time
           example: "2026-02-08 00:00:00"
 
-        endTime:
+        endDate:
           type: string
           format: date-time
           example: "2026-02-08 23:59:59"
@@ -5146,16 +5146,16 @@ components:
 
       required:
         - timeZone
-        - startTime
-        - endTime
+        - startDate
+        - endDate
 
       properties:
-        startTime:
+        startDate:
           type: string
           format: date-time
           example: "2026-02-08 00:00:00"
 
-        endTime:
+        endDate:
           type: string
           format: date-time
           example: "2026-02-08 23:59:59"
@@ -5194,16 +5194,16 @@ components:
 
       required:
         - timeZone
-        - startTime
-        - endTime
+        - startDate
+        - endDate
 
       properties:
-        startTime:
+        startDate:
           type: string
           format: date-time
           example: "2026-02-08 00:00:00"
 
-        endTime:
+        endDate:
           type: string
           format: date-time
           example: "2026-02-08 23:59:59"
