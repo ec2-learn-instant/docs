@@ -72,111 +72,6 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
-  /v1/dashboard/apps-and-websites-usage:
-    post:
-      summary: Fetch Apps And Websites
-      tags:
-        - Dashboard
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FetchDashboardAppsAndWebsitesRequest"
-      responses:
-        "200":
-          description: Fetched apps and websites successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchDashboardAppsAndWebsitesResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchDashboardAppsAndWebsitesValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/dashboard/productivity-analysis:
-    post:
-      summary: Fetch Productivity Analysis
-      tags:
-        - Dashboard
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FetchDashboardProductivityAnalysisRequest"
-      responses:
-        "200":
-          description: Fetched productivity analysis successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchDashboardProductivityAnalysisResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchDashboardProductivityAnalysisValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/dashboard/work-time-analysis:
-    post:
-      summary: Fetch Work Time Analysis
-      tags:
-        - Dashboard
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FetchDashboardWorkTimeAnalysisRequest"
-      responses:
-        "200":
-          description: Fetched work time analysis successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchDashboardWorkTimeAnalysisResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchDashboardWorkTimeAnalysisValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
   /v1/dashboard/top-productive-performer:
     post:
       summary: Fetch Top Productive Perfomer
@@ -205,6 +100,43 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/400FetchDashboardTopProductivityPerformerValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+  
+  /v1/dashboard/recent-screenshot:
+    post:
+      summary: Fetch Recent Screenshot
+      description: >
+        Fetch the latest 20 screenshots captured today.
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardRecentScreenshotRequest"
+      responses:
+        "200":
+          description: Recent screenshot fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardRecentScreenshotResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardRecentScreenshotValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -251,11 +183,9 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /v1/dashboard/recent-screenshot:
+  /v1/dashboard/work-time-analysis:
     post:
-      summary: Fetch Recent Screenshot
-      description: >
-        Fetch the latest 20 screenshots captured today.
+      summary: Fetch Work Time Analysis
       tags:
         - Dashboard
       security:
@@ -265,20 +195,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/FetchDashboardRecentScreenshotRequest"
+              $ref: "#/components/schemas/FetchDashboardWorkTimeAnalysisRequest"
       responses:
         "200":
-          description: Recent screenshot fetched successfully.
+          description: Fetched work time analysis successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/200FetchDashboardRecentScreenshotResponse"
+                $ref: "#/components/schemas/200FetchDashboardWorkTimeAnalysisResponse"
         "400":
           description: Request validation failed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/400FetchDashboardRecentScreenshotValidationErrorResponse"
+                $ref: "#/components/schemas/400FetchDashboardWorkTimeAnalysisValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -287,6 +217,77 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/productivity-analysis:
+    post:
+      summary: Fetch Productivity Analysis
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardProductivityAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched productivity analysis successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardProductivityAnalysisResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardProductivityAnalysisValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/apps-and-websites-usage:
+    post:
+      summary: Fetch Apps And Websites
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardAppsAndWebsitesRequest"
+      responses:
+        "200":
+          description: Fetched apps and websites successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardAppsAndWebsitesResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardAppsAndWebsitesValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
 
   /v1/employees:
     get:
