@@ -3910,14 +3910,10 @@ components:
               format: uuid
               example: b774c86b-26e3-415f-b6d0-20a0a01b597c
             imageBuffer:
-              type: array
-              description: >
-                Array of screenshot image buffers.
-                Each item is a Base64-encoded image buffer.
-              items:
-                type: string
-                format: byte
-                example: iVBORw0KGgoAAAANSUhEUgAA...
+              type: string
+              format: byte
+              description: Raw binary screenshot image buffer
+              example: <Buffer ff d8 ff db 00 43 00 03 02 02 03 02 02 03 03 03 03 04 03 03 04 05 08 05 05 04 04 05 0a 07 07 06 08 0c 0a 0c 0c 0b 0a 0b 0b 0d 0e 12 10 0d 0e 11 0e 0b ... 44819 more bytes>
             app:
               type: object
               properties:
