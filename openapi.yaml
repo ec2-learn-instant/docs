@@ -72,6 +72,185 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
+  /v1/dashboard/apps-and-websites:
+    post:
+      summary: Fetch Apps And Websites
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardAppsAndWebsitesRequest"
+      responses:
+        "200":
+          description: Fetched apps and websites successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardAppsAndWebsitesResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardAppsAndWebsitesValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/productivity-analysis:
+    post:
+      summary: Fetch Productivity Analysis
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardProductivityAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched productivity analysis successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardProductivityAnalysisResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardProductivityAnalysisValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/work-time-analysis:
+    post:
+      summary: Fetch Work Time Analysis
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkTimeAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched work time analysis successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardWorkTimeAnalysisResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardWorkTimeAnalysisValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/top-productive-performer:
+    post:
+      summary: Fetch Top Productive Perfomer
+      description: >
+        Fetch the top productive performers today
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardTopProductivePerformerRequest"
+      responses:
+        "200":
+          description: Fetched top productive performer successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardTopProductivePerformerResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardTopProductivityPerformerValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/work-summary:
+    post:
+      summary: Fetch Work Summary
+      description: >
+        Fetch dashboard work summary with particular interval of time
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkSummaryRequest"
+      responses:
+        "200":
+          description: Fetched work summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardWorkSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardWorkSummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/dashboard/recent-screenshot:
     post:
       summary: Fetch Recent Screenshot
@@ -1530,7 +1709,7 @@ components:
             - userId: f0ad9ad9-d421-48dc-868d-9760e33e5089
               userName: Abirami Kannan
               emailId: abiramikannan2006@gmail.com
-              profilePicUrl: null
+              profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.jpeg
               screenshotSettings:
                 enableScreenCapture: true
                 enableBlurScreenCapture: false
@@ -2356,6 +2535,338 @@ components:
               format: uuid
               example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
 
+    200FetchDashboardWorkSummarySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched work summary successfully"
+
+        error:
+          type: "null"
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+            timeSummary:
+              type: object
+              description: Aggregated time tracking metrics in seconds
+              properties:
+                totalWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 13665
+                activeWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 11724
+                idleWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 1941
+                productiveWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 8982
+                unproductiveWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 0
+                neutralWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 2742
+
+            activityStats:
+              type: object
+              description: Activity and workforce statistics
+              properties:
+                appsVisitedCount:
+                  type: integer
+                  example: 235
+                websitesVisitedCount:
+                  type: integer
+                  example: 124
+                totalTeamMembers:
+                  type: integer
+                  example: 35
+
+    200FetchDashboardAppsAndWebsitesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched apps and websites successfully"
+
+        error:
+          type: "null"
+          example: null
+
+        data:
+          type: object
+          properties:
+            summary:
+              type: object
+              properties:
+                totalTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 122404
+                websiteTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 44520
+                appsTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 77884
+
+            websiteUsage:
+               type: object
+               properties:
+                  totalWebsiteTimeSpentSeconds:
+                    type: integer
+                    format: int64
+                    example: 44520
+                  websites:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                          example: "chatgpt.com"
+                        iconUrl:
+                          type: string
+                          format: uri
+                          nullable: true
+                          example: "https://chatgpt.com/favicon.ico"
+                        timeSpentSeconds:
+                          type: integer
+                          format: int64
+                          example: 8375
+              
+            appsUsage:
+              type: object
+              properties:
+                totalAppsTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 77884
+                apps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      appName:
+                        type: string
+                        example: "Visual Studio Code"
+                      iconUrl:
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: "https://trackpilots.s3.amazonaws.com/app-icon/vscode.png"
+                      timeSpentSeconds:
+                        type: integer
+                        format: int64
+                        example: 41823
+
+    200FetchDashboardProductivityAnalysisResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched productivity analysis successfully"
+
+        error:
+          type: "null"
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: "f0ad9ad9-d421-48dc-868d-9760e33e5089"
+
+                  name:
+                    type: string
+                    example: "Abirami Kannan"
+
+                  profilePicUrl:
+                    type: string
+                    format: uri
+                    nullable: true
+                    example: "https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae.png"
+
+              timeSummary:
+                type: object
+                properties:
+                  activeWorkedTimeInSeconds:
+                    type: integer
+                    example: 76516
+
+                  productiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 56641
+
+                  unproductiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 2706
+
+                  neutralWorkedTimeInSeconds:
+                    type: integer
+                    example: 17169
+
+    200FetchDashboardWorkTimeAnalysisResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: Fetched work time analysis successfully
+        error:
+          type: object
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+                  name:
+                    type: string
+                    example: Abirami Kannan
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: https://trackpilots.s3.amazonaws.com/profile-pic/example.png
+
+              timeSummary:
+                type: object
+                properties:
+                  totalWorkedTimeInSeconds:
+                    type: integer
+                    example: 82106
+                  activeWorkedTimeInSeconds:
+                    type: integer
+                    example: 76516
+                  idleWorkedTimeInSeconds:
+                    type: integer
+                    example: 5590
+
+              session:
+                type: object
+                description: >
+                  If isWorking is true, outTime will be null.
+                properties:
+                  inTime:
+                    type: string
+                    format: date-time
+                    example: 2026-02-05T03:39:47.518Z
+                  outTime:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    example: 2026-02-07T12:41:06.031Z
+                  isWorking:
+                    type: boolean
+                    example: false
+
+    200FetchDashboardTopProductivePerformerResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched top performer successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              rank:
+                type: integer
+                example: 1
+
+              user:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Sakthivel Govinthan
+
+                  profilePicUrl:
+                    type: string
+                    format: uri
+                    example: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
+
+              productivity:
+                type: object
+                properties:
+                  percentage:
+                    type: number
+                    format: float
+                    example: 36.96
+
     200FetchDashboardRecentScreenshotResponse:
       type: object
       properties:
@@ -2405,7 +2916,7 @@ components:
             userId:
               type: string
               format: uuid
-              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+              example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
             userName:
               type: string
               example: Sakthivel Govinthan
@@ -2425,16 +2936,20 @@ components:
               type: string
               format: uri
               example: "https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/sample.png"
-        time: 
-          type: object  
+        time:
+          type: object
           properties:
-             capturedAt:
+            capturedAt:
               type: string
               format: date-time
               example: "2026-02-07T16:43:08.364Z"
 
         application:
           $ref: "#/components/schemas/ScreenshotApplicationInfo"
+
+        isIdle:
+          type: boolean
+          example: false
 
     ScreenshotApplicationInfo:
       type: object
@@ -2467,10 +2982,6 @@ components:
           type: string
           nullable: true
           example: "https://chatgpt.com"
-        
-        isIdle:
-          type: boolean
-          example: false
 
         productivityStatus:
           type: string
@@ -2655,6 +3166,196 @@ components:
         statusMessage:
           type: string
           example: "Failed to fetch recent screenshot data"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardTopProductivityPerformerValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch top productive performer"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardAppsAndWebsitesValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work time analysis"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardProductivityAnalysisValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work time analysis"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardWorkTimeAnalysisValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work time analysis"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardWorkSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work summary details"
         data:
           type: "null"
           example: null
@@ -3792,7 +4493,7 @@ components:
               example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
         tracking:
           type: object
-          properties:  
+          properties:
             trackingId:
               type: string
               format: uuid
@@ -3904,7 +4605,7 @@ components:
               example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
         screenshot:
           type: object
-          properties:  
+          properties:
             screenshotId:
               type: string
               format: uuid
@@ -4341,6 +5042,234 @@ components:
             - office
             - hybrid
           example: "remote"
+
+    FetchDashboardWorkSummaryRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startTime
+        - endTime
+
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchDashboardAppsAndWebsitesRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startTime
+        - endTime
+
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchDashboardProductivityAnalysisRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startTime
+        - endTime
+
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchDashboardWorkTimeAnalysisRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startTime
+        - endTime
+
+      properties:
+        startTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endTime:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchDashboardTopProductivePerformerRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+
+      properties:
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
 
     FetchDashboardRecentScreenshotRequest:
       type: object
