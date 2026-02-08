@@ -93,7 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/200FetchDashboardScreenshotResponse"
+                $ref: "#/components/schemas/200FetchDashboardRecentScreenshotResponse"
         "400":
           description: Request validation failed
           content:
@@ -2356,7 +2356,7 @@ components:
               format: uuid
               example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
 
-    200FetchDashboardScreenshotResponse:
+    200FetchDashboardRecentScreenshotResponse:
       type: object
       properties:
         success:
@@ -2380,111 +2380,61 @@ components:
           type: array
           description: List of screenshots captured in the requested time interval
           items:
-            $ref: "#/components/schemas/ScreenshotIntervalData"
+            $ref: "#/components/schemas/DashboardRecentScreenshotData"
 
-    ScreenshotIntervalData:
+    DashboardRecentScreenshotData:
       type: object
       properties:
-        organisationId:
-          type: string
-          format: uuid
-          example: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
-
-        teamId:
-          type: string
-          format: uuid
-          example: 5f6fe61c-15c6-47b7-899d-dba99da2464c
-
-        userId:
-          type: string
-          format: uuid
-          example: ab7c4f30-1024-471a-a767-739df0dc53fd
-
-        screenshotThumbnailUrl:
-          type: string
-          format: uri
-          example: "https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/sample.png"
-
-        screenshotImageUrl:
-          type: string
-          format: uri
-          example: "https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/sample.png"
-
-        capturedAt:
-          type: string
-          format: date-time
-          example: "2026-02-07T16:43:08.364Z"
-
-        isIdle:
-          type: boolean
-          example: false
-
-        productivityStatus:
-          type: string
-          description: Productivity classification of the activity
-          enum: [productive, neutral, unproductive]
-          example: productive
+        organisation:
+          type: object
+          properties:
+            organisationId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        team:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+            userName:
+              type: string
+              example: Sakthivel Govinthan
+            profilePicUrl:
+              type: string
+              format: uri
+              nullable: true
+              example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+        screenshot:
+          type: object
+          properties:
+            thumbnailUrl:
+              type: string
+              format: uri
+              example: "https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/sample.png"
+            imageUrl:
+              type: string
+              format: uri
+              example: "https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/sample.png"
+        time: 
+          type: object  
+          properties:
+             capturedAt:
+              type: string
+              format: date-time
+              example: "2026-02-07T16:43:08.364Z"
 
         application:
           $ref: "#/components/schemas/ScreenshotApplicationInfo"
-
-        user:
-          $ref: "#/components/schemas/ScreenshotUserInfo"
-
-      example:
-        - organisationId: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
-          teamId: 5f6fe61c-15c6-47b7-899d-dba99da2464c
-          userId: ab7c4f30-1024-471a-a767-739df0dc53fd
-          screenshotThumbnailUrl: https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/f0e4b58f-c4f9-4d50-b624-ba77465b489a.png
-          screenshotImageUrl: https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/f0e4b58f-c4f9-4d50-b624-ba77465b489a.png
-          capturedAt: "2026-02-07T16:37:07.474Z"
-          isIdle: false
-          productivityStatus: productive
-          application:
-            name: Visual Studio Code
-            iconUrl: https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png
-            type: application
-            category: Developer Tools
-            websiteUrl: null
-          user:
-            userName: Sakthivel Govinthan
-            profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
-
-        - organisationId: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
-          teamId: 5f6fe61c-15c6-47b7-899d-dba99da2464c
-          userId: ab7c4f30-1024-471a-a767-739df0dc53fd
-          screenshotThumbnailUrl: https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/5b38bc83-5a9d-4a7f-91d2-1294aa630c03.png
-          screenshotImageUrl: https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/5b38bc83-5a9d-4a7f-91d2-1294aa630c03.png
-          capturedAt: "2026-02-07T16:43:08.364Z"
-          isIdle: false
-          productivityStatus: productive
-          application:
-            name: Google Chrome
-            iconUrl: https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png
-            type: website
-            category: Unknown Category
-            websiteUrl: chatgpt.com
-          user:
-            userName: Sakthivel Govinthan
-            profilePicUrl: https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae-e4c9-49ee-9dbf-62817262d05a.png
-
-        - organisationId: 9b8090ae-e4c9-49ee-9dbf-62817262d05a
-          teamId: 5f6fe61c-15c6-47b7-899d-dba99da2464c
-          userId: ab7c4f30-1024-471a-a767-739df0dc53fd
-          screenshotThumbnailUrl: https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/1054e6ac-89d8-47d7-a1a2-8c43fcdd320d.png
-          screenshotImageUrl: https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/1054e6ac-89d8-47d7-a1a2-8c43fcdd320d.png
-          capturedAt: "2026-02-07T16:07:03.917Z"
-          isIdle: false
-          productivityStatus: productive
-          application:
-            name: Google Chrome
-            iconUrl: https://trackpilots.s3.us-east-1.amazonaws.com/app-icon/world-icon.png
-            type: application
-            category: Unknown Category
-            websiteUrl: null
-          user:
-            userName: Meganathan Govintharaj
-            profilePicUrl: null
 
     ScreenshotApplicationInfo:
       type: object
@@ -2508,23 +2458,25 @@ components:
           type: string
           example: Developer Tools
 
-        websiteUrl:
+        domain:
           type: string
           nullable: true
           example: "chatgpt.com"
 
-    ScreenshotUserInfo:
-      type: object
-      properties:
-        userName:
+        fullUrl:
           type: string
-          example: Sakthivel Govinthan
-
-        profilePicUrl:
-          type: string
-          format: uri
           nullable: true
-          example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+          example: "https://chatgpt.com"
+        
+        isIdle:
+          type: boolean
+          example: false
+
+        productivityStatus:
+          type: string
+          description: Productivity classification of the activity
+          enum: [productive, neutral, unproductive]
+          example: productive
 
     200AddedEmployeeViaManuallySuccessResponse:
       type: object
@@ -3757,30 +3709,36 @@ components:
     DesktopActivityTrackingData:
       type: object
       properties:
-        workMode:
-          type: boolean
-          description: >
-            Indicates whether the user is currently in active work mode.
-            `true` means work mode, `false` means privacy mode.
-          example: false
-
-        organisationId:
-          type: string
-          format: uuid
-
-        teamId:
-          type: string
-          format: uuid
-
-        userId:
-          type: string
-          format: uuid
-
-      required:
-        - workMode
-        - organisationId
-        - teamId
-        - userId
+        organisation:
+          type: object
+          properties:
+            organisationId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        team:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        activity:
+          type: object
+          properties:
+            workMode:
+              type: boolean
+              description: >
+                Indicates whether the user is currently in active work mode.
+                `true` means work mode, `false` means privacy mode.
+              example: false
 
     # ------------------ App Tracking ------------------
     DesktopAppTrackingCapturedEvent:
@@ -3808,131 +3766,91 @@ components:
           items:
             $ref: "#/components/schemas/DesktopAppTrackingData"
 
-      required:
-        - event
-        - version
-        - agent
-        - timestamp
-        - data
-
     DesktopAppTrackingData:
       type: object
       properties:
-        trackingId:
-          type: string
-          format: uuid
-          example: e2fbd487-1ede-43e9-bd62-188da02d489f
-
-        trackingAppName:
-          type: string
-          example: Google Chrome
-
-        trackingAppTitle:
-          type: string
-          example: Screenshot Tracking Event
-
-        trackingAppUrl:
-          type: string
-          example: localhost
-
-        trackingAppFullUrl:
-          type: string
-          example: http://localhost:3000/api-reference/desktop-events/screenshot-tracking-event#response-data-items-team-id
-
-        trackingAppType:
-          type: string
-          enum:
-            - website
-            - application
-          example: website
-
-        trackingAppIconUrl:
-          type: string
-          format: uri
-          example: https://localhost/favicon.ico
-
-        trackingAppCategory:
-          type: string
-          example: Unknown Category
-
-        trackingAppProductivityCategory:
-          type: string
-          enum:
-            - productive
-            - unproductive
-            - neutral
-          example: neutral
-
-        trackingAppEvent:
-          type: string
-          example: work_mode
-
-        trackingAppTimeSpend:
-          type: integer
-          description: Time spent on the app in seconds
-          example: 20
-
-        trackingAppStartTime:
-          type: string
-          format: date-time
-          example: 2026-01-28T09:13:21.771Z
-
-        trackingAppEndTime:
-          type: string
-          format: date-time
-          example: 2026-01-28T09:13:42.594Z
-
-        trackingMode:
-          type: string
-          enum:
-            - online
-            - offline
-          example: online
-
-        trackingReason:
-          type: string
-          example: App Switched
-
-        trackingWorkType:
-          type: string
-          enum:
-            - office
-            - remote
-            - hybrid
-          example: office
-
-        trackingOperatingSystem:
-          type: string
-          enum:
-            - windows
-            - macos
-            - linux
-          example: macos
-
-        organisationId:
-          type: string
-          format: uuid
-
-        teamId:
-          type: string
-          format: uuid
-
-        userId:
-          type: string
-          format: uuid
-
-      required:
-        - trackingId
-        - trackingAppName
-        - trackingAppType
-        - trackingAppTimeSpend
-        - trackingAppStartTime
-        - trackingAppEndTime
-        - trackingMode
-        - organisationId
-        - teamId
-        - userId
-        - trackingOperatingSystem
+        organisation:
+          type: object
+          properties:
+            organisationId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        team:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        tracking:
+          type: object
+          properties:  
+            trackingId:
+              type: string
+              format: uuid
+              example: "e2fbd487-1ede-43e9-bd62-188da02d489f"
+            app:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Google Chrome"
+                type:
+                  type: string
+                  enum: [website, application]
+                  example: "website"
+                category:
+                  type: string
+                  example: "Unknown Category"
+                iconUrl:
+                  type: string
+                  format: uri
+                  nullable: true
+                  example: "https://localhost/favicon.ico"
+                domain:
+                  type: string
+                  format: uri
+                  nullable: true
+                  example: "localhost"
+                fullUrl:
+                  type: string
+                  format: uri
+                  nullable: true
+                  example: "http://localhost:3000/api-reference/desktop-events/screenshot-tracking-event#response-data-items-team-id"
+                productivityStatus:
+                  type: string
+                  enum: [productive, neutral, unproductive]
+                  example: "neutral"
+            time:
+              type: object
+              properties:
+                startTime:
+                  type: string
+                  format: date-time
+                  example: "2026-01-28T09:13:21.771Z"
+                endTime:
+                  type: string
+                  format: date-time
+                  example: "2026-01-28T09:13:42.594Z"
+                durationInSeconds:
+                  type: integer
+                  example: 20
+            trackingMode:
+              type: string
+              nullable: true
+              example: "online"
+            operatingSystem:
+              type: string
+              nullable: true
+              example: "macos"
 
     # ------------------ Screenshot Tracking ------------------
     DesktopScreenshotCapturedEvent:
@@ -3960,106 +3878,96 @@ components:
           items:
             $ref: "#/components/schemas/DesktopScreenshotData"
 
-      required:
-        - event
-        - version
-        - agent
-        - timestamp
-        - data
-
     DesktopScreenshotData:
       type: object
       properties:
-        screenshotId:
-          type: string
-          format: uuid
-          example: b774c86b-26e3-415f-b6d0-20a0a01b597c
+        organisation:
+          type: object
+          properties:
+            organisationId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        team:
+          type: object
+          properties:
+            teamId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+        screenshot:
+          type: object
+          properties:  
+            screenshotId:
+              type: string
+              format: uuid
+              example: b774c86b-26e3-415f-b6d0-20a0a01b597c
+            imageBuffer:
+              type: array
+              description: >
+                Array of screenshot image buffers.
+                Each item is a Base64-encoded image buffer.
+              items:
+                type: string
+                format: byte
+                example: iVBORw0KGgoAAAANSUhEUgAA...
+            app:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Brave Browser"
+                type:
+                  type: string
+                  enum: [application, website]
+                  example: "application"
+                category:
+                  type: string
+                  example: "Unknown Category"
+                iconUrl:
+                  type: string
+                  format: uri
+                  example: "https://dev.trackpilots.com/favicon.ico"
+                domain:
+                  type: string
+                  example: "dev.trackpilots.com"
+                fullUrl:
+                  type: string
+                  format: uri
+                  example: "https://dev.trackpilots.com"
+                productivityStatus:
+                  type: string
+                  enum: [productive, neutral, unproductive]
+                  example: "productive"
 
-        screenshotAppName:
-          type: string
-          example: Brave Browser
+            time:
+              type: object
+              properties:
+                capturedAt:
+                  type: string
+                  format: date-time
+                  example: "2026-01-28T09:05:00.308Z"
 
-        screenshotAppIconUrl:
-          type: string
-          format: uri
-          example: https://dev.trackpilots.com/favicon.ico
-
-        screenshotAppFullUrl:
-          type: string
-          example: dev.trackpilots.com
-
-        screenshotAppCategory:
-          type: string
-          example: Unknown Category
-
-        screenshotAppProductivityCategory:
-          type: string
-          enum:
-            - productive
-            - unproductive
-            - neutral
-          example: productive
-
-        isIdleScreenshot:
-          type: string
-          enum:
-            - yes
-            - no
-          example: yes
-
-        screenshotTime:
-          type: string
-          format: date-time
-          example: 2026-01-28T09:05:00.308Z
-
-        screenshotUrl:
-          type: array
-          description: >
-            Array of screenshot image buffers.
-            Each item is a Base64-encoded image buffer.
-          items:
-            type: string
-            format: byte
-            example: iVBORw0KGgoAAAANSUhEUgAA...
-
-        screenshotOperatingSystem:
-          type: string
-          enum:
-            - windows
-            - macos
-            - linux
-          example: windows
-
-        screenshotWorkType:
-          type: string
-          enum:
-            - office
-            - remote
-            - hybrid
-          example: hybrid
-
-        organisationId:
-          type: string
-          format: uuid
-
-        teamId:
-          type: string
-          format: uuid
-
-        userId:
-          type: string
-          format: uuid
-
-      required:
-        - screenshotId
-        - screenshotAppName
-        - screenshotTime
-        - screenshotUrl
-        - organisationId
-        - teamId
-        - userId
-        - screenshotOperatingSystem
-
+            operatingSystem:
+              type: string
+              example: "windows"
+            workType:
+              type: string
+              enum:
+                - office
+                - remote
+                - hybrid
+              example: "hybrid"
+            isIdle:
+              type: boolean
+              example: true
     # ------------------ Errors ------------------
 
     ErrorResponse:
