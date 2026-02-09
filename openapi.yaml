@@ -72,6 +72,42 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
+  /v1/dashboard/work-summary:
+    post:
+      summary: Fetch Work Summary
+      description: >
+        Fetch dashboard work summary with particular interval of time
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkSummaryRequest"
+      responses:
+        "200":
+          description: Fetched work summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardWorkSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardWorkSummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
   /v1/dashboard/top-productive-performer:
     post:
       summary: Fetch Top Productive Perfomer
@@ -137,43 +173,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/400FetchDashboardRecentScreenshotValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/dashboard/work-summary:
-    post:
-      summary: Fetch Work Summary
-      description: >
-        Fetch dashboard work summary with particular interval of time
-      tags:
-        - Dashboard
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FetchDashboardWorkSummaryRequest"
-      responses:
-        "200":
-          description: Fetched work summary successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchDashboardWorkSummarySuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchDashboardWorkSummaryValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
