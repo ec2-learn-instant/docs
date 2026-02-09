@@ -288,6 +288,75 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /v1/dashboard/weekly-summary:
+    post:
+      summary: Fetch Weekly Summary
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWeeklySummaryRequest"
+      responses:
+        "200":
+          description: Fetched weekly summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardWeeklySummaryResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardWeeklySummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/dashboard/work-time-efficiency:
+    post:
+      summary: Fetch Work Time Efficiency
+      tags:
+        - Dashboard
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkTimeEfficiencyRequest"
+      responses:
+        "200":
+          description: Fetched work time efficiency successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchDashboardWorkTimeEfficiencyResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchDashboardWorkTimeEfficiencyValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /v1/employees:
     get:
@@ -2868,6 +2937,165 @@ components:
                     format: float
                     example: 36.96
 
+    200FetchDashboardWorkTimeEfficiencyResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched work time efficiency successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+                breakdownSummary:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        format: date-time
+                        example: "2026-02-02T00:00:00.000Z"
+                      day:
+                        type: string
+                        example: Monday
+                      metrics:
+                        type: object
+                        properties:
+                          totalTimeSpendSeconds:
+                            type: integer
+                            example: 15895
+                          activeTimeSpendSeconds:
+                            type: integer
+                            example: 13432
+                          idleTimeSpendSeconds:
+                            type: integer
+                            example: 2463
+                          productiveTimeSpendSeconds:
+                            type: integer
+                            example: 8942
+                          neutralTimeSpendSeconds:
+                            type: integer
+                            example: 4490
+                          unproductiveTimeSpendSeconds:
+                            type: integer
+                            example: 0
+            
+                overallSummary:
+                  type: object
+                  properties:
+                    totalActiveTimeSpendSeconds:
+                      type: integer
+                      example: 215363
+                    totalIdleTimeSpendSeconds:
+                      type: integer
+                      example: 19974
+                    totalTimeSpendSeconds:
+                      type: integer
+                      example: 235337
+                    totalProductiveTimeSpendSeconds:
+                      type: integer
+                      example: 155530
+                    totalNeutralTimeSpendSeconds:
+                      type: integer
+                      example: 56841
+                    totalUnproductiveTimeSpendSeconds:
+                      type: integer
+                      example: 2992
+
+    200FetchDashboardWeeklySummaryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched weekly summary successfully
+
+        error:
+          type: object
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+                breakdownSummary:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      date:
+                        type: string
+                        format: date-time
+                        example: "2026-02-02T00:00:00.000Z"
+                      day:
+                        type: string
+                        example: Monday
+                      metrics:
+                        type: object
+                        properties:
+                          totalTimeSpendSeconds:
+                            type: integer
+                            example: 15895
+                          activeTimeSpendSeconds:
+                            type: integer
+                            example: 13432
+                          idleTimeSpendSeconds:
+                            type: integer
+                            example: 2463
+                          productiveTimeSpendSeconds:
+                            type: integer
+                            example: 8942
+                          neutralTimeSpendSeconds:
+                            type: integer
+                            example: 4490
+                          unproductiveTimeSpendSeconds:
+                            type: integer
+                            example: 0
+                 
+                overallSummary:
+                  type: object
+                  properties:
+                    totalActiveTimeSpendSeconds:
+                      type: integer
+                      example: 215363
+                    totalIdleTimeSpendSeconds:
+                      type: integer
+                      example: 19974
+                    totalTimeSpendSeconds:
+                      type: integer
+                      example: 235337
+                    totalProductiveTimeSpendSeconds:
+                      type: integer
+                      example: 155530
+                    totalNeutralTimeSpendSeconds:
+                      type: integer
+                      example: 56841
+                    totalUnproductiveTimeSpendSeconds:
+                      type: integer
+                      example: 2992
+                 
+
     200FetchDashboardRecentScreenshotResponse:
       type: object
       properties:
@@ -3205,6 +3433,82 @@ components:
         statusMessage:
           type: string
           example: "Failed to fetch top productive performer"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardWorkTimeEfficiencyValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work time efficiency"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchDashboardWeeklySummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch weekly summary"
         data:
           type: "null"
           example: null
@@ -5189,6 +5493,102 @@ components:
         - required: [teamId]
 
     FetchDashboardWorkTimeAnalysisRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startDate
+        - endDate
+
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchDashboardWorkTimeEfficiencyRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startDate
+        - endDate
+
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchDashboardWeeklySummaryRequest:
       type: object
       description: >
         Either userId or teamId must be provided. Both cannot be empty.
