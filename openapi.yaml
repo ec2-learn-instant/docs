@@ -423,7 +423,8 @@ paths:
       summary: Fetch Time Logs
       tags:
         - My Team
-
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/UserIdParam"
         - $ref: "#/components/parameters/TimeZoneQuery"
@@ -455,7 +456,8 @@ paths:
       summary: Fetch Work Summary
       tags:
         - My Team
-
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/UserIdParam"
         - $ref: "#/components/parameters/TimeZoneQuery"
@@ -488,7 +490,8 @@ paths:
       summary: Fetch Screenshot
       tags:
         - My Team
-
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/UserIdParam"
         - $ref: "#/components/parameters/TimeZoneQuery"
@@ -520,7 +523,8 @@ paths:
       summary: Fetch Apps And Websites Usage
       tags:
         - My Team
-
+      security:
+        - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/UserIdParam"
         - $ref: "#/components/parameters/TimeZoneQuery"
