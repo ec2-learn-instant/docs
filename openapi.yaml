@@ -72,108 +72,6 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
-  /v1/my-team/time-logs/{userId}:
-    get:
-      summary: Fetch Time Logs
-      tags:
-        - My Team
-
-      parameters:
-        - $ref: "#/components/parameters/UserIdParam"
-        - $ref: "#/components/parameters/TimeZoneQuery"
-
-      responses:
-        "200":
-          description: Fetched my team time logs successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchMyTeamTimeLogsSuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchMyTeamTimeLogsValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/my-team/work-summary/{userId}:
-    get:
-      summary: Fetch Work Summary
-      tags:
-        - My Team
-
-      parameters:
-        - $ref: "#/components/parameters/UserIdParam"
-        - $ref: "#/components/parameters/TimeZoneQuery"
-
-      responses:
-        "200":
-          description: Fetched my team work summary successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchMyTeamWorkSummarySuccessResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchMyTeamWorkSummaryValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-  /v1/my-team:
-    get:
-      summary: Fetch My Team
-      description: >
-        Fetch my team details
-      tags:
-        - My Team
-      security:
-        - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FetchMyTeamRequest"
-      responses:
-        "200":
-          description: Fetched my team details successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/200FetchMyTeamResponse"
-        "400":
-          description: Request validation failed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400FetchMyTeamValidationErrorResponse"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-        "422":
-          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
-
-        "500":
-          $ref: "#/components/responses/InternalServerError"
-
-
   /v1/dashboard/employee-recent-activity:
     get:
       summary: Fetch Employee Recent Activity
@@ -482,6 +380,173 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+
+  /v1/my-team:
+    post:
+      summary: Fetch My Team
+      description: >
+        Fetch my team details
+      tags:
+        - My Team
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchMyTeamRequest"
+      responses:
+        "200":
+          description: Fetched my team details successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/my-team/time-logs/{userId}:
+    get:
+      summary: Fetch Time Logs
+      tags:
+        - My Team
+
+      parameters:
+        - $ref: "#/components/parameters/UserIdParam"
+        - $ref: "#/components/parameters/TimeZoneQuery"
+
+      responses:
+        "200":
+          description: Fetched my team time logs successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamTimeLogsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamTimeLogsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/my-team/work-summary/{userId}:
+    get:
+      summary: Fetch Work Summary
+      tags:
+        - My Team
+
+      parameters:
+        - $ref: "#/components/parameters/UserIdParam"
+        - $ref: "#/components/parameters/TimeZoneQuery"
+
+      responses:
+        "200":
+          description: Fetched my team work summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamWorkSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamWorkSummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+
+  /v1/my-team/screenshot/{userId}:
+    get:
+      summary: Fetch Screenshot
+      tags:
+        - My Team
+
+      parameters:
+        - $ref: "#/components/parameters/UserIdParam"
+        - $ref: "#/components/parameters/TimeZoneQuery"
+
+      responses:
+        "200":
+          description: Fetched my team screenshot successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamScreenshotResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamScreenshotValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/my-team/apps-and-websites-usage/{userId}:
+    get:
+      summary: Fetch Apps And Websites Usage
+      tags:
+        - My Team
+
+      parameters:
+        - $ref: "#/components/parameters/UserIdParam"
+        - $ref: "#/components/parameters/TimeZoneQuery"
+
+      responses:
+        "200":
+          description: Fetched apps and websites usage successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamAppsAndWebsitesResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamAppsAndWebsitesUsageValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+          
   /v1/employees:
     get:
       summary: Fetch All Employees
@@ -3115,6 +3180,94 @@ components:
                   type: integer
                   example: 35
 
+    200FetchMyTeamAppsAndWebsitesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched apps and websites successfully"
+
+        error:
+          type: "null"
+          example: null
+
+        data:
+          type: object
+          properties:
+            summary:
+              type: object
+              properties:
+                totalTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 122404
+                websiteTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 44520
+                appsTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 77884
+
+            websiteUsage:
+               type: object
+               properties:
+                  totalWebsiteTimeSpentSeconds:
+                    type: integer
+                    format: int64
+                    example: 44520
+                  websites:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                          example: "chatgpt.com"
+                        iconUrl:
+                          type: string
+                          format: uri
+                          nullable: true
+                          example: "https://chatgpt.com/favicon.ico"
+                        timeSpentSeconds:
+                          type: integer
+                          format: int64
+                          example: 8375
+              
+            appsUsage:
+              type: object
+              properties:
+                totalAppsTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 77884
+                apps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      appName:
+                        type: string
+                        example: "Visual Studio Code"
+                      iconUrl:
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: "https://trackpilots.s3.amazonaws.com/app-icon/vscode.png"
+                      timeSpentSeconds:
+                        type: integer
+                        format: int64
+                        example: 41823
+
     200FetchDashboardAppsAndWebsitesResponse:
       type: object
       properties:
@@ -3538,6 +3691,32 @@ components:
                     totalUnproductiveTimeSpendSeconds:
                       type: integer
                       example: 2992
+
+    200FetchMyTeamScreenshotResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched my team screenshots successfully
+
+        error:
+          type: object
+          nullable: true
+          description: Error object if request fails, null if successful
+
+        data:
+          type: array
+          description: List of screenshots captured for particular user
+          items:
+            $ref: "#/components/schemas/DashboardRecentScreenshotData"
                  
 
     200FetchDashboardRecentScreenshotResponse:
@@ -3865,6 +4044,44 @@ components:
                     type: string
                     example: "Either userId or teamId must be provided"
 
+    400FetchMyTeamScreenshotValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch my team screenshot"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request param and query is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["query", "timeZone"]
+                  message:
+                    type: string
+                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+
     400FetchMyTeamTimeLogsValidationErrorResponse:
       type: object
       properties:
@@ -3904,6 +4121,44 @@ components:
                     example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
 
     400FetchMyTeamWorkSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch time logs"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request param and query is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["query", "timeZone"]
+                  message:
+                    type: string
+                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+
+    400FetchMyTeamAppsAndWebsitesUsageValidationErrorResponse:
       type: object
       properties:
         success:
