@@ -72,6 +72,108 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
+  /v1/my-team/time-logs/{userId}:
+    get:
+      summary: Fetch Time Logs
+      tags:
+        - My Team
+
+      parameters:
+        - $ref: "#/components/parameters/UserIdParam"
+        - $ref: "#/components/parameters/TimeZoneQuery"
+
+      responses:
+        "200":
+          description: Fetched my team time logs successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamTimeLogsSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamTimeLogsValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/my-team/work-summary/{userId}:
+    get:
+      summary: Fetch Work Summary
+      tags:
+        - My Team
+
+      parameters:
+        - $ref: "#/components/parameters/UserIdParam"
+        - $ref: "#/components/parameters/TimeZoneQuery"
+
+      responses:
+        "200":
+          description: Fetched my team work summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamWorkSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamWorkSummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/my-team:
+    get:
+      summary: Fetch My Team
+      description: >
+        Fetch my team details
+      tags:
+        - My Team
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchMyTeamRequest"
+      responses:
+        "200":
+          description: Fetched my team details successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchMyTeamResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchMyTeamValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+
   /v1/dashboard/employee-recent-activity:
     get:
       summary: Fetch Employee Recent Activity
@@ -1236,6 +1338,26 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    
+  parameters:
+    UserIdParam:
+      name: userId
+      in: path
+      required: true
+      description: User ID of the team member
+      schema:
+        type: string
+        format: uuid
+        example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+    TimeZoneQuery:
+      name: timeZone
+      in: query
+      required: true
+      description: Timezone for logs calculation
+      schema:
+        type: string
+        example: "Asia/Kolkata"
 
   responses:
     UnauthorizedError:
@@ -1331,6 +1453,14 @@ components:
                 error:
                   message: "One or more teamIds are invalid for this organisation"
                   code: INVALID_TEAM_ID
+
+    422UnprocessableUserIdErrorResponse:
+      description: Unprocessable Entity – Invalid userId
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/422UnprocessableUserIdErrorSchema"
+         
 
     422AddEmployeeUnprocessableErrorResponse:
       description: Unprocessable Entity – Invalid roleId or teamIds
@@ -2627,6 +2757,153 @@ components:
               format: uuid
               example: "7f9a0d29-c3a3-419a-87f6-11c34948cf7e"
 
+    200FetchMyTeamResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: "Fetched user work summary successfully"
+        error:
+          type: string
+          nullable: true
+          example: null
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+                  name:
+                    type: string
+                    example: "Sakthivel Govinthan"
+                  profilePicUrl:
+                    type: string
+                    format: uri
+                    example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+
+              timeSummary:
+                type: object
+                properties:
+                  totalWorkedTimeInSeconds:
+                    type: integer
+                    example: 1660
+                  activeWorkedTimeInSeconds:
+                    type: integer
+                    example: 1660
+                  idleWorkedTimeInSeconds:
+                    type: integer
+                    example: 0
+                  productiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 1485
+                  unproductiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 0
+                  neutralWorkedTimeInSeconds:
+                    type: integer
+                    example: 175
+
+              session:
+                type: object
+                properties:
+                  inTime:
+                    type: string
+                    format: date-time
+                    example: "2026-02-12T04:32:01.676Z"
+                  outTime:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    example: null
+                  isWorking:
+                    type: boolean
+                    example: true
+
+    200FetchMyTeamTimeLogsSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        statusMessage:
+          type: string
+          example: "Fetched user work summary successfully"
+        error:
+          type: string
+          nullable: true
+          example: null
+        data:
+          type: object
+          properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+                  name:
+                    type: string
+                    example: "Sakthivel Govinthan"
+                  profilePicUrl:
+                    type: string
+                    format: uri
+                    example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+
+              timeSummary:
+                type: object
+                properties:
+                  totalWorkedTimeInSeconds:
+                    type: integer
+                    example: 1660
+                  activeWorkedTimeInSeconds:
+                    type: integer
+                    example: 1660
+                  idleWorkedTimeInSeconds:
+                    type: integer
+                    example: 0
+                  productiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 1485
+                  unproductiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 0
+                  neutralWorkedTimeInSeconds:
+                    type: integer
+                    example: 175
+
+              session:
+                type: object
+                properties:
+                  inTime:
+                    type: string
+                    format: date-time
+                    example: "2026-02-12T04:32:01.676Z"
+                  outTime:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    example: null
+                  isWorking:
+                    type: boolean
+                    example: true
+            
+
     200FetchDashboardEmployeeRecentActivityResponse:
       type: object
       properties:
@@ -2707,6 +2984,69 @@ components:
                     format: date-time
                     description: User socket connection timestamp
                     example: "2026-02-11T12:01:26.450Z"
+
+    200FetchMyTeamWorkSummarySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched my team time logs successfully"
+
+        error:
+          type: "null"
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+            timeSummary:
+              type: object
+              description: Aggregated time tracking metrics in seconds
+              properties:
+                totalWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 13665
+                activeWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 11724
+                idleWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 1941
+                productiveWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 8982
+                unproductiveWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 0
+                neutralWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 2742
+
+            activityStats:
+              type: object
+              description: Activity and workforce statistics
+              properties:
+                appsVisitedCount:
+                  type: integer
+                  example: 235
+                websitesVisitedCount:
+                  type: integer
+                  example: 124
 
 
     200FetchDashboardWorkSummarySuccessResponse:
@@ -3499,6 +3839,121 @@ components:
         statusMessage:
           type: string
           example: "Failed to fetch recent screenshot data"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchMyTeamTimeLogsValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work summary"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request param and query is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["query", "timeZone"]
+                  message:
+                    type: string
+                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+
+    400FetchMyTeamWorkSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch time logs"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request param and query is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["query", "timeZone"]
+                  message:
+                    type: string
+                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+
+
+    400FetchMyTeamValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch my team"
         data:
           type: "null"
           example: null
@@ -5776,6 +6231,42 @@ components:
         - required: [userId]
         - required: [teamId]
 
+    FetchMyTeamRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+
+      properties:
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
     FetchDashboardRecentScreenshotRequest:
       type: object
       description: >
@@ -6179,6 +6670,36 @@ components:
               enum:
                 - INVALID_USER_ID
                 - INVALID_TEAM_ID
+              example: "INVALID_USER_ID"
+
+    422UnprocessableUserIdErrorSchema:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+
+        statusCode:
+          type: integer
+          format: int32
+          example: 422
+
+        statusMessage:
+          type: string
+          example: "Invalid userId"
+
+        response:
+          nullable: true
+          example: null
+
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Provided userId does not exist for this organisation"
+            code:
+              type: string
               example: "INVALID_USER_ID"
 
     422CreateEmployeeSendInviteUnprocessableErrorSchema:
