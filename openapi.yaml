@@ -1,7 +1,7 @@
 openapi: 3.1.0
 
 info:
-  title: TrackPilots API & Webhooks
+  title: Trackpilots API & Webhooks
   version: 1.1.0
   description: |
     Trackpilots REST APIs and Webhook events.
@@ -484,7 +484,6 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-
   /v1/my-team/screenshot/{userId}:
     get:
       summary: Fetch Screenshot
@@ -551,6 +550,115 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
           
+  /v1/insights/productivity-analysis:
+    post:
+      summary: Fetch Productivity Analysis
+      tags:
+        - Insights
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardProductivityAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched productivity analysis successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchInsightsProductivityAnalysisResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchInsightsProductivityAnalysisValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/proof-of-work/screenshot:
+    post:
+      summary: Fetch Screenshot
+      description: >
+        Fetch list screenshots between 2 intervals
+      tags:
+        - Proof Of Work
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchPowScreenshotRequest"
+      responses:
+        "200":
+          description: Fetched screenshots successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchPowScreenshotResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchPowScreenshotValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/proof-of-work/timesheet:
+    post:
+      summary: Fetch Timesheet
+      description: >
+        Fetch timesheet between 2 intervals
+      tags:
+        - Proof Of Work
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchPowTimesheetRequest"
+      responses:
+        "200":
+          description: Fetched timesheet successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchPowTimesheetResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchPowTimesheetValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/employees:
     get:
       summary: Fetch All Employees
@@ -1479,6 +1587,17 @@ components:
                 error:
                   message: Provided API key is invalid or inactive
                   code: INVALID_API_KEY
+
+            planExpired:
+              summary: Upgrade required
+              value:
+                success: false
+                statusCode: 401
+                statusMessage: Upgrade required
+                data: null
+                error:
+                  message: Upgrade required to use Trackpilots APIs
+                  code: PLAN_EXPIRED
 
     RouteNotFoundError:
       description: Route does not exist
@@ -3360,6 +3479,80 @@ components:
                         format: int64
                         example: 41823
 
+    200FetchInsightsProductivityAnalysisResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched productivity analysis successfully"
+
+        error:
+          type: "null"
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: "f0ad9ad9-d421-48dc-868d-9760e33e5089"
+
+                  name:
+                    type: string
+                    example: "Abirami Kannan"
+
+                  profilePicUrl:
+                    type: string
+                    format: uri
+                    nullable: true
+                    example: "https://trackpilots.s3.amazonaws.com/profile-pic/9b8090ae.png"
+
+                  emailId:
+                    type: string
+                    format: email
+                    example: "abiramikannan2006@gmail.com"
+
+              timeSummary:
+                type: object
+                properties:
+                  totalWorkedTimeInSeconds:
+                    type: integer
+                    example: 76516
+                  
+                  idleWorkedTimeInSeconds:
+                    type: integer
+                    example: 76516
+
+                  activeWorkedTimeInSeconds:
+                    type: integer
+                    example: 76516
+
+                  productiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 56641
+
+                  unproductiveWorkedTimeInSeconds:
+                    type: integer
+                    example: 2706
+
+                  neutralWorkedTimeInSeconds:
+                    type: integer
+                    example: 17169
+
     200FetchDashboardProductivityAnalysisResponse:
       type: object
       properties:
@@ -3721,6 +3914,142 @@ components:
           description: List of screenshots captured for particular user
           items:
             $ref: "#/components/schemas/DashboardRecentScreenshotData"
+
+    200FetchPowTimesheetResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched timesheet successfully
+
+        error:
+          nullable: true
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: ab7c4f30-1024-471a-a767-739df0dc53fd
+                  name:
+                    type: string
+                    example: Sakthivel Govinthan
+                  profilePicUrl:
+                    type: string
+                    example: https://trackpilots.s3.amazonaws.com/profile-pic/xxx.png
+
+              dailySummary:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date-time
+                      example: "2026-02-12T00:00:00.000Z"
+                    day:
+                      type: string
+                      example: Thursday
+                    inTime:
+                      type: string
+                      format: date-time
+                      example: "2026-02-12T10:02:01.676Z"
+                    outTime:
+                      type: string
+                      format: date-time
+                      example: "2026-02-12T22:23:56.461Z"
+
+                    totalTimeSpendSeconds:
+                      type: integer
+                      example: 18432
+                    activeTimeSpendSeconds:
+                      type: integer
+                      example: 16787
+                    idleTimeSpendSeconds:
+                      type: integer
+                      example: 1645
+                    productiveTimeSpendSeconds:
+                      type: integer
+                      example: 14288
+                    unproductiveTimeSpendSeconds:
+                      type: integer
+                      example: 0
+                    neutralTimeSpendSeconds:
+                      type: integer
+                      example: 2499
+
+              overallSummary:
+                type: object
+                properties:
+                  totalActiveTimeSpendSeconds:
+                    type: integer
+                    example: 29973
+                  totalIdleTimeSpendSeconds:
+                    type: integer
+                    example: 2481
+                  totalTimeSpendSeconds:
+                    type: integer
+                    example: 32454
+                  totalProductiveTimeSpendSeconds:
+                    type: integer
+                    example: 26047
+                  totalNeutralTimeSpendSeconds:
+                    type: integer
+                    example: 3926
+                  totalUnproductiveTimeSpendSeconds:
+                    type: integer
+                    example: 0
+
+              session:
+                type: object
+                properties:
+                  avgCheckInTime:
+                    type: string
+                    example: "01:45:51"
+                  avgCheckOutTime:
+                    type: string
+                    example: "10:46:51"
+
+    200FetchPowScreenshotResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched screenshots successfully
+
+        error:
+          type: object
+          nullable: true
+          description: Error object if request fails, null if successful
+
+        data:
+          type: array
+          description: List of screenshots captured in the requested time interval
+          items:
+            $ref: "#/components/schemas/PoWScreenshotData"
+
                  
 
     200FetchDashboardRecentScreenshotResponse:
@@ -3748,6 +4077,50 @@ components:
           description: List of screenshots captured in the requested time interval
           items:
             $ref: "#/components/schemas/DashboardRecentScreenshotData"
+
+    PoWScreenshotData:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+              example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+            userName:
+              type: string
+              example: Sakthivel Govinthan
+            profilePicUrl:
+              type: string
+              format: uri
+              nullable: true
+              example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+        screenshot:
+          type: object
+          properties:
+            thumbnailUrl:
+              type: string
+              format: uri
+              example: "https://trackpilots.s3.amazonaws.com/screenshots/thumbnails/2026/February/07/sample.png"
+            imageUrl:
+              type: string
+              format: uri
+              example: "https://trackpilots.s3.amazonaws.com/screenshots/images/2026/February/07/sample.png"
+        time:
+          type: object
+          properties:
+            capturedAt:
+              type: string
+              format: date-time
+              example: "2026-02-07T16:43:08.364Z"
+
+        application:
+          $ref: "#/components/schemas/ScreenshotApplicationInfo"
+
+        isIdle:
+          type: boolean
+          example: false
 
     DashboardRecentScreenshotData:
       type: object
@@ -4009,6 +4382,83 @@ components:
                   message:
                     type: string
                     example: "Invalid input: expected string, received undefined"
+
+    400FetchPowTimesheetValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch recent screenshot data"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+
+    400FetchPowScreenshotValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch recent screenshot data"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
 
     400FetchDashboardRecentScreenshotValidationErrorResponse:
       type: object
@@ -4392,6 +4842,44 @@ components:
                     example: "Either userId or teamId must be provided"
 
     400FetchDashboardProductivityAnalysisValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work time analysis"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+              
+    400FetchInsightsProductivityAnalysisValidationErrorResponse:
       type: object
       properties:
         success:
@@ -5824,6 +6312,7 @@ components:
                 - INVALID_API_KEY_SCHEMA
                 - API_KEY_MISSING
                 - INVALID_API_KEY
+                - PLAN_EXPIRED
               example: "AUTHORIZATION_HEADER_MISSING"
 
     BaseError:
@@ -6499,6 +6988,117 @@ components:
         - timeZone
 
       properties:
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchPowScreenshotRequest:
+      type: object
+      description: >
+        Request payload to fetch screenshots.
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startDate
+        - endDate
+        - limit
+        - offset
+
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+        offset:
+          type: integer
+          minimum: 0
+          example: 0
+
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          example: 15
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchPowTimesheetRequest:
+      type: object
+      description: >
+        Request payload to fetch timesheet.
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startDate
+        - endDate
+
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
         timeZone:
           type: string
           example: "Asia/Kolkata"
