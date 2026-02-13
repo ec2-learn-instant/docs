@@ -659,6 +659,117 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /v1/proof-of-work/app-usage/work-summary:
+    post:
+      summary: Fetch Work Summary
+      description: >
+        Fetch app usage work summary with particular interval of time
+      tags:
+        - PoW - App Usage
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkSummaryRequest"
+      responses:
+        "200":
+          description: Fetched work summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchPowAppUsageWorkSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchPowAppUsageWorkSummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/proof-of-work/app-usage/websites:
+    get:
+      summary: Fetch Websites Usage
+      tags:
+        -  PoW - App Usage
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkSummaryRequest"
+
+      responses:
+        "200":
+          description: Fetched websites usage successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchPowWebsitesUsageResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchPowWebsitesUsageValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/proof-of-work/app-usage/apps:
+    get:
+      summary: Fetch Apps Usage
+      tags:
+        -  PoW - App Usage
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchDashboardWorkSummaryRequest"
+
+      responses:
+        "200":
+          description: Fetched apps usage successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchPowAppsUsageResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchPowAppsUsageValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+
+
   /v1/employees:
     get:
       summary: Fetch All Employees
@@ -3173,6 +3284,69 @@ components:
                     description: User socket connection timestamp
                     example: "2026-02-11T12:01:26.450Z"
 
+    200FetchPowAppUsageWorkSummarySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched app usage work summary successfully"
+
+        error:
+          type: "null"
+          nullable: true
+          example: null
+
+        data:
+          type: object
+          properties:
+            timeSummary:
+              type: object
+              description: Aggregated time tracking metrics in seconds
+              properties:
+                totalWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 13665
+                activeWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 11724
+                idleWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 1941
+                productiveWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 8982
+                unproductiveWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 0
+                neutralWorkedTimeInSeconds:
+                  type: integer
+                  format: int64
+                  example: 2742
+
+            activityStats:
+              type: object
+              description: Activity and workforce statistics
+              properties:
+                appsVisitedCount:
+                  type: integer
+                  example: 235
+                websitesVisitedCount:
+                  type: integer
+                  example: 124
+
     200FetchMyTeamWorkSummarySuccessResponse:
       type: object
       properties:
@@ -3303,6 +3477,109 @@ components:
                   type: integer
                   example: 35
 
+    200FetchPowWebsitesUsageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched websites successfully"
+
+        error:
+          type: "null"
+          example: null
+
+        data:
+          type: object
+          properties:
+            summary:
+              type: object
+              properties:
+                totalWebsiteTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 122404
+
+            websitesUsage:
+               type: object
+               properties:
+                  websites:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                          example: "chatgpt.com"
+                        iconUrl:
+                          type: string
+                          format: uri
+                          nullable: true
+                          example: "https://chatgpt.com/favicon.ico"
+                        timeSpentSeconds:
+                          type: integer
+                          format: int64
+                          example: 8375
+
+    200FetchPowAppsUsageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: "Fetched apps successfully"
+
+        error:
+          type: "null"
+          example: null
+
+        data:
+          type: object
+          properties:
+            summary:
+              type: object
+              properties:
+                totalAppsTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 77884
+              
+            appsUsage:
+              type: object
+              properties:
+                apps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      appName:
+                        type: string
+                        example: "Visual Studio Code"
+                      iconUrl:
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: "https://trackpilots.s3.amazonaws.com/app-icon/vscode.png"
+                      timeSpentSeconds:
+                        type: integer
+                        format: int64
+                        example: 41823
+              
+
     200FetchMyTeamAppsAndWebsitesResponse:
       type: object
       properties:
@@ -3341,7 +3618,7 @@ components:
                   format: int64
                   example: 77884
 
-            websiteUsage:
+            websitesUsage:
                type: object
                properties:
                   totalWebsiteTimeSpentSeconds:
@@ -4612,6 +4889,83 @@ components:
                     type: string
                     example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
 
+    400FetchPowWebsitesUsageValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch websites"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request param and query is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["query", "timeZone"]
+                  message:
+                    type: string
+                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+
+    400FetchPowAppsUsageValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch apps usage"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request param and query is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["query", "timeZone"]
+                  message:
+                    type: string
+                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+
+
     400FetchMyTeamAppsAndWebsitesUsageValidationErrorResponse:
       type: object
       properties:
@@ -4956,6 +5310,44 @@ components:
                     example: "Either userId or teamId must be provided"
 
     400FetchDashboardWorkSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work summary details"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchPowAppUsageWorkSummaryValidationErrorResponse:
       type: object
       properties:
         success:
