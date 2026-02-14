@@ -167,7 +167,7 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
-  
+
   /v1/dashboard/recent-screenshot:
     post:
       summary: Fetch Recent Screenshot
@@ -380,7 +380,6 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-
   /v1/my-team:
     post:
       summary: Fetch My Team
@@ -549,7 +548,7 @@ paths:
 
         "500":
           $ref: "#/components/responses/InternalServerError"
-          
+
   /v1/insights/productivity-analysis:
     post:
       summary: Fetch Productivity Analysis
@@ -700,7 +699,7 @@ paths:
     get:
       summary: Fetch Websites Usage
       tags:
-        -  PoW - App Usage
+        - PoW - App Usage
       security:
         - BearerAuth: []
       requestBody:
@@ -736,7 +735,7 @@ paths:
     get:
       summary: Fetch Apps Usage
       tags:
-        -  PoW - App Usage
+        - PoW - App Usage
       security:
         - BearerAuth: []
       requestBody:
@@ -768,7 +767,42 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /v1/proof-of-work/app-usage/timeline:
+    post:
+      summary: Fetch Timeline
+      description: >
+        Fetch app usage timeline with particular interval of time
+      tags:
+        - PoW - App Usage
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchAppUsageTimelineRequest"
+      responses:
+        "200":
+          description: Fetched app usage timeline successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchAppUsageTimelineSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchAppUsageTimelineValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
 
   /v1/employees:
     get:
@@ -1626,7 +1660,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    
+
   parameters:
     UserIdParam:
       name: userId
@@ -1759,7 +1793,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/422UnprocessableUserIdErrorSchema"
-         
 
     422AddEmployeeUnprocessableErrorResponse:
       description: Unprocessable Entity – Invalid roleId or teamIds
@@ -3149,59 +3182,58 @@ components:
         data:
           type: object
           properties:
-              user:
-                type: object
-                properties:
-                  userId:
-                    type: string
-                    format: uuid
-                    example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
-                  name:
-                    type: string
-                    example: "Sakthivel Govinthan"
-                  profilePicUrl:
-                    type: string
-                    format: uri
-                    example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
+            user:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                  example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+                name:
+                  type: string
+                  example: "Sakthivel Govinthan"
+                profilePicUrl:
+                  type: string
+                  format: uri
+                  example: "https://trackpilots.s3.amazonaws.com/profile-pic/sample.png"
 
-              timeSummary:
-                type: object
-                properties:
-                  totalWorkedTimeInSeconds:
-                    type: integer
-                    example: 1660
-                  activeWorkedTimeInSeconds:
-                    type: integer
-                    example: 1660
-                  idleWorkedTimeInSeconds:
-                    type: integer
-                    example: 0
-                  productiveWorkedTimeInSeconds:
-                    type: integer
-                    example: 1485
-                  unproductiveWorkedTimeInSeconds:
-                    type: integer
-                    example: 0
-                  neutralWorkedTimeInSeconds:
-                    type: integer
-                    example: 175
+            timeSummary:
+              type: object
+              properties:
+                totalWorkedTimeInSeconds:
+                  type: integer
+                  example: 1660
+                activeWorkedTimeInSeconds:
+                  type: integer
+                  example: 1660
+                idleWorkedTimeInSeconds:
+                  type: integer
+                  example: 0
+                productiveWorkedTimeInSeconds:
+                  type: integer
+                  example: 1485
+                unproductiveWorkedTimeInSeconds:
+                  type: integer
+                  example: 0
+                neutralWorkedTimeInSeconds:
+                  type: integer
+                  example: 175
 
-              session:
-                type: object
-                properties:
-                  inTime:
-                    type: string
-                    format: date-time
-                    example: "2026-02-12T04:32:01.676Z"
-                  outTime:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    example: null
-                  isWorking:
-                    type: boolean
-                    example: true
-            
+            session:
+              type: object
+              properties:
+                inTime:
+                  type: string
+                  format: date-time
+                  example: "2026-02-12T04:32:01.676Z"
+                outTime:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  example: null
+                isWorking:
+                  type: boolean
+                  example: true
 
     200FetchDashboardEmployeeRecentActivityResponse:
       type: object
@@ -3283,6 +3315,92 @@ components:
                     format: date-time
                     description: User socket connection timestamp
                     example: "2026-02-11T12:01:26.450Z"
+
+    200FetchAppUsageTimelineSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched app usage timeline successfully
+
+        error:
+          type: string
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: ab7c4f30-1024-471a-a767-739df0dc53fd
+                  name:
+                    type: string
+                    example: Sakthivel Govinthan
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    example: https://trackpilots.s3.amazonaws.com/profile-pic/sample.png
+                  emailId:
+                    type: string
+                    format: email
+                    example: sakthiveltechit@gmail.com
+
+              time:
+                type: object
+                properties:
+                  startTime:
+                    type: string
+                    format: date-time
+                    example: 2026-02-14T03:42:39.112Z
+                  endTime:
+                    type: string
+                    format: date-time
+                    example: 2026-02-14T03:42:40.667Z
+                  durationInSeconds:
+                    type: integer
+                    example: 1
+
+              application:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Google Chrome
+                  iconUrl:
+                    type: string
+                    format: uri
+                    example: https://vendors.paddle.com/favicon.ico
+                  type:
+                    type: string
+                    enum:
+                      - website
+                      - application
+                    example: website
+                  category:
+                    type: string
+                    example: Unknown
+                  domain:
+                    type: string
+                    example: vendors.paddle.com
+                  fullUrl:
+                    type: string
+                    format: uri
+                    example: https://vendors.paddle.com
 
     200FetchPowAppUsageWorkSummarySuccessResponse:
       type: object
@@ -3410,7 +3528,6 @@ components:
                   type: integer
                   example: 124
 
-
     200FetchDashboardWorkSummarySuccessResponse:
       type: object
       properties:
@@ -3508,25 +3625,25 @@ components:
                   example: 122404
 
             websitesUsage:
-               type: object
-               properties:
-                  websites:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        domain:
-                          type: string
-                          example: "chatgpt.com"
-                        iconUrl:
-                          type: string
-                          format: uri
-                          nullable: true
-                          example: "https://chatgpt.com/favicon.ico"
-                        timeSpentSeconds:
-                          type: integer
-                          format: int64
-                          example: 8375
+              type: object
+              properties:
+                websites:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      domain:
+                        type: string
+                        example: "chatgpt.com"
+                      iconUrl:
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: "https://chatgpt.com/favicon.ico"
+                      timeSpentSeconds:
+                        type: integer
+                        format: int64
+                        example: 8375
 
     200FetchPowAppsUsageResponse:
       type: object
@@ -3557,7 +3674,7 @@ components:
                   type: integer
                   format: int64
                   example: 77884
-              
+
             appsUsage:
               type: object
               properties:
@@ -3578,7 +3695,6 @@ components:
                         type: integer
                         format: int64
                         example: 41823
-              
 
     200FetchMyTeamAppsAndWebsitesResponse:
       type: object
@@ -3619,30 +3735,30 @@ components:
                   example: 77884
 
             websitesUsage:
-               type: object
-               properties:
-                  totalWebsiteTimeSpentSeconds:
-                    type: integer
-                    format: int64
-                    example: 44520
-                  websites:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        domain:
-                          type: string
-                          example: "chatgpt.com"
-                        iconUrl:
-                          type: string
-                          format: uri
-                          nullable: true
-                          example: "https://chatgpt.com/favicon.ico"
-                        timeSpentSeconds:
-                          type: integer
-                          format: int64
-                          example: 8375
-              
+              type: object
+              properties:
+                totalWebsiteTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 44520
+                websites:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      domain:
+                        type: string
+                        example: "chatgpt.com"
+                      iconUrl:
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: "https://chatgpt.com/favicon.ico"
+                      timeSpentSeconds:
+                        type: integer
+                        format: int64
+                        example: 8375
+
             appsUsage:
               type: object
               properties:
@@ -3707,30 +3823,30 @@ components:
                   example: 77884
 
             websiteUsage:
-               type: object
-               properties:
-                  totalWebsiteTimeSpentSeconds:
-                    type: integer
-                    format: int64
-                    example: 44520
-                  websites:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        domain:
-                          type: string
-                          example: "chatgpt.com"
-                        iconUrl:
-                          type: string
-                          format: uri
-                          nullable: true
-                          example: "https://chatgpt.com/favicon.ico"
-                        timeSpentSeconds:
-                          type: integer
-                          format: int64
-                          example: 8375
-              
+              type: object
+              properties:
+                totalWebsiteTimeSpentSeconds:
+                  type: integer
+                  format: int64
+                  example: 44520
+                websites:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      domain:
+                        type: string
+                        example: "chatgpt.com"
+                      iconUrl:
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: "https://chatgpt.com/favicon.ico"
+                      timeSpentSeconds:
+                        type: integer
+                        format: int64
+                        example: 8375
+
             appsUsage:
               type: object
               properties:
@@ -3809,7 +3925,7 @@ components:
                   totalWorkedTimeInSeconds:
                     type: integer
                     example: 76516
-                  
+
                   idleWorkedTimeInSeconds:
                     type: integer
                     example: 76516
@@ -4031,61 +4147,61 @@ components:
         data:
           type: object
           properties:
-                breakdownSummary:
-                  type: array
-                  items:
+            breakdownSummary:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date-time
+                    example: "2026-02-02T00:00:00.000Z"
+                  day:
+                    type: string
+                    example: Monday
+                  metrics:
                     type: object
                     properties:
-                      date:
-                        type: string
-                        format: date-time
-                        example: "2026-02-02T00:00:00.000Z"
-                      day:
-                        type: string
-                        example: Monday
-                      metrics:
-                        type: object
-                        properties:
-                          totalTimeSpendSeconds:
-                            type: integer
-                            example: 15895
-                          activeTimeSpendSeconds:
-                            type: integer
-                            example: 13432
-                          idleTimeSpendSeconds:
-                            type: integer
-                            example: 2463
-                          productiveTimeSpendSeconds:
-                            type: integer
-                            example: 8942
-                          neutralTimeSpendSeconds:
-                            type: integer
-                            example: 4490
-                          unproductiveTimeSpendSeconds:
-                            type: integer
-                            example: 0
-            
-                overallSummary:
-                  type: object
-                  properties:
-                    totalActiveTimeSpendSeconds:
-                      type: integer
-                      example: 215363
-                    totalIdleTimeSpendSeconds:
-                      type: integer
-                      example: 19974
-                    totalTimeSpendSeconds:
-                      type: integer
-                      example: 235337
-                    totalProductiveTimeSpendSeconds:
-                      type: integer
-                      example: 155530
-                    totalNeutralTimeSpendSeconds:
-                      type: integer
-                      example: 56841
-                    totalUnproductiveTimeSpendSeconds:
-                      type: integer
-                      example: 2992
+                      totalTimeSpendSeconds:
+                        type: integer
+                        example: 15895
+                      activeTimeSpendSeconds:
+                        type: integer
+                        example: 13432
+                      idleTimeSpendSeconds:
+                        type: integer
+                        example: 2463
+                      productiveTimeSpendSeconds:
+                        type: integer
+                        example: 8942
+                      neutralTimeSpendSeconds:
+                        type: integer
+                        example: 4490
+                      unproductiveTimeSpendSeconds:
+                        type: integer
+                        example: 0
+
+            overallSummary:
+              type: object
+              properties:
+                totalActiveTimeSpendSeconds:
+                  type: integer
+                  example: 215363
+                totalIdleTimeSpendSeconds:
+                  type: integer
+                  example: 19974
+                totalTimeSpendSeconds:
+                  type: integer
+                  example: 235337
+                totalProductiveTimeSpendSeconds:
+                  type: integer
+                  example: 155530
+                totalNeutralTimeSpendSeconds:
+                  type: integer
+                  example: 56841
+                totalUnproductiveTimeSpendSeconds:
+                  type: integer
+                  example: 2992
 
     200FetchDashboardWeeklySummaryResponse:
       type: object
@@ -4110,61 +4226,61 @@ components:
         data:
           type: object
           properties:
-                breakdownSummary:
-                  type: array
-                  items:
+            breakdownSummary:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date-time
+                    example: "2026-02-02T00:00:00.000Z"
+                  day:
+                    type: string
+                    example: Monday
+                  metrics:
                     type: object
                     properties:
-                      date:
-                        type: string
-                        format: date-time
-                        example: "2026-02-02T00:00:00.000Z"
-                      day:
-                        type: string
-                        example: Monday
-                      metrics:
-                        type: object
-                        properties:
-                          totalTimeSpendSeconds:
-                            type: integer
-                            example: 15895
-                          activeTimeSpendSeconds:
-                            type: integer
-                            example: 13432
-                          idleTimeSpendSeconds:
-                            type: integer
-                            example: 2463
-                          productiveTimeSpendSeconds:
-                            type: integer
-                            example: 8942
-                          neutralTimeSpendSeconds:
-                            type: integer
-                            example: 4490
-                          unproductiveTimeSpendSeconds:
-                            type: integer
-                            example: 0
-                 
-                overallSummary:
-                  type: object
-                  properties:
-                    totalActiveTimeSpendSeconds:
-                      type: integer
-                      example: 215363
-                    totalIdleTimeSpendSeconds:
-                      type: integer
-                      example: 19974
-                    totalTimeSpendSeconds:
-                      type: integer
-                      example: 235337
-                    totalProductiveTimeSpendSeconds:
-                      type: integer
-                      example: 155530
-                    totalNeutralTimeSpendSeconds:
-                      type: integer
-                      example: 56841
-                    totalUnproductiveTimeSpendSeconds:
-                      type: integer
-                      example: 2992
+                      totalTimeSpendSeconds:
+                        type: integer
+                        example: 15895
+                      activeTimeSpendSeconds:
+                        type: integer
+                        example: 13432
+                      idleTimeSpendSeconds:
+                        type: integer
+                        example: 2463
+                      productiveTimeSpendSeconds:
+                        type: integer
+                        example: 8942
+                      neutralTimeSpendSeconds:
+                        type: integer
+                        example: 4490
+                      unproductiveTimeSpendSeconds:
+                        type: integer
+                        example: 0
+
+            overallSummary:
+              type: object
+              properties:
+                totalActiveTimeSpendSeconds:
+                  type: integer
+                  example: 215363
+                totalIdleTimeSpendSeconds:
+                  type: integer
+                  example: 19974
+                totalTimeSpendSeconds:
+                  type: integer
+                  example: 235337
+                totalProductiveTimeSpendSeconds:
+                  type: integer
+                  example: 155530
+                totalNeutralTimeSpendSeconds:
+                  type: integer
+                  example: 56841
+                totalUnproductiveTimeSpendSeconds:
+                  type: integer
+                  example: 2992
 
     200FetchMyTeamScreenshotResponse:
       type: object
@@ -4326,8 +4442,6 @@ components:
           description: List of screenshots captured in the requested time interval
           items:
             $ref: "#/components/schemas/PoWScreenshotData"
-
-                 
 
     200FetchDashboardRecentScreenshotResponse:
       type: object
@@ -4698,7 +4812,6 @@ components:
                     type: string
                     example: "Either userId or teamId must be provided"
 
-
     400FetchPowScreenshotValidationErrorResponse:
       type: object
       properties:
@@ -4811,7 +4924,7 @@ components:
                     example: ["query", "timeZone"]
                   message:
                     type: string
-                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+                    example: 'Invalid option: expected one of "Africa/Abidjan"|"Africa/Accra"|"Africa/Bamako"|"Africa/Banjul"'
 
     400FetchMyTeamTimeLogsValidationErrorResponse:
       type: object
@@ -4849,7 +4962,7 @@ components:
                     example: ["query", "timeZone"]
                   message:
                     type: string
-                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+                    example: 'Invalid option: expected one of "Africa/Abidjan"|"Africa/Accra"|"Africa/Bamako"|"Africa/Banjul"'
 
     400FetchMyTeamWorkSummaryValidationErrorResponse:
       type: object
@@ -4887,7 +5000,7 @@ components:
                     example: ["query", "timeZone"]
                   message:
                     type: string
-                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+                    example: 'Invalid option: expected one of "Africa/Abidjan"|"Africa/Accra"|"Africa/Bamako"|"Africa/Banjul"'
 
     400FetchPowWebsitesUsageValidationErrorResponse:
       type: object
@@ -4925,7 +5038,7 @@ components:
                     example: ["query", "timeZone"]
                   message:
                     type: string
-                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
+                    example: 'Invalid option: expected one of "Africa/Abidjan"|"Africa/Accra"|"Africa/Bamako"|"Africa/Banjul"'
 
     400FetchPowAppsUsageValidationErrorResponse:
       type: object
@@ -4963,8 +5076,7 @@ components:
                     example: ["query", "timeZone"]
                   message:
                     type: string
-                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
-
+                    example: 'Invalid option: expected one of "Africa/Abidjan"|"Africa/Accra"|"Africa/Bamako"|"Africa/Banjul"'
 
     400FetchMyTeamAppsAndWebsitesUsageValidationErrorResponse:
       type: object
@@ -5002,8 +5114,7 @@ components:
                     example: ["query", "timeZone"]
                   message:
                     type: string
-                    example: "Invalid option: expected one of \"Africa/Abidjan\"|\"Africa/Accra\"|\"Africa/Bamako\"|\"Africa/Banjul\""
-
+                    example: 'Invalid option: expected one of "Africa/Abidjan"|"Africa/Accra"|"Africa/Bamako"|"Africa/Banjul"'
 
     400FetchMyTeamValidationErrorResponse:
       type: object
@@ -5232,7 +5343,7 @@ components:
                   message:
                     type: string
                     example: "Either userId or teamId must be provided"
-              
+
     400FetchInsightsProductivityAnalysisValidationErrorResponse:
       type: object
       properties:
@@ -5310,6 +5421,44 @@ components:
                     example: "Either userId or teamId must be provided"
 
     400FetchDashboardWorkSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch work summary details"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchAppUsageTimelineValidationErrorResponse:
       type: object
       properties:
         success:
@@ -7089,6 +7238,67 @@ components:
             format: uuid
             example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
           example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchAppUsageTimelineRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startDate
+        - endDate
+        - limit
+        - offset
+
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+        offset:
+          type: integer
+          minimum: 0
+          example: 0
+
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          example: 15
 
       # ✅ Either userId OR teamId must be present
       anyOf:
