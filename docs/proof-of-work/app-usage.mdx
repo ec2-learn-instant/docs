@@ -1,14 +1,100 @@
 ---
-title: 'App Usage'
-description: 'Display inline code and code blocks'
-icon: 'code'
+
+title: App Usage
+description: Monitor employee application usage, productivity classification, and time spent on each app in Trackpilots.
+icon: window
 ---
 
-import { Callout } from "mintlify";
+The **App Usage** page provides detailed insights into how employees use desktop applications during working hours. It helps managers understand productivity patterns and detect time spent on work-related and non-work applications.
+
+[https://app.trackpilots.com/app-usage](https://app.trackpilots.com/app-usage)
+
+---
+
+## 📌 Overview
+
+Trackpilots tracks active desktop applications and categorizes them into **Productive, Neutral, or Unproductive** based on configured productivity rules. The App Usage dashboard shows total time spent on each application.
 
 <Callout type="info">
-🔐 **Product Documentation – Coming Soon**
-
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
+App usage data is collected automatically when employees log in to the Trackpilots desktop app. If the desktop app is not running, application activity will not be recorded.
 </Callout>
+
+---
+
+## 👥 Team & User Filters
+
+Admins can filter application usage data using:
+
+| Filter        | Description                                |
+| ------------- | ------------------------------------------ |
+| Team Selector | View app usage by team                     |
+| User Selector | View app usage for a specific employee     |
+| Date Range    | Filter app usage by selected date or range |
+
+---
+
+## 📊 Application Usage Metrics
+
+The App Usage table displays time spent on each application.
+
+| Field             | Description                     |
+| ----------------- | ------------------------------- |
+| Application Name  | Name of the desktop application |
+| Total Time        | Total time spent on the app     |
+| Productive Time   | Time classified as productive   |
+| Neutral Time      | Time classified as neutral      |
+| Unproductive Time | Time classified as unproductive |
+| Usage Percentage  | Percentage of total work time   |
+
+---
+
+## 🧑‍💻 Example App Usage Records
+
+| Application        | Total Time | Classification  |
+| ------------------ | ---------- | --------------- |
+| Visual Studio Code | 2h 11m     | 🟢 Productive   |
+| Google Chrome      | 1h 20m     | 🟡 Neutral      |
+| Microsoft Edge     | 45m        | 🟢 Productive   |
+| Terminal           | 2m         | 🟢 Productive   |
+| Windows Explorer   | 30m        | 🔴 Unproductive |
+
+---
+
+## ⚙️ How App Usage Tracking Works
+
+1. Trackpilots desktop app detects the active window process
+2. Application name and process ID are captured
+3. Productivity rules classify the application
+4. Time is aggregated per minute
+5. Data is synced to the Trackpilots dashboard
+
+---
+
+## 📈 Use Cases
+
+* Identify top productive applications
+* Detect non-work application usage
+* Analyze developer and employee workflow patterns
+* Optimize productivity tools and workflows
+
+---
+
+## 🔐 Privacy & Compliance
+
+<Callout type="success">
+Trackpilots only tracks application metadata and does not capture keystrokes or private content.
+</Callout>
+
+* Inform employees about application monitoring
+* Configure productivity rules transparently
+* Follow regional compliance laws (GDPR, SOC2, ISO)
+
+---
+
+## ✅ Best Practices
+
+* Combine App Usage with Timeline and Timesheet insights
+* Review unproductive apps and update productivity rules
+* Use aggregated data instead of micro-monitoring
+
+---

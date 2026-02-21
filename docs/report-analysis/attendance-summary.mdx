@@ -1,14 +1,152 @@
 ---
+
 title: 'Attendance Summary'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Detailed guide for monthly attendance summary with in-time and out-time tracking'
+icon: 'list'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Attendance Summary** module provides a detailed monthly attendance report for each employee, including daily attendance status, check-in time, and check-out time. This report is designed for HR teams, managers, and payroll teams to validate attendance records and working patterns.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📅 Report Header Information
+
+The top section of the Attendance Summary page displays:
+
+* **Month & Year** – Example: *February 2026*
+* **Timezone** – Example: *UTC+05:30 – Asia/Kolkata*
+* **Team Selector** – Filter attendance by teams (e.g., *Abirami Kannan +11*)
+* **User Selector** – Filter by individual employees or all team members
+* **Status Filters** – Filter employees by:
+
+  * Present
+  * Absent
+  * Worked on Week Off
+  * Week Off
+
+---
+
+## 📤 Export Attendance Data
+
+The **Export** button allows downloading the attendance summary in CSV, Excel, or PDF formats for payroll processing, compliance audits, and HR documentation.
+
+---
+
+# 📊 Attendance Summary Table
+
+The Attendance Summary table displays monthly attendance data per employee with daily in-time and out-time records.
+
+## 👤 Employee Information Columns
+
+| Column        | Description                       |
+| ------------- | --------------------------------- |
+| Employee Name | Full name of the employee         |
+| Email         | Registered employee email address |
+
+---
+
+## 📆 Monthly Attendance Metrics Columns
+
+| Column                      | Description                               |
+| --------------------------- | ----------------------------------------- |
+| Total Days in This Month    | Total calendar days in the selected month |
+| Working Days in This Month  | Scheduled company working days            |
+| Week Off Days in This Month | Total scheduled weekly holidays           |
+| Completed Working Days      | Number of working days completed so far   |
+| Upcoming Working Days       | Remaining working days in the month       |
+| Present Days                | Days marked as present                    |
+| Absent Days                 | Days marked as absent                     |
+| Worked on Week Off          | Days worked during scheduled week offs    |
+
+---
+
+## 🗓️ Daily Attendance Columns
+
+For each date of the month, three fields are displayed:
+
+| Field    | Description                   |
+| -------- | ----------------------------- |
+| Status   | Attendance status for the day |
+| In Time  | First recorded check-in time  |
+| Out Time | Last recorded check-out time  |
+
+---
+
+## ✅ Attendance Status Types
+
+| Status             | Meaning                                    |
+| ------------------ | ------------------------------------------ |
+| Present            | Employee worked on a scheduled working day |
+| Absent             | No activity recorded on a working day      |
+| Week Off           | Scheduled weekly holiday                   |
+| Worked on Week Off | Employee worked on a scheduled holiday     |
+| Upcoming           | Future dates with no data                  |
+
+---
+
+# 👥 Sample Employee Attendance Insights
+
+## Abirami Kannan
+
+* Present Days: **6**
+* Absent Days: **6**
+* Worked on Week Off: **3**
+
+**Insight:** Mixed attendance with multiple absences and weekend work sessions.
+
+---
+
+## Dinesh Meivel
+
+* Present Days: **1**
+* Absent Days: **14**
+
+**Insight:** Very low attendance; employee may not have consistently used the tracking agent.
+
+---
+
+## Meganathan Govintharaj
+
+* Present Days: **0**
+* Worked on Week Off: **1**
+
+**Insight:** No regular working-day activity detected; possible misconfiguration or inactivity.
+
+---
+
+## Sakthivel Govinthan
+
+* Present Days: **15**
+* Worked on Week Off: **5**
+
+**Insight:** High attendance with frequent weekend contributions.
+
+---
+
+# 📈 Use Cases
+
+### HR & Payroll Teams
+
+* Validate monthly attendance for payroll processing
+* Calculate paid and unpaid leave days
+* Track overtime and weekend work
+
+### Managers
+
+* Monitor team attendance trends
+* Identify irregular attendance patterns
+* Ensure compliance with working hour policies
+
+### Employees
+
+* Review personal attendance logs
+* Verify check-in and check-out times
+
+# ⚙️ Best Practices
+
+* Ensure employees start Trackpilots at the beginning of their workday
+* Keep the tracking agent running to capture accurate in-time and out-time
+* Configure working days and weekly off policies in system settings
+* Regularly audit attendance data for compliance and payroll accuracy

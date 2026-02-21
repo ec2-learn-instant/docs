@@ -1,14 +1,92 @@
 ---
+
 title: 'Custom Report'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Generate and export customizable employee activity reports'
+icon: 'filter'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Custom Report** module allows administrators and managers to generate tailored reports by selecting specific metrics, users, teams, and date ranges. This feature is designed for deep analysis, audits, payroll validation, and productivity tracking.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## Overview
+
+Custom Reports provide flexible reporting by allowing you to choose the exact data fields you want to analyze. You can generate reports for individual users or entire teams and export them for offline analysis.
+
+---
+
+## Select Date
+
+Choose the date or date range for which you want to generate the report.
+
+* Single Date: Generate a report for a specific day
+* Date Range: Generate reports across multiple days (if enabled in your plan)
+
+---
+
+## Report Type
+
+You can generate reports for:
+
+* **User** – Individual employee report
+* **Team** – Aggregate report for multiple team members
+
+---
+
+## Metrics Selection
+
+You can select or unselect metrics based on your reporting needs.
+
+### Time Metrics
+
+* **Total Worked Hours** – Total logged working time
+* **Active Work Hours** – Time spent actively using the system
+* **Idle Work Hours** – Time spent idle or inactive
+* **Productive Work Hours** – Time categorized as productive
+* **Neutral Work Hours** – Time categorized as neutral
+* **Unproductive Work Hours** – Time categorized as unproductive
+
+### Usage Metrics
+
+* **Total Visited Apps** – Number of applications accessed
+* **Total Visited URLs** – Number of websites visited
+
+### Attendance Metrics
+
+* **In Time** – Employee check-in time
+* **Out Time** – Employee check-out time
+
+---
+
+## Export Options
+
+You can export the generated report in supported formats:
+
+* CSV
+* Excel (XLSX)
+* PDF (Enterprise plan)
+
+Exported reports can be used for:
+
+* Payroll processing
+* Compliance audits
+* Performance reviews
+* Management dashboards
+
+---
+
+## Use Cases
+
+* Generate daily or weekly productivity summaries
+* Analyze employee work patterns
+* Track idle vs active working trends
+* Monitor app and web usage
+  n- Provide compliance documentation for HR and audits
+
+---
+
+## Access & Permissions
+
+Only users with **Admin** or **Manager** roles can generate Custom Reports. Role-based filters ensure data privacy and controlled access.

@@ -1,14 +1,118 @@
 ---
 title: 'Daily Insights'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Detailed guide for Daily Insights and real-time attendance tracking'
+icon: 'clock'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Daily Insights** module provides real-time and historical attendance tracking for employees on a selected date. It helps managers and HR teams monitor who is working, when they checked in, and whether they are currently active.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📅 Report Header Information
+
+The top section displays key metadata for the report:
+
+* **Date** – Example: *21 Feb 2026*
+* **Timezone** – Example: *UTC+05:30 – Asia/Kolkata*
+* **Team Selector** – Filter insights by teams (e.g., *Abirami Kannan +11*)
+* **User Selector** – Filter by individual employees or all users
+
+---
+
+## 📤 Export Daily Report
+
+The **Export** button allows administrators and managers to download the daily attendance report in CSV format. This is useful for audits, payroll verification, and attendance records.
+
+---
+
+# 📊 Daily Attendance Table
+
+The Daily Insights table provides real-time attendance data for each employee.
+
+## 👤 Employee Details Columns
+
+| Column    | Description                       |
+| --------- | --------------------------------- |
+| Full Name | Employee full name                |
+| Email     | Registered employee email address |
+
+---
+
+## 🗓️ Daily Attendance Columns
+
+| Column     | Description                                                    |
+| ---------- | -------------------------------------------------------------- |
+| Date       | Selected tracking date                                         |
+| Check In   | First recorded login or activity start time                    |
+| Check Out  | Last recorded activity end time (or *Working* if still active) |
+| Attendance | Attendance status for the day                                  |
+
+---
+
+## ✅ Attendance Status Types
+
+| Status   | Meaning                                                  |
+| -------- | -------------------------------------------------------- |
+| Present  | Employee has recorded activity on the selected date      |
+| Working  | Employee is currently active and tracking is ongoing     |
+| Absent   | No activity recorded on a working day                    |
+| Week Off | Scheduled weekly holiday                                 |
+| On Leave | Approved leave day (if integrated with leave management) |
+
+---
+
+# 👥 Sample Daily Insights Data
+
+## Abirami Kannan
+
+* **Date:** 21 Feb 2026
+* **Check In:** 02:03 PM
+* **Check Out:** 06:31 PM
+* **Attendance:** Present
+
+**Insight:** Employee worked during the afternoon session and completed the workday.
+
+---
+
+## Sakthivel Govinthan
+
+* **Date:** 21 Feb 2026
+* **Check In:** 02:08 PM
+* **Check Out:** Working (still active)
+* **Attendance:** Present
+
+**Insight:** Employee is currently working and tracking is active.
+
+---
+
+# 📈 Use Cases
+
+### Managers
+
+* Monitor real-time employee attendance
+* Track late check-ins and early check-outs
+* Identify currently active employees
+
+### HR Teams
+
+* Maintain daily attendance logs
+* Verify payroll attendance records
+* Identify absenteeism patterns
+
+### Employees
+
+* Review personal daily attendance records
+* Validate tracked check-in and check-out times
+
+---
+
+# ⚙️ Best Practices
+
+* Ensure employees start the Trackpilots app at the beginning of their workday
+* Keep the tracking agent running to record accurate check-out times
+* Configure company working hours and timezones correctly
+* Encourage employees to avoid force-closing the tracking agent
+
+---

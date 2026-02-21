@@ -1,14 +1,112 @@
 ---
-title: 'Timeline'
-description: 'Display inline code and code blocks'
-icon: 'code'
+
+title: Timeline
+description: Visualize employee activity timeline with productive, neutral, unproductive, and idle work tracking in Trackpilots.
+icon: timeline
 ---
 
-import { Callout } from "mintlify";
+The **Timeline** page provides a minute-by-minute visual representation of employee activity throughout the day. It helps managers understand how employees spend their time and identify productivity patterns.
+
+[https://app.trackpilots.com/timeline](https://app.trackpilots.com/timeline)
+
+---
+
+## 📌 Overview
+
+The Timeline module displays a graphical timeline of employee activity categorized into **Productive, Neutral, Unproductive, and Idle** segments. Each block represents tracked activity based on apps, websites, and system usage.
 
 <Callout type="info">
-🔐 **Product Documentation – Coming Soon**
-
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
+📋 Timeline data is generated automatically when employees use the Trackpilots desktop app. If the Trackpilots app is not running, activity blocks will not appear in the timeline.
 </Callout>
+
+---
+
+## 👥 Team & User Filters
+
+Admins can filter timeline data using the following options:
+
+| Filter        | Description                              |
+| ------------- | ---------------------------------------- |
+| Team Selector | View activity for a specific team        |
+| User Selector | View timeline for an individual employee |
+| Date Selector | View timeline for a specific day         |
+
+---
+
+## ⏰ Timeline Visualization
+
+The timeline is displayed in hourly segments (12 AM to 11 PM) with colored activity blocks.
+
+| Activity Type   | Meaning                               |
+| --------------- | ------------------------------------- |
+| 🟢 Productive   | Work-related apps and websites        |
+| 🟡 Neutral      | Research or general browsing          |
+| 🔴 Unproductive | Non-work or distracting apps/websites |
+| ⚪ Idle          | No keyboard/mouse activity detected   |
+
+---
+
+## 📊 Activity Summary Metrics
+
+Each user timeline includes a summary of total tracked hours.
+
+| Metric                  | Description             |
+| ----------------------- | ----------------------- |
+| Productive Work (hrs)   | Total productive time   |
+| Neutral Work (hrs)      | Total neutral time      |
+| Unproductive Work (hrs) | Total unproductive time |
+| Idle Work (hrs)         | Total idle time         |
+
+---
+
+## 📋 Detailed Activity Logs
+
+Below the timeline chart, Trackpilots displays detailed activity logs.
+
+| Label                            | Start Time   | End Time     |
+| -------------------------------- | ------------ | ------------ |
+| Productive - Visual Studio Code  | Feb 21, 2026 | Feb 21, 2026 |
+| Productive - chatgpt.com         | Feb 21, 2026 | Feb 21, 2026 |
+| Neutral - portal.prepbuddy.co.in | Feb 21, 2026 | Feb 21, 2026 |
+| Unproductive - Windows Explorer  | Feb 21, 2026 | Feb 21, 2026 |
+
+---
+
+## 🔄 How Timeline Data Sync Works
+
+1. Employee uses the Trackpilots desktop app
+2. App tracks active windows and websites
+3. Productivity rules classify each activity
+4. Timeline blocks are generated in real time
+5. Data is synced to the Trackpilots dashboard
+
+---
+
+## 📈 Use Cases
+
+* Monitor employee daily workflow
+* Identify productivity peaks and idle gaps
+* Audit work patterns for compliance
+* Optimize team performance and scheduling
+
+---
+
+## 🔐 Privacy & Compliance
+
+<Callout type="success">
+Timeline data respects company-defined privacy policies and only tracks work-related activity.
+</Callout>
+
+* Inform employees about activity tracking
+* Configure productivity rules to avoid sensitive tracking
+* Use aggregated data for performance insights
+
+---
+
+## ✅ Best Practices
+
+* Review timeline with timesheets and screenshots
+* Focus on trends, not micro-monitoring
+* Use idle time insights to improve workflows
+
+---

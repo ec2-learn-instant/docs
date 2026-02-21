@@ -1,14 +1,166 @@
 ---
+
 title: 'Delayed Check-In'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Guide for tracking late check-ins and punctuality analytics'
+icon: 'flag'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Delayed Check-In** module helps organizations track employee punctuality by identifying late check-ins based on predefined working hours. This feature enables HR teams and managers to monitor late arrivals, enforce attendance policies, and analyze punctuality trends.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📅 Report Header Information
+
+The top section displays contextual information for the delayed check-in report:
+
+* **Month & Year** – Example: *February 2026*
+* **Timezone** – Example: *UTC+05:30 – Asia/Kolkata*
+* **Team Selector** – Filter delayed check-in data by teams (e.g., *Abirami Kannan +11*)
+* **User Selector** – Filter by individual employees or all users
+* **Status Filters** – Filter employees by:
+
+  * On Time
+  * Delayed Check-In
+  * Absent
+  * Worked on Week Off
+  * Week Off
+
+---
+
+## 📤 Export Delayed Check-In Data
+
+The **Export** button allows downloading delayed check-in reports in CSV, Excel, or PDF formats for HR audits, policy enforcement, and payroll reference.
+
+---
+
+## ⚠️ Activity Tracking Status Notification
+
+A system alert may appear:
+
+> Activity has been captured for 4 users out of 12 team members. Please ensure the remaining 8 start using the Trackpilots app.
+
+This indicates:
+
+* Only a subset of employees are actively tracked.
+* Employees without tracked activity may appear as Absent or No Data.
+
+---
+
+# 📊 Delayed Check-In Summary Table
+
+The Delayed Check-In table provides a monthly summary of employee punctuality and late arrivals.
+
+## 👤 Employee Information Columns
+
+| Column        | Description                       |
+| ------------- | --------------------------------- |
+| Employee Name | Full name of the employee         |
+| Email         | Registered employee email address |
+
+---
+
+## 📆 Monthly Attendance Metrics Columns
+
+| Column                      | Description                             |
+| --------------------------- | --------------------------------------- |
+| Total Days in This Month    | Total calendar days in the month        |
+| Working Days in This Month  | Scheduled company working days          |
+| Week Off Days in This Month | Scheduled weekly holidays               |
+| Completed Working Days      | Working days completed so far           |
+| Upcoming Working Days       | Remaining working days in the month     |
+| Present Days                | Days employee was present               |
+| Absent Days                 | Days employee was absent                |
+| Worked on Week Off          | Days worked during weekly offs          |
+| Delayed Check-In Days       | Number of days employee checked in late |
+
+---
+
+## 🗓️ Daily Delayed Check-In Columns
+
+For each date of the month, delayed check-in data is displayed:
+
+| Field            | Description                                                      |
+| ---------------- | ---------------------------------------------------------------- |
+| Check In Late By | Time difference between scheduled start time and actual check-in |
+| Status           | On Time, Delayed, Absent, Week Off, or Worked on Week Off        |
+
+---
+
+## ✅ Delayed Check-In Status Types
+
+| Status             | Meaning                                             |
+| ------------------ | --------------------------------------------------- |
+| On Time            | Employee checked in within the allowed grace period |
+| Delayed Check-In   | Employee checked in after the allowed grace period  |
+| Absent             | No activity recorded on a working day               |
+| Week Off           | Scheduled weekly holiday                            |
+| Worked on Week Off | Employee worked during scheduled holiday            |
+
+---
+
+# 👥 Sample Delayed Check-In Insights
+
+## Abirami Kannan
+
+* Delayed Check-In Days: **2**
+* Present Days: **6**
+
+**Insight:** Employee has occasional late check-ins; punctuality improvement recommended.
+
+---
+
+## Dinesh Meivel
+
+* Delayed Check-In Days: **1**
+* Present Days: **1**
+
+**Insight:** Minimal attendance with late arrival detected.
+
+---
+
+## Meganathan Govintharaj
+
+* Delayed Check-In Days: **0**
+* Present Days: **0**
+
+**Insight:** No working-day activity detected.
+
+---
+
+## Sakthivel Govinthan
+
+* Delayed Check-In Days: **10**
+* Present Days: **15**
+
+**Insight:** Frequent delayed check-ins detected; review working schedule and workload.
+
+---
+
+# 📈 Use Cases
+
+### HR & Compliance
+
+* Enforce punctuality policies
+* Generate late-coming reports for disciplinary actions
+* Track repeated delayed check-ins
+
+### Managers
+
+* Identify team punctuality trends
+* Adjust work schedules based on real work patterns
+* Monitor productivity start times
+
+### Employees
+
+* Review personal punctuality records
+* Improve time discipline
+
+# ⚙️ Best Practices
+
+* Configure company working hours and grace periods in system settings
+* Educate employees on punctuality policies
+* Regularly review delayed check-in analytics
+* Use Export reports for HR documentation and payroll validation
+

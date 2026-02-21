@@ -1,14 +1,114 @@
 ---
+
 title: 'Holidays'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Manage company holidays and non-working days'
+icon: 'calendar'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Holidays** module allows administrators and HR teams to manage company-wide holidays. These holidays are automatically applied to attendance, reports, and payroll calculations.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+You can:
+
+* Add new holidays
+* Edit existing holidays
+* Delete holidays
+* Define holiday types and sessions (Full Day / Half Day)
+
+---
+
+## Holiday List Table
+
+The holiday list displays all configured holidays for the selected year.
+
+### Table Columns
+
+| Field               | Description                                              |
+| ------------------- | -------------------------------------------------------- |
+| **S.No**            | Sequential number of the holiday entry                   |
+| **Holiday Date**    | Date of the holiday                                      |
+| **Holiday Title**   | Name of the holiday (e.g., Bhogi, Deepavali)             |
+| **Holiday Session** | Full Day or Half Day holiday                             |
+| **Holiday Type**    | Category such as Government Holiday or Religious Holiday |
+| **Action**          | Edit or Delete holiday                                   |
+
+---
+
+## Add Holiday
+
+Click **Add Holiday** to create a new holiday entry.
+
+### Required Fields
+
+* **Holiday Date** – Select the holiday date
+* **Holiday Title** – Enter the holiday name
+* **Holiday Session** – Choose Full Day or Half Day
+* **Holiday Type** – Select Government Holiday, Religious Holiday, or Custom Holiday
+
+---
+
+## Edit Holiday
+
+Use the **Edit** action to modify:
+
+* Holiday date
+* Holiday title
+* Holiday session
+* Holiday type
+
+Changes are reflected instantly in attendance and reports.
+
+---
+
+## Delete Holiday
+
+Use the **Delete** option to remove a holiday.
+Deleted holidays will no longer be considered in attendance and working day calculations.
+
+---
+
+## Holiday Types
+
+### Government Holiday
+
+Official public holidays recognized by government authorities.
+
+### Religious Holiday
+
+Religious or festival-based holidays configured by the organization.
+
+### Custom Holiday
+
+Company-specific holidays such as company anniversary, team outings, or internal events.
+
+---
+
+## Impact on Attendance & Reports
+
+Holidays affect multiple modules:
+
+* Attendance will not mark employees as Absent on holidays
+* Working day counts exclude holidays
+* Productivity and time tracking reports adjust calculations automatically
+* Payroll integrations can exclude holidays from salary deductions
+
+---
+
+## Best Practices
+
+* Configure holidays at the beginning of every year
+* Verify holiday dates for regional and company policies
+* Use Half Day holidays for partial working festivals
+* Restrict holiday management access to Admin/HR roles
+
+---
+
+## Permissions
+
+| Role       | Access                          |
+| ---------- | ------------------------------- |
+| Admin      | Full access (Add, Edit, Delete) |
+| HR Manager | Add and Edit                    |
+| Manager    | View only                       |
+| Employee   | View only                       |

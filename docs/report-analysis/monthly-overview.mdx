@@ -1,14 +1,167 @@
 ---
 title: 'Monthly Overview'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Detailed guide for Monthly Overview and attendance analytics'
+icon: 'calendar'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+The **Monthly Overview** module provides a comprehensive summary of employee attendance, work patterns, and productivity metrics for the selected month. It helps managers, HR teams, and administrators analyze team performance, attendance trends, and workload distribution.
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+---
+
+## 📅 Report Header Information
+
+At the top of the page, the following details are displayed:
+
+* **Month & Year** – Example: *February 2026*
+* **Timezone** – Example: *UTC+05:30 – Asia/Kolkata*
+* **Team Selector** – Allows filtering data by specific teams (e.g., *Full Stack Team +11*)
+* **User Selector** – View data for individual users or all team members
+* **Status Filters** – Filter employees by status:
+
+  * Present
+  * Absent
+  * Worked on Week Off
+  * Week Off
+  * Idle
+
+---
+
+## 📤 Export Option
+
+The **Export** button allows downloading the Monthly Overview data in supported formats (CSV) for offline analysis, audits, or payroll processing.
+
+---
+
+# 📊 Monthly Summary Table
+
+The Monthly Overview table provides employee-wise analytics for the entire month.
+
+## 👤 Employee Information Columns
+
+| Column        | Description                       |
+| ------------- | --------------------------------- |
+| Employee Name | Full name of the employee         |
+| Email         | Employee registered email address |
+
+---
+
+## 📆 Attendance & Work Metrics Columns
+
+| Column                      | Meaning                                            |
+| --------------------------- | -------------------------------------------------- |
+| Total Days in This Month    | Total calendar days in the month                   |
+| Working Days in This Month  | Scheduled working days excluding weekends/holidays |
+| Week Off Days in This Month | Total scheduled weekly offs                        |
+| Completed Working Days      | Days already completed in the current month        |
+| Upcoming Working Days       | Remaining working days in the month                |
+| Present Days                | Days marked as present                             |
+| Absent Days                 | Days marked as absent                              |
+| Worked on Week Off          | Days worked during scheduled week offs             |
+
+---
+
+## ⏱️ Productivity Time Metrics
+
+| Column             | Description                           |
+| ------------------ | ------------------------------------- |
+| Total Worked Hours | Total time logged as working time     |
+| Total Active Hours | Time actively working on applications |
+| Total Idle Hours   | Idle or inactive time detected        |
+
+These metrics help identify productivity trends and idle behavior across the month.
+
+---
+
+# 📅 Daily Attendance & Activity Breakdown
+
+Each date of the month is listed with three key metrics:
+
+* **Status** – Attendance status for the day
+* **Worked Hours** – Total time tracked
+* **Active Hours** – Productive active time
+* **Idle Hours** – Time detected as idle
+
+### Example Status Types
+
+| Status             | Description                                |
+| ------------------ | ------------------------------------------ |
+| Present            | Employee worked on a scheduled working day |
+| Absent             | No activity recorded on a working day      |
+| Week Off           | Scheduled weekly holiday                   |
+| Worked on Week Off | Employee worked on a scheduled holiday     |
+| Upcoming           | Future date with no data yet               |
+
+---
+
+# 👥 Sample Employee Monthly Insights
+
+## Abirami Kannan
+
+* Total Worked Hours: **43 hr 44 min**
+* Active Hours: **41 hr 41 min**
+* Idle Hours: **2 hr 2 min**
+* Present Days: **6**
+* Absent Days: **6**
+* Worked on Week Off: **3**
+
+**Insight:** Moderate productivity with multiple absences and weekend work.
+
+---
+
+## Dinesh Meivel
+
+* Total Worked Hours: **0 hr 47 min**
+* Present Days: **1**
+* Absent Days: **14**
+
+**Insight:** Very low activity; employee may not have used the tracking app consistently.
+
+---
+
+## Meganathan Govintharaj
+
+* Total Worked Hours: **2 hr 28 min**
+* Active Hours: **0 hr 8 min**
+* Idle Hours: **2 hr 19 min**
+
+**Insight:** Mostly idle time detected; productivity concerns or misconfigured tracking.
+
+---
+
+## Sakthivel Govinthan
+
+* Total Worked Hours: **92 hr 37 min**
+* Active Hours: **74 hr 43 min**
+* Idle Hours: **17 hr 54 min**
+* Present Days: **15**
+* Worked on Week Off: **5**
+
+**Insight:** High engagement with consistent working patterns and weekend contributions.
+
+---
+
+# 📈 Use Cases
+
+### HR & Payroll
+
+* Calculate payable working days
+* Identify unpaid absences
+* Track overtime and weekend work
+
+### Managers
+
+* Monitor team attendance trends
+* Identify underperforming or inactive employees
+* Evaluate workload distribution
+  n### Employees
+* Review personal attendance and productivity
+* Validate tracked hours
+
+# ⚙️ Best Practices
+
+* Ensure all employees install and run the Trackpilots desktop agent daily
+* Define company working days and weekly off rules in settings
+* Regularly review idle time thresholds for accurate productivity measurement
+* Use Export feature for payroll and compliance documentation

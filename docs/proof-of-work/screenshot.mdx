@@ -1,14 +1,103 @@
 ---
-title: 'Screenshot'
-description: 'Display inline code and code blocks'
-icon: 'code'
+
+title: Screenshot
+description: View employee screenshots, activity classification, and timeline insights in Trackpilots.
+icon: camera
 ---
 
-import { Callout } from "mintlify";
+The **Screenshot** page allows administrators and managers to view periodic screenshots captured from employee systems. This helps verify work activity, understand context, and analyze productivity trends.
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
-
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
+<Callout type="success">
+🔒 All screenshots are securely stored and encrypted during upload and storage.
 </Callout>
+
+---
+
+## 📌 Overview
+
+Trackpilots automatically captures screenshots at configured intervals to provide visual proof of work. Each screenshot is classified as **Productive, Neutral, Unproductive, or Idle** based on the app/website activity and productivity rules configured by the admin.
+
+[https://app.trackpilots.com/screenshots](https://app.trackpilots.com/screenshots)
+
+---
+
+## 👥 Team & User Filter
+
+Admins can filter screenshots by team or individual employee.
+
+| Filter Option | Description                             |
+| ------------- | --------------------------------------- |
+| Team Selector | View screenshots of a specific team     |
+| User Selector | View screenshots of a specific employee |
+| Date Filter   | Select a specific date to review        |
+
+---
+
+## 📷 Screenshot Timeline
+
+Each screenshot entry includes context details for audit and productivity analysis.
+
+| Field                 | Description                                                                  |
+| --------------------- | ---------------------------------------------------------------------------- |
+| Application / Website | App or website active during capture (e.g., Visual Studio Code, chatgpt.com) |
+| Activity Category     | Productive, Neutral, Unproductive, Idle                                      |
+| Timestamp             | Exact date and time of capture                                               |
+| Employee Name         | Employee who generated the screenshot                                        |
+| Screenshot Preview    | Click to view full-resolution screenshot                                     |
+
+---
+
+## 📊 Activity Classification Types
+
+* **🟢 Productive:** Work-related apps or websites (e.g., IDEs, project tools, docs)
+* **🟡 Neutral:** Browsing, research, or unknown productivity impact
+* **🔴 Unproductive:** Social media, entertainment, or blocked websites/apps
+* **⚪ Idle:** No keyboard/mouse activity detected
+
+---
+
+## 🧑‍💻 Example Screenshot Records
+
+| App / Website      | Category   | Time     |
+| ------------------ | ---------- | -------- |
+| Visual Studio Code | Productive | 08:50 PM |
+| chatgpt.com        | Productive | 08:49 PM |
+| localhost          | Neutral    | 08:47 PM |
+| web.whatsapp.com   | Productive | 08:46 PM |
+| sitegpt.ai         | Neutral    | 08:43 PM |
+
+---
+
+## ✅ Key Benefits
+
+* 📸 Visual proof of employee work
+* 📊 Context-based productivity tracking
+* 🕵️ Compliance and audit-ready monitoring
+* ⚙️ Configurable screenshot intervals
+
+---
+
+## ⚙️ How Screenshot Sync Works
+
+1. Employee installs Trackpilots desktop app
+2. Screenshot is captured at configured intervals
+3. Image is encrypted and uploaded to Trackpilots servers
+4. Admin views screenshots in the dashboard in real time
+
+---
+
+## 🔐 Privacy & Compliance Notes
+
+* Employees can enable **Privacy Mode** to pause screenshots (if allowed by admin)
+* Screenshots are stored securely with encryption
+* Admins should inform employees about monitoring policies (GDPR & compliance best practice)
+
+---
+
+## 🚀 Best Practices
+
+* Capture screenshots every 5–10 minutes for balanced monitoring
+* Classify apps/websites for accurate productivity scoring
+* Review screenshots along with time logs for better insights
+
+---

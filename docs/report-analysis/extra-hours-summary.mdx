@@ -1,14 +1,158 @@
 ---
+
 title: 'Extra Hours Summary'
-description: 'Display inline code and code blocks'
-icon: 'code'
+description: 'Guide for tracking overtime and extra working hours analytics'
+icon: 'file'
 ---
 
 import { Callout } from "mintlify";
 
-<Callout type="info">
-🔐 **Product Documentation – Coming Soon**
+# Extra Hours Summary
 
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
-</Callout>
+The **Extra Hours Summary** module provides a monthly overview of overtime and additional working hours recorded beyond scheduled working hours. This report helps organizations monitor overtime patterns, calculate compensation, and analyze workload distribution.
+
+---
+
+## 📅 Report Header Information
+
+The header section displays contextual information for the overtime report:
+
+* **Month & Year** – Example: *February 2026*
+* **Timezone** – Example: *UTC+05:30 – Asia/Kolkata*
+* **Team Selector** – Filter extra hours by teams (e.g., *Abirami Kannan +11*)
+* **User Selector** – Filter by individual employees or all users
+* **Status Filters** – Filter employees by:
+
+  * Extra Hours Worked
+  * Extra Worked on Week Off
+  * Week Off
+  * Absent
+
+---
+
+## 📤 Export Extra Hours Data
+
+The **Export** button allows downloading overtime reports in CSV, Excel, or PDF formats for payroll processing, audits, and compliance documentation.
+
+---
+
+## ⚠️ Activity Tracking Status Notification
+
+A system alert may appear:
+
+> Activity has been captured for 4 users out of 12 team members. Please ensure the remaining 8 start using the Trackpilots app.
+
+This indicates that only tracked users have valid overtime data.
+
+---
+
+# 📊 Extra Hours Summary Table
+
+The Extra Hours Summary table provides employee-wise overtime details for the selected month.
+
+## 👤 Employee Information Columns
+
+| Column        | Description                       |
+| ------------- | --------------------------------- |
+| Employee Name | Full name of the employee         |
+| Email         | Registered employee email address |
+
+---
+
+## 📆 Monthly Overtime Metrics Columns
+
+| Column                      | Description                           |
+| --------------------------- | ------------------------------------- |
+| Total Days in This Month    | Total calendar days in the month      |
+| Working Days in This Month  | Scheduled working days                |
+| Week Off Days in This Month | Scheduled weekly holidays             |
+| Completed Working Days      | Working days completed so far         |
+| Upcoming Working Days       | Remaining working days in the month   |
+| Extra Hours Worked Days     | Number of days with overtime recorded |
+| Total Extra Hours Worked    | Total overtime hours accumulated      |
+
+---
+
+## 🗓️ Daily Extra Hours Columns
+
+For each date of the month, extra working hours are displayed per day.
+
+| Field       | Description                                |
+| ----------- | ------------------------------------------ |
+| Extra Hours | Total time worked beyond scheduled hours   |
+| Status      | Extra Worked, Week Off, Absent, or No Data |
+
+---
+
+## ✅ Extra Hours Status Types
+
+| Status                   | Meaning                                |
+| ------------------------ | -------------------------------------- |
+| Extra Hours Worked       | Employee worked beyond scheduled hours |
+| Extra Worked on Week Off | Overtime recorded on weekly holiday    |
+| Week Off                 | Scheduled weekly holiday               |
+| Absent                   | No activity recorded                   |
+
+---
+
+# 👥 Sample Extra Hours Insights
+
+## Abirami Kannan
+
+* Extra Hours Worked Days: **5**
+* Total Extra Hours: **11 hr 17 min**
+
+**Insight:** Employee frequently worked overtime on multiple days.
+
+---
+
+## Dinesh Meivel
+
+* Extra Hours Worked Days: **0**
+
+**Insight:** No overtime activity detected.
+
+---
+
+## Meganathan Govintharaj
+
+* Extra Hours Worked Days: **0**
+
+**Insight:** No overtime activity recorded.
+
+---
+
+## Sakthivel Govinthan
+
+* Extra Hours Worked Days: **3**
+* Total Extra Hours: **6 hr 23 min**
+
+**Insight:** Moderate overtime activity observed.
+
+---
+
+# 📈 Use Cases
+
+### HR & Payroll
+
+* Calculate overtime compensation
+* Generate compliance and audit reports
+* Track workload distribution
+
+### Managers
+
+* Identify workload imbalance
+* Monitor burnout risk due to excessive overtime
+* Optimize staffing and scheduling
+
+### Employees
+
+* Review personal overtime logs
+* Validate extra working hours for payroll
+
+# ⚙️ Best Practices
+
+* Define standard working hours and overtime policies in system settings
+* Regularly review extra hours analytics
+* Avoid excessive overtime to maintain work-life balance
+* Use Export reports for payroll and compliance records

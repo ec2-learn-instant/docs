@@ -17,19 +17,14 @@
             "group": "Getting started",
             "icon": "rocket",
             "pages": [
-              "docs/getting-started/what-is-trackpilots",
-              "docs/getting-started/live-demo",
-              "docs/getting-started/use-cases"
+              "docs/getting-started/what-is-trackpilots"
             ]
           },
           {
             "group": "Setup & Configuration",
             "icon": "wrench",
             "pages": [
-              "docs/setup-and-configutation/getting-started",
-              "docs/setup-and-configutation/create-new-team",
-              "docs/setup-and-configutation/add-your-team-member",
-              "docs/setup-and-configutation/start-monitoring"
+              "docs/setup-and-configutation/getting-started"
             ]
           },
           {

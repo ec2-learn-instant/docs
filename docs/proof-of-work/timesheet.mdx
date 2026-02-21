@@ -1,14 +1,116 @@
 ---
-title: 'Timesheet'
-description: 'Display inline code and code blocks'
-icon: 'code'
+
+title: Timesheet
+description: Track employee working hours, productivity metrics, and daily work summaries in Trackpilots.
+icon: calendar
 ---
 
-import { Callout } from "mintlify";
+The **Timesheet** page provides a detailed breakdown of employee working hours, productivity levels, idle time, and attendance records. It helps managers analyze work patterns and ensure accurate time tracking.
+
+[https://app.trackpilots.com/timesheet](https://app.trackpilots.com/timesheet)
+
+---
+
+## 📌 Overview
+
+The Timesheet module automatically logs employee work sessions when they use the Trackpilots desktop app. It records **In Time, Out Time, Total Worked Hours, Active Hours, Idle Hours, and Productivity Metrics** for each day.
+
 
 <Callout type="info">
-🔐 **Product Documentation – Coming Soon**
-
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
+📋 Timesheet data is generated automatically when employees log in and start using the Trackpilots app. If employees do not install or run the Trackpilots app, their activity will not appear in the timesheet.
 </Callout>
+
+---
+
+## 👥 Team & User Filters
+
+Admins can filter timesheets by team, user, and date range.
+
+| Filter Option | Description                            |
+| ------------- | -------------------------------------- |
+| Team Selector | View timesheets for a specific team    |
+| User Selector | View individual employee timesheets    |
+| Date Range    | Select daily, weekly, or custom period |
+
+---
+
+## ⏱️ Daily Timesheet Metrics
+
+Each employee timesheet entry contains the following metrics:
+
+| Metric                  | Description                              |
+| ----------------------- | ---------------------------------------- |
+| In Time                 | Employee first login time                |
+| Out Time                | Employee last logout time                |
+| Total Worked (hrs)      | Total session duration                   |
+| Active Work (hrs)       | Time spent actively working              |
+| Idle Work (hrs)         | Time without keyboard/mouse activity     |
+| Productive Work (hrs)   | Time spent on productive apps/websites   |
+| Neutral Work (hrs)      | Time spent on neutral apps/websites      |
+| Unproductive Work (hrs) | Time spent on unproductive apps/websites |
+
+---
+
+## 📅 Example Daily Timesheet Record
+
+| Date         | In Time | Out Time | Total Worked | Active | Idle | Productive | Neutral | Unproductive |
+| ------------ | ------- | -------- | ------------ | ------ | ---- | ---------- | ------- | ------------ |
+| Feb 21 (Sat) | 2:08 PM | 8:58 PM  | 4h           | 3h 37m | 22m  | 2h 39m     | 58m     | --           |
+
+---
+
+## 📊 Weekly Summary Metrics
+
+Trackpilots automatically calculates weekly summary statistics for each employee.
+
+| Metric             | Description                    |
+| ------------------ | ------------------------------ |
+| Avg In Time        | Average login time             |
+| Avg Out Time       | Average logout time            |
+| Total Worked (hrs) | Total hours worked in the week |
+| Active Work (hrs)  | Total active hours             |
+| Idle Work (hrs)    | Total idle hours               |
+| Productive (hrs)   | Total productive hours         |
+| Neutral (hrs)      | Total neutral hours            |
+| Unproductive (hrs) | Total unproductive hours       |
+
+---
+
+## 📈 Productivity Indicators
+
+* 🟢 **Productive:** Work-related apps and websites
+* 🟡 **Neutral:** Browsing or research activity
+* 🔴 **Unproductive:** Social media or non-work activity
+* ⚪ **Idle:** No activity detected
+
+---
+
+## ✅ Key Benefits
+
+* Accurate employee time tracking
+* Automated attendance records
+* Productivity-based work analysis
+* Weekly and daily performance insights
+
+---
+
+## ⚙️ How Timesheet Data Sync Works
+
+1. Employee logs in to Trackpilots desktop app
+2. Work sessions are recorded automatically
+3. Activity data is processed and classified
+4. Timesheet data is synced to the dashboard in real time
+
+---
+
+## 🔐 Compliance & Best Practices
+
+<Callout type="success">
+Use timesheet reports for payroll, compliance audits, and productivity analysis.
+</Callout>
+
+* Inform employees about time tracking policies
+* Combine timesheets with screenshots and app usage for full insights
+* Review idle time to optimize team performance
+
+---

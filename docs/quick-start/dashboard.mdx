@@ -1,14 +1,228 @@
 ---
-title: 'Dashboard'
-description: 'Display inline code and code blocks'
-icon: 'list'
+
+title: "Dashboard"
+description: "Understand the Trackpilots dashboard, metrics, widgets, and productivity analytics"
+icon: "dashboard"
 ---
 
 import { Callout } from "mintlify";
 
 <Callout type="info">
-🔐 **Product Documentation – Coming Soon**
-
-API documentation and access will be enabled shortly.  
-For early or customized API access, contact **team@trackpilots.com**.
+📊 **Trackpilots Dashboard Overview**  
+The Dashboard provides real-time visibility into team activity, productivity metrics, screenshots, and work analytics.
 </Callout>
+
+---
+
+# 🧭 Overview
+
+The **Trackpilots Dashboard** is the central command center for managers and admins to monitor employee activity, productivity, and time tracking in real time.
+
+It includes:
+
+* 👥 Team status overview
+* ⚡ Live employee activity
+* 📊 Productivity metrics
+* 📸 Recent screenshots
+* 🕒 Work time analysis
+* 🌐 App & website usage
+* 📈 Weekly productivity trends
+
+---
+
+# 🧑‍💻 User Guide Metadata
+
+| Field           | Description                                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------ |
+| 🌍 Timezone     | UTC+05:30 (Asia/Kolkata)                                                                                     |
+| 📥 Download App | [https://trackpilots.com/downloads](https://trackpilots.com/downloads)                                       |
+| 👥 Add Employee | [https://app.trackpilots.com/settings/manage-employee](https://app.trackpilots.com/settings/manage-employee) |
+
+---
+
+# 📊 Team Overview Widgets
+
+These widgets provide a quick summary of your workforce status.
+
+| Metric                | Description                             |
+| --------------------- | --------------------------------------- |
+| 👥 Total Team Members | Total registered employees              |
+| 🟢 Working Mode       | Employees actively working              |
+| 🔒 Privacy Mode       | Employees in privacy mode               |
+| 📴 Offline            | Employees not connected                 |
+| ❌ App Not Installed   | Employees who haven’t installed the app |
+
+---
+
+# ⚡ Employee Recent Activity (Live)
+
+This section shows **real-time employee status**.
+
+### Status Types
+
+* 🟢 **Online** – Employee is connected
+* 🕒 **Work Mode** – Actively working
+* 🔒 **Privacy Mode** – Tracking paused
+* 📴 **Offline** – Not connected
+
+### Displayed Information
+
+| Field             | Description         |
+| ----------------- | ------------------- |
+| Associate Name    | Employee name       |
+| Company           | Organization name   |
+| Connection Status | Connected / Offline |
+| Last Active Time  | Last heartbeat time |
+
+---
+
+# 📊 Work Summary
+
+The **Work Summary** provides aggregated productivity metrics for a selected date and team.
+
+### Key Metrics
+
+| Metric                  | Description                            |
+| ----------------------- | -------------------------------------- |
+| Total Active Members    | Employees who worked                   |
+| Total Worked Hours      | Total tracked hours                    |
+| Active Work Hours       | Time actively working                  |
+| Productive Work Hours   | Time spent on productive apps/websites |
+| Neutral Work Hours      | Neutral activity time                  |
+| Unproductive Work Hours | Time spent on distractions             |
+| Idle Work Hours         | Inactive time                          |
+| Productive Efficiency   | % productive time                      |
+| Neutral Efficiency      | % neutral time                         |
+| Unproductive Efficiency | % unproductive time                    |
+| Websites Visited        | Total websites accessed                |
+| Apps Visited            | Total applications used                |
+
+---
+
+# 🏆 Top Productive Performers
+
+This widget ranks employees based on productivity percentage.
+
+| Rank | Associate Name | Productivity % |
+| ---- | -------------- | -------------- |
+| 1    | Employee Name  | 26.95%         |
+| 2    | Employee Name  | 39.47%         |
+
+---
+
+# 📸 Recent Screenshots
+
+This section displays the latest screenshots captured from employee systems.
+
+### Features
+
+* 🖼️ Real-time screenshot preview
+* 🔍 Filter by user/team/date
+* 🔐 Privacy masking (if enabled)
+
+---
+
+# 🕒 Work Time Analysis
+
+This table provides detailed work session data.
+
+| Associate Name | In Time  | Total Worked | Active Work | Idle Work | Out Time |
+| -------------- | -------- | ------------ | ----------- | --------- | -------- |
+| Employee Name  | 02:03 PM | 2h 59m       | 2h 59m      | 0h        | 06:31 PM |
+
+### Explanation
+
+* **In Time** – Login time
+* **Out Time** – Logout or last activity
+* **Idle Work** – Inactive duration
+
+---
+
+# 📈 Productivity Analysis
+
+This table breaks down productivity categories.
+
+| Associate Name | Active Work | Productive | Neutral | Unproductive |
+| -------------- | ----------- | ---------- | ------- | ------------ |
+| Employee Name  | 2h 46m      | 2h 09m     | 37m     | 0s           |
+
+---
+
+# 🌐 App and Website Usage
+
+This widget displays application and website usage details.
+
+### Key Metrics
+
+| Metric           | Description                 |
+| ---------------- | --------------------------- |
+| Total Usage Time | Combined app & website time |
+| App Usage        | Time spent on applications  |
+| Website Usage    | Time spent on websites      |
+
+### Example App Usage
+
+* Visual Studio Code – 3h 13m
+* Microsoft Edge – 21m
+* Terminal – 2m
+
+### Example Website Usage
+
+* portal.prepbuddy.co.in – 1h 18m
+* localhost – 33m
+* chatgpt.com – 9m
+* web.whatsapp.com – 3m
+
+---
+
+# 📅 Weekly Summary
+
+This section visualizes weekly productivity trends.
+
+### Metrics Tracked
+
+* ⏱️ Total Worked Hours
+* 📊 Productive Time
+* 🟡 Neutral Time
+* 🔴 Unproductive Time
+* 💤 Idle Time
+
+Graphs show daily distribution across the week.
+
+---
+
+# 📉 Work Time Efficiency
+
+Displays time efficiency trends across the week.
+
+### Efficiency Metrics
+
+| Metric            | Description           |
+| ----------------- | --------------------- |
+| Active Time       | Time actively working |
+| Productive Time   | Productive work time  |
+| Neutral Time      | Neutral work          |
+| Unproductive Time | Distractions          |
+| Idle Time         | No activity           |
+
+---
+
+<Callout type="warning">
+⚠️ **Data Delay Notice**  
+Some metrics may take a few seconds to sync depending on network connectivity.
+</Callout>
+
+---
+
+# ✅ Best Practices
+
+* Review dashboard daily for productivity insights
+* Use filters to analyze team and individual performance
+* Monitor unproductive time and optimize workflows
+* Encourage employees to maintain productive work habits
+
+---
+
+# 🎉 Summary
+
+The Trackpilots Dashboard provides a complete real-time and historical view of employee productivity, time tracking, and behavior analytics, helping organizations make data-driven decisions and improve workforce efficiency.
