@@ -72,6 +72,7 @@ webhooks:
                 $ref: "#/components/schemas/DesktopScreenshotCapturedEvent"
 
 paths:
+
   /v1/dashboard/employee-recent-activity:
     get:
       summary: Fetch Employee Recent Activity
@@ -795,6 +796,154 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/400FetchAppUsageTimelineValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/report-analysis/monthly-summary:
+    post:
+      summary: Fetch monthly summary
+      description: >
+        Fetch report analysis monthly summary
+      tags:
+        - Report Analysis
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchReportAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched monthly summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchReportAnalysisMonthlySummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchReportAnalysisMonthlySummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/report-analysis/attendance-summary:
+    post:
+      summary: Fetch attendance summary
+      description: >
+        Fetch report analysis attendance summary
+      tags:
+        - Report Analysis
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchReportAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched attendance summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchReportAnalysisAttendanceSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchReportAnalysisAttendanceSummaryValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/report-analysis/delayed-check-in :
+    post:
+      summary: Fetch delayed check-in
+      description: >
+        Fetch report analysis delayed check-in
+      tags:
+        - Report Analysis
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchReportAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched delayed check-in successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchReportAnalysisDelayedCheckInSuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchReportAnalysisDelayedCheckInValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /v1/report-analysis/extra-hours-summary :
+    post:
+      summary: Fetch extra hours summary
+      description: >
+        Fetch report analysis extra hours summary
+      tags:
+        - Report Analysis
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchReportAnalysisRequest"
+      responses:
+        "200":
+          description: Fetched extra hours summary successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchReportAnalysisExtraHoursSummarySuccessResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchReportAnalysisExtraHoursSummaryValidationErrorResponse"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -3527,6 +3676,478 @@ components:
                 websitesVisitedCount:
                   type: integer
                   example: 124
+            
+    200FetchReportAnalysisMonthlySummarySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched monthly summary successfully
+
+        error:
+          type: string
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+                  name:
+                    type: string
+                    example: Abirami Kannan
+
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    example: null
+
+                  emailId:
+                    type: string
+                    format: email
+                    example: abiramikannan2006@gmail.com
+
+              monthlySummary:
+                type: object
+                properties:
+                  totalDays:
+                    type: integer
+                    example: 28
+                  workingDays:
+                    type: integer
+                    example: 16
+                  completedWorkingDays:
+                    type: integer
+                    example: 12
+                  upcomingWorkingDays:
+                    type: integer
+                    example: 4
+                  weekOffDays:
+                    type: integer
+                    example: 12
+                  weekOffWorkedDays:
+                    type: integer
+                    example: 2
+                  presentDays:
+                    type: integer
+                    example: 6
+                  absentDays:
+                    type: integer
+                    example: 6
+
+              timeSummary:
+                type: object
+                properties:
+                  totalWorkedTimeInSeconds:
+                    type: integer
+                    format: int64
+                    example: 146280
+                  totalActiveWorkedTimeInSeconds:
+                    type: integer
+                    format: int64
+                    example: 138900
+                  totalIdleWorkedTimeInSeconds:
+                    type: integer
+                    format: int64
+                    example: 7320
+
+              dailySummary:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      example: "2026-02-01"
+
+                    day:
+                      type: string
+                      example: Sunday
+
+                    attendanceStatus:
+                      type: string
+                      enum:
+                        - UPCOMING
+                        - PRESENT
+                        - ABSENT
+                        - WEEK_OFF
+                        - WORKED_ON_WEEK_OFF
+                      example: PRESENT
+
+                    # checkIn:
+                    #   type: string
+                    #   nullable: true
+                    #   example: "9:05 AM"
+
+                    # checkOut:
+                    #   type: string
+                    #   nullable: true
+                    #   example: "6:55 PM"
+
+                    totalWorkedTimeInSeconds:
+                      type: integer
+                      format: int64
+                      example: 25080
+
+                    activeWorkedTimeInSeconds:
+                      type: integer
+                      format: int64
+                      example: 23580
+
+                    idleWorkedTimeInSeconds:
+                      type: integer
+                      format: int64
+                      example: 1440
+
+    200FetchReportAnalysisAttendanceSummarySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched attendance summary successfully
+
+        error:
+          type: string
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+                  name:
+                    type: string
+                    example: Abirami Kannan
+
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    example: null
+
+                  emailId:
+                    type: string
+                    format: email
+                    example: abiramikannan2006@gmail.com
+
+              attendanceSummary:
+                type: object
+                properties:
+                  totalDays:
+                    type: integer
+                    example: 28
+                  workingDays:
+                    type: integer
+                    example: 16
+                  completedWorkingDays:
+                    type: integer
+                    example: 12
+                  upcomingWorkingDays:
+                    type: integer
+                    example: 4
+                  weekOffDays:
+                    type: integer
+                    example: 12
+                  weekOffWorkedDays:
+                    type: integer
+                    example: 2
+                  presentDays:
+                    type: integer
+                    example: 6
+                  absentDays:
+                    type: integer
+                    example: 6
+
+              dailySummary:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      example: "2026-02-01"
+
+                    day:
+                      type: string
+                      example: Sunday
+
+                    attendanceStatus:
+                      type: string
+                      enum:
+                        - UPCOMING
+                        - PRESENT
+                        - ABSENT
+                        - WEEK_OFF
+                        - WORKED_ON_WEEK_OFF
+                      example: PRESENT
+
+                    checkIn:
+                      type: string
+                      nullable: true
+                      example: "9:05 AM"
+
+                    checkOut:
+                      type: string
+                      nullable: true
+                      example: "6:55 PM"
+
+    200FetchReportAnalysisDelayedCheckInSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched delayed check-in successfully
+
+        error:
+          type: string
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+                  name:
+                    type: string
+                    example: Abirami Kannan
+
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    example: null
+
+                  emailId:
+                    type: string
+                    format: email
+                    example: abiramikannan2006@gmail.com
+
+              delayedCheckInSummary:
+                type: object
+                properties:
+                  totalDays:
+                    type: integer
+                    example: 28
+                  workingDays:
+                    type: integer
+                    example: 16
+                  completedWorkingDays:
+                    type: integer
+                    example: 12
+                  upcomingWorkingDays:
+                    type: integer
+                    example: 4
+                  weekOffDays:
+                    type: integer
+                    example: 12
+                  weekOffWorkedDays:
+                    type: integer
+                    example: 2
+                  presentDays:
+                    type: integer
+                    example: 6
+                  absentDays:
+                    type: integer
+                    example: 6
+                  delayedCheckInDays:
+                    type: integer
+                    example: 6
+
+
+              dailySummary:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      example: "2026-02-01"
+
+                    day:
+                      type: string
+                      example: Sunday
+
+                    attendanceStatus:
+                      type: string
+                      enum:
+                        - UPCOMING
+                        - ON_TIME
+                        - ABSENT
+                        - WEEK_OFF
+                        - WORKED_ON_WEEK_OFF
+                        - DELAYED
+                      example: DELAYED
+
+                    checkIn:
+                      type: string
+                      nullable: true
+                      example: "8:42 PM"
+
+                    lateBy:
+                      type: string
+                      nullable: true
+                      example: "10hr 30min"
+
+    200FetchReportAnalysisExtraHoursSummarySuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched extra hours summary successfully
+
+        error:
+          type: string
+          nullable: true
+          example: null
+
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+
+              user:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: f0ad9ad9-d421-48dc-868d-9760e33e5089
+
+                  name:
+                    type: string
+                    example: Abirami Kannan
+
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    example: null
+
+                  emailId:
+                    type: string
+                    format: email
+                    example: abiramikannan2006@gmail.com
+
+              extraHoursSummary:
+                type: object
+                properties:
+                  totalDays:
+                    type: integer
+                    example: 28
+                  workingDays:
+                    type: integer
+                    example: 16
+                  completedWorkingDays:
+                    type: integer
+                    example: 12
+                  upcomingWorkingDays:
+                    type: integer
+                    example: 4
+                  weekOffDays:
+                    type: integer
+                    example: 12
+                  weekOffWorkedDays:
+                    type: integer
+                    example: 2
+                  extraHoursWorkedDays:
+                    type: integer
+                    example: 3
+                  extraHoursWorkedTimeInSeconds:
+                    type: integer
+                    example: 22980
+
+
+              dailySummary:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                      format: date
+                      example: "2026-02-02"
+
+                    day:
+                      type: string
+                      example: Monday
+
+                    attendanceStatus:
+                      type: string
+                      enum:
+                        - UPCOMING
+                        - ABSENT
+                        - PRESENT
+                        - WEEK_OFF
+                        - WORKED_ON_WEEK_OFF
+                      example: PRESENT
+
+                    extraHoursWorkedTimeInSeconds:
+                      type: integer
+                      example: 22980
+
 
     200FetchDashboardWorkSummarySuccessResponse:
       type: object
@@ -5458,6 +6079,158 @@ components:
                     type: string
                     example: "Either userId or teamId must be provided"
 
+    400FetchReportAnalysisMonthlySummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch monthly summary details"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchReportAnalysisAttendanceSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch attendance summary details"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchReportAnalysisDelayedCheckInValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch delayed check-in details"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    400FetchReportAnalysisExtraHoursSummaryValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch extra hours summary"
+        data:
+          type: "null"
+          example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
     400FetchAppUsageTimelineValidationErrorResponse:
       type: object
       properties:
@@ -7229,6 +8002,56 @@ components:
             type: string
             format: uuid
             example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+          example: []
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    FetchReportAnalysisRequest:
+      type: object
+      description: >
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - year
+        - month
+
+      properties:
+        year:
+          type: integer
+          example: 2026
+          minimum: 2000
+          maximum: 2200
+
+        month:
+          type: integer
+          example: 1
+          minimum: 1
+          maximum: 12
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch screenshots for
+          items:
+            type: string
+            format: uuid
+            example: "f0ad9ad9-d421-48dc-868d-9760e33e5089"
 
         teamId:
           type: array
