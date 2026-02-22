@@ -103,7 +103,6 @@
       },
       {
         "tab": "Changelogs",
-        "openapi": "/openapi-paddle.yaml",
         "groups": [
           {
             "group": "Updates",
