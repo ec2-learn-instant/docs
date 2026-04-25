@@ -16,16 +16,12 @@
           {
             "group": "Getting started",
             "icon": "rocket",
-            "pages": [
-              "docs/getting-started/what-is-trackpilots"
-            ]
+            "pages": ["docs/getting-started/what-is-trackpilots"]
           },
           {
             "group": "Setup & Configuration",
             "icon": "wrench",
-            "pages": [
-              "docs/setup-and-configutation/getting-started"
-            ]
+            "pages": ["docs/setup-and-configutation/getting-started"]
           },
           {
             "group": "Quick Start",
@@ -83,12 +79,15 @@
           {
             "group": "Access Control",
             "icon": "universal-access",
-            "pages": ["docs/access-control/access-control"]
+            "pages": ["docs/access-control/access-management"]
           },
           {
             "group": "Developer Tools",
             "icon": "code",
-            "pages": ["docs/developer-tools/api-keys", "docs/developer-tools/webhooks"]
+            "pages": [
+              "docs/developer-tools/api-keys",
+              "docs/developer-tools/webhooks"
+            ]
           },
           {
             "group": "Billing",
@@ -99,7 +98,7 @@
       },
       {
         "tab": "API reference",
-         "openapi": "/openapi.yaml"
+        "openapi": "/openapi.yaml"
       },
       {
         "tab": "Changelogs",
@@ -112,7 +111,10 @@
           {
             "group": "2026",
             "icon": "calendar",
-            "pages": [ "changelog/2026/february-2026", "changelog/2026/january-2026"]
+            "pages": [
+              "changelog/2026/february-2026",
+              "changelog/2026/january-2026"
+            ]
           },
           {
             "group": "2025",
