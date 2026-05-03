@@ -109,8 +109,13 @@ app.post(
         .update(payloadToSign)
         .digest("hex");
 
-      // 🛑 Verify signature
-      if (signature !== expectedSignature) {
+      // 🛑 Verify signature using constant-time comparison (prevents timing attacks)
+      const sigBuffer = Buffer.from(signature, "hex");
+      const expectedBuffer = Buffer.from(expectedSignature, "hex");
+      if (
+        sigBuffer.length !== expectedBuffer.length ||
+        !crypto.timingSafeEqual(sigBuffer, expectedBuffer)
+      ) {
         return res.status(401).send("Invalid webhook signature");
       }
 
@@ -157,9 +162,19 @@ If the computed signature matches the received signature:
 
 This ensures the request is authentic and not tampered with.
 
+## 🧪 Test Webhooks with Simulations
+
+The fastest way to verify your endpoint is the built-in **Webhook Simulations** tool — no need to trigger a real desktop event.
+
+👉 [Open Simulations](https://app.trackpilots.com/developer-tools/simulations)
+
+It sends a real, signed payload to your endpoint and shows you the HTTP status, latency, sent payload, and your server's response — all in one place. See the [Simulations guide](/docs/developer-tools/simulations) for full details.
+
+---
+
 ## 🧪 Test Webhooks Locally
 
-You can test Trackpilots webhooks in your local environment using ngrok.
+You can also test Trackpilots webhooks in your local environment using ngrok.
 
 ## 🚀 Start ngrok
 >  ngrok http 3000

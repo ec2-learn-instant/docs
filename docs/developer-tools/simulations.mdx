@@ -1,0 +1,233 @@
+---
+title: "Webhook Simulations"
+description: "Test your webhook endpoint by sending real signed payloads from Trackpilots"
+icon: "sliders"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+🧪 **Beta Feature**
+
+Webhook Simulations let you fire a real, signed test event to your endpoint — no need to trigger a live desktop event.
+</Callout>
+
+---
+
+## 📌 Overview
+
+Webhook Simulations allow you to verify that your webhook endpoint is **correctly receiving, parsing, and responding** to Trackpilots events.
+
+When you run a simulation, Trackpilots:
+1. Builds a realistic sample payload for the selected event type
+2. Signs it with your webhook's secret key (identical to live delivery)
+3. **POST**s it directly to your configured webhook URL
+4. Returns the HTTP status, response body, and latency back to you in the dashboard
+
+👉 Direct link: [https://app.trackpilots.com/developer-tools/simulations](https://app.trackpilots.com/developer-tools/simulations)
+
+---
+
+## 🚀 How to Run a Simulation
+
+1. Open **Developer Tools** → **Simulations** in your Trackpilots dashboard.
+2. Select the **Webhook Endpoint** you want to test from the dropdown.
+3. Choose the **Event Type** to simulate — only events registered for that webhook are shown.
+4. Click **Send Test Event**.
+5. View the result in the **Simulation Result** panel on the right.
+
+<Callout type="warning">
+⚠️ Your webhook endpoint must be **publicly accessible** for the simulation to reach it.  
+Use [ngrok](https://ngrok.com) or a similar tunnel to expose a local server during development.
+</Callout>
+
+---
+
+## 📊 Simulation Result Panel
+
+After sending, the result panel shows:
+
+| Field | Description |
+|---|---|
+| **Status** | HTTP status code returned by your endpoint (color-coded) |
+| **Latency** | Round-trip time in milliseconds |
+| **Delivered / Failed** | Whether your endpoint returned a 2xx response |
+| **Delivery Headers** | The `X-Webhook-Signature` and `X-Webhook-Timestamp` sent |
+| **Sent Payload** | The exact JSON body that was posted to your endpoint |
+| **Endpoint Response** | The raw response body returned by your server |
+
+---
+
+## 📦 Simulation Payload Structure
+
+Simulation payloads are **identical in structure to live events** with one additional field — `"simulation": true` — so your server can distinguish test events from real ones if needed.
+
+### Activity Tracking
+
+```json
+{
+  "event": "desktop.activity_tracking.captured",
+  "version": "v1",
+  "agent": "desktop-agent",
+  "simulation": true,
+  "timestamp": 1746123456789,
+  "data": {
+    "organisation": { "organisationId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+    "team": { "teamId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+    "user": { "userId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+    "activity": { "workMode": true }
+  }
+}
+```
+
+### App Tracking
+
+```json
+{
+  "event": "desktop.app_tracking.captured",
+  "version": "v1",
+  "agent": "desktop-agent",
+  "simulation": true,
+  "timestamp": 1746123456789,
+  "data": [
+    {
+      "organisation": { "organisationId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+      "team": { "teamId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+      "user": { "userId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+      "tracking": {
+        "trackingId": "e2fbd487-1ede-43e9-bd62-188da02d489f",
+        "app": {
+          "name": "Google Chrome",
+          "type": "website",
+          "category": "Unknown Category",
+          "iconUrl": "https://www.google.com/favicon.ico",
+          "domain": "google.com",
+          "fullUrl": "https://www.google.com",
+          "productivityStatus": "neutral"
+        },
+        "time": {
+          "startDate": "2026-05-04T09:10:00.000Z",
+          "endDate": "2026-05-04T09:10:20.000Z",
+          "durationInSeconds": 20
+        },
+        "trackingMode": "online",
+        "operatingSystem": "macos"
+      }
+    }
+  ]
+}
+```
+
+### Screenshot Tracking
+
+```json
+{
+  "event": "desktop.screenshot_tracking.captured",
+  "version": "v1",
+  "agent": "desktop-agent",
+  "simulation": true,
+  "timestamp": 1746123456789,
+  "data": [
+    {
+      "organisation": { "organisationId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+      "team": { "teamId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+      "user": { "userId": "3c90c3cc-0d44-4b50-8888-8dd25736052a" },
+      "screenshot": {
+        "screenshotId": "b774c86b-26e3-415f-b6d0-20a0a01b597c",
+        "imageBuffer": "[simulation-placeholder: binary image buffer not included]",
+        "app": {
+          "name": "Google Chrome",
+          "type": "website",
+          "category": "Unknown Category",
+          "iconUrl": "https://www.google.com/favicon.ico",
+          "domain": "google.com",
+          "fullUrl": "https://www.google.com",
+          "productivityStatus": "productive"
+        },
+        "time": { "capturedAt": "2026-05-04T09:10:00.000Z" },
+        "operatingSystem": "macos",
+        "workType": "remote",
+        "isIdle": false
+      }
+    }
+  ]
+}
+```
+
+<Callout type="info">
+📸 **Screenshot imageBuffer**
+
+Real screenshot events include a raw binary image buffer.  
+Simulations send a placeholder string instead: `"[simulation-placeholder: binary image buffer not included]"`.  
+Make sure your parser handles both gracefully.
+</Callout>
+
+---
+
+## 🔐 Signature Verification
+
+Simulation requests are signed **exactly like live events** using HMAC SHA-256.
+
+Your server receives:
+
+```http
+X-Webhook-Signature: <hmac-sha256-hex>
+X-Webhook-Timestamp: <unix-seconds>
+Content-Type: application/json
+```
+
+**Verification formula:**
+
+```
+HMAC_SHA256( unix_timestamp + "." + raw_body_string, WEBHOOK_SECRET )
+```
+
+The result must match `X-Webhook-Signature`. See the [Webhooks verification guide](/docs/developer-tools/webhooks#-signature-verification-flow) for the full implementation.
+
+---
+
+## 🧪 Testing Locally with ngrok
+
+1. Start your local webhook server (e.g. on port 3000)
+2. Expose it with ngrok:
+
+```bash
+ngrok http 3000
+```
+
+3. Copy the generated HTTPS URL and set it as your **Webhook URL** in Trackpilots:
+
+```
+https://YOUR_NGROK_URL/webhooks/trackpilots
+```
+
+4. Run a simulation — the request will tunnel through ngrok to your local server.
+
+---
+
+## ✅ What a Successful Simulation Looks Like
+
+```
+Status     200
+Latency    312 ms
+Result     ✅ Delivered
+```
+
+Your server should log:
+
+```
+✅ Webhook verified — event: desktop.app_tracking.captured | simulation: true
+```
+
+If you see **401 Invalid signature** — double-check that `TRACKPILOTS_WEBHOOKS_SECRET_KEY` in your environment matches the secret shown on your webhook in the dashboard.
+
+If you see **400 Missing signature** — make sure your server reads both `x-webhook-signature` and `x-webhook-timestamp` headers (lowercase).
+
+---
+
+<Callout type="info">
+🔗 **Related**
+
+- [Webhooks — Setup & Verification](/docs/developer-tools/webhooks)
+- [API Keys](/docs/developer-tools/api-keys)
+</Callout>
