@@ -659,6 +659,44 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /v1/proof-of-work/timeline:
+    post:
+      summary: Fetch Timeline
+      description: >
+        Fetch per-user activity timeline for a selected day and optional hour filter.
+        Returns paginated results with totalActiveUsers for load-more support.
+      tags:
+        - Proof Of Work
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FetchPowTimelineRequest"
+      responses:
+        "200":
+          description: Fetched timeline successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/200FetchPowTimelineResponse"
+        "400":
+          description: Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400FetchPowTimelineValidationErrorResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+        "422":
+          $ref: "#/components/responses/422UnprocessableUserIdorTeamIdErrorResponse"
+
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
   /v1/proof-of-work/app-usage/work-summary:
     post:
       summary: Fetch Work Summary
@@ -4932,10 +4970,6 @@ components:
     200FetchPowTimesheetResponse:
       type: object
       properties:
-        success:
-          type: boolean
-          example: true
-
         statusCode:
           type: integer
           example: 200
@@ -4946,97 +4980,106 @@ components:
 
         error:
           nullable: true
+          example: null
 
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              user:
+        response:
+          type: object
+          properties:
+            totalActiveUsers:
+              type: integer
+              description: Total number of users with timesheet data (used for pagination)
+              example: 12
+
+            usersList:
+              type: array
+              items:
                 type: object
                 properties:
-                  userId:
-                    type: string
-                    format: uuid
-                    example: ab7c4f30-1024-471a-a767-739df0dc53fd
-                  name:
-                    type: string
-                    example: Sakthivel Govinthan
-                  profilePicUrl:
-                    type: string
-                    example: https://trackpilots.s3.amazonaws.com/profile-pic/xxx.png
+                  user:
+                    type: object
+                    properties:
+                      userId:
+                        type: string
+                        format: uuid
+                        example: ab7c4f30-1024-471a-a767-739df0dc53fd
+                      name:
+                        type: string
+                        example: Sakthivel Govinthan
+                      profilePicUrl:
+                        type: string
+                        example: https://trackpilots.s3.amazonaws.com/profile-pic/xxx.png
 
-              dailySummary:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    date:
-                      type: string
-                      format: date-time
-                      example: "2026-02-12T00:00:00.000Z"
-                    day:
-                      type: string
-                      example: Thursday
-                    inTime:
-                      type: string
-                      format: date-time
-                      example: "2026-02-12T10:02:01.676Z"
-                    outTime:
-                      type: string
-                      format: date-time
-                      example: "2026-02-12T22:23:56.461Z"
+                  dailySummary:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date-time
+                          example: "2026-02-12T00:00:00.000Z"
+                        day:
+                          type: string
+                          example: Thursday
+                        inTime:
+                          type: string
+                          format: date-time
+                          example: "2026-02-12T10:02:01.676Z"
+                        outTime:
+                          type: string
+                          format: date-time
+                          example: "2026-02-12T22:23:56.461Z"
 
-                    totalTimeSpendSeconds:
-                      type: integer
-                      example: 18432
-                    activeTimeSpendSeconds:
-                      type: integer
-                      example: 16787
-                    idleTimeSpendSeconds:
-                      type: integer
-                      example: 1645
-                    productiveTimeSpendSeconds:
-                      type: integer
-                      example: 14288
-                    unproductiveTimeSpendSeconds:
-                      type: integer
-                      example: 0
-                    neutralTimeSpendSeconds:
-                      type: integer
-                      example: 2499
+                        totalTimeSpendSeconds:
+                          type: integer
+                          example: 18432
+                        activeTimeSpendSeconds:
+                          type: integer
+                          example: 16787
+                        idleTimeSpendSeconds:
+                          type: integer
+                          example: 1645
+                        productiveTimeSpendSeconds:
+                          type: integer
+                          example: 14288
+                        unproductiveTimeSpendSeconds:
+                          type: integer
+                          example: 0
+                        neutralTimeSpendSeconds:
+                          type: integer
+                          example: 2499
 
-              overallSummary:
-                type: object
-                properties:
-                  totalActiveTimeSpendSeconds:
-                    type: integer
-                    example: 29973
-                  totalIdleTimeSpendSeconds:
-                    type: integer
-                    example: 2481
-                  totalTimeSpendSeconds:
-                    type: integer
-                    example: 32454
-                  totalProductiveTimeSpendSeconds:
-                    type: integer
-                    example: 26047
-                  totalNeutralTimeSpendSeconds:
-                    type: integer
-                    example: 3926
-                  totalUnproductiveTimeSpendSeconds:
-                    type: integer
-                    example: 0
+                  overallSummary:
+                    type: object
+                    properties:
+                      totalActiveTimeSpendSeconds:
+                        type: integer
+                        example: 29973
+                      totalIdleTimeSpendSeconds:
+                        type: integer
+                        example: 2481
+                      totalTimeSpendSeconds:
+                        type: integer
+                        example: 32454
+                      totalProductiveTimeSpendSeconds:
+                        type: integer
+                        example: 26047
+                      totalNeutralTimeSpendSeconds:
+                        type: integer
+                        example: 3926
+                      totalUnproductiveTimeSpendSeconds:
+                        type: integer
+                        example: 0
 
-              session:
-                type: object
-                properties:
-                  avgCheckInTime:
-                    type: string
-                    example: "01:45:51"
-                  avgCheckOutTime:
-                    type: string
-                    example: "10:46:51"
+                  session:
+                    type: object
+                    properties:
+                      avgCheckInTime:
+                        type: string
+                        example: "01:45:51"
+                      avgCheckOutTime:
+                        type: string
+                        example: "10:46:51"
 
     200FetchPowScreenshotResponse:
       type: object
@@ -5410,6 +5453,188 @@ components:
         data:
           type: "null"
           example: null
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Request body is not valid"
+            code:
+              type: string
+              example: "REQUEST_VALIDATION_FAILED"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId"]
+                  message:
+                    type: string
+                    example: "Either userId or teamId must be provided"
+
+    FetchPowTimelineRequest:
+      type: object
+      description: >
+        Request payload to fetch the activity timeline for a day.
+        Either userId or teamId must be provided. Both cannot be empty.
+
+      required:
+        - timeZone
+        - startDate
+        - endDate
+
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 00:00:00"
+
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-02-08 23:59:59"
+
+        timeZone:
+          type: string
+          example: "Asia/Kolkata"
+          description: IANA timezone of the requester
+
+        offset:
+          type: integer
+          description: Page number for pagination (1-based). Defaults to 1.
+          minimum: 1
+          example: 1
+
+        userId:
+          type: array
+          description: List of user UUIDs to fetch timeline for
+          items:
+            type: string
+            format: uuid
+            example: "ab7c4f30-1024-471a-a767-739df0dc53fd"
+
+        teamId:
+          type: array
+          description: List of team UUIDs to fetch timeline for
+          items:
+            type: string
+            format: uuid
+            example: "3d4c2ced-f4d6-42ea-b6db-7dcf24a77845"
+
+      # ✅ Either userId OR teamId must be present
+      anyOf:
+        - required: [userId]
+        - required: [teamId]
+
+    200FetchPowTimelineResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 200
+
+        statusMessage:
+          type: string
+          example: Fetched timeline successfully
+
+        error:
+          nullable: true
+          example: null
+
+        response:
+          type: object
+          properties:
+            totalActiveUsers:
+              type: integer
+              description: Total number of users with timeline data (used for pagination)
+              example: 8
+
+            usersList:
+              type: array
+              items:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    format: uuid
+                    example: ab7c4f30-1024-471a-a767-739df0dc53fd
+
+                  userName:
+                    type: string
+                    example: Sakthivel Govinthan
+
+                  emailId:
+                    type: string
+                    format: email
+                    example: sakthivel@example.com
+
+                  profilePicUrl:
+                    type: string
+                    nullable: true
+                    example: https://trackpilots.s3.amazonaws.com/profile-pic/xxx.png
+
+                  productiveTimeSpend:
+                    type: integer
+                    description: Productive time in seconds
+                    example: 14288
+
+                  unProductiveTimeSpend:
+                    type: integer
+                    description: Unproductive time in seconds
+                    example: 0
+
+                  neutralTimeSpend:
+                    type: integer
+                    description: Neutral time in seconds
+                    example: 2499
+
+                  idleTimeSpend:
+                    type: integer
+                    description: Idle time in seconds
+                    example: 1645
+
+                  appTrackingDetails:
+                    type: array
+                    description: Chronological list of app activity segments for the timeline chart
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          enum: [productive, neutral, unproductive, idle]
+                          example: productive
+
+                        appName:
+                          type: string
+                          example: Google Chrome
+
+                        title:
+                          type: string
+                          example: "GitHub - trackpilots/trackpilots-web-app"
+
+                        startTime:
+                          type: string
+                          format: date-time
+                          example: "2026-02-08T04:32:01.000Z"
+
+                        endTime:
+                          type: string
+                          format: date-time
+                          example: "2026-02-08T04:45:22.000Z"
+
+    400FetchPowTimelineValidationErrorResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        statusMessage:
+          type: string
+          example: "Failed to fetch timeline data"
         error:
           type: object
           properties:
@@ -8528,6 +8753,12 @@ components:
           type: string
           example: "Asia/Kolkata"
           description: IANA timezone of the requester
+
+        offset:
+          type: integer
+          description: Page number for pagination (1-based). Defaults to 1.
+          minimum: 1
+          example: 1
 
         userId:
           type: array
