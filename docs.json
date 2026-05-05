@@ -113,6 +113,8 @@
             "group": "2026",
             "icon": "calendar",
             "pages": [
+              "changelog/2026/may-2026",
+              "changelog/2026/april-2026",
               "changelog/2026/february-2026",
               "changelog/2026/january-2026"
             ]
