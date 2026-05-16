@@ -58,7 +58,7 @@ Subscribe to one or more of the following desktop tracking events:
 |---|---|
 | `desktop.app_tracking.captured` | Fired when app/website usage is tracked on an employee's desktop |
 | `desktop.screenshot_tracking.captured` | Fired when a screenshot is captured from an employee's desktop |
-| `desktop.activity_tracking.captured` | Fired when activity data (idle/active status) is recorded |
+| `desktop.activity_tracking.captured` | Fired when an employee's work mode or privacy mode status changes |
 
 Each event is delivered as a **signed POST request** to your webhook URL with the full event payload and security headers.
 

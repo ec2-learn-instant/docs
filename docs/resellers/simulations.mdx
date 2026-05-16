@@ -144,6 +144,8 @@ In simulation payloads, `imageBuffer` contains a placeholder string instead of a
 
 ### Activity Tracking Event — `desktop.activity_tracking.captured`
 
+Fired when an employee switches between **Work Mode** and **Privacy Mode** on their desktop app.
+
 ```json
 {
   "event": "desktop.activity_tracking.captured",
@@ -159,6 +161,9 @@ In simulation payloads, `imageBuffer` contains a placeholder string instead of a
   }
 }
 ```
+
+- `workMode: true` — Employee switched to **Work Mode** (tracking active)
+- `workMode: false` — Employee switched to **Privacy Mode** (tracking paused)
 
 ---
 
