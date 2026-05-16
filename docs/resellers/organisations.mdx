@@ -1,0 +1,179 @@
+---
+title: "Organisations"
+description: "Create and manage child organisations under your reseller account"
+icon: "building"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+🏢 **Reseller Feature**
+
+Organisations is available exclusively to reseller accounts. Each child organisation is an independent Trackpilots workspace that you provision and manage.
+</Callout>
+
+---
+
+## 📌 Overview
+
+The **Organisations** page is the central hub for resellers to create, manage, and access all child organisations provisioned under their account.
+
+Each organisation gets its own isolated workspace with independent teams, employees, settings, and tracking data. As a reseller, you can:
+
+- Create new organisations for your clients
+- Monitor team and user counts across all organisations
+- Access each organisation's dashboard directly
+- Copy API credentials per organisation
+- Delete organisations when no longer needed
+
+👉 Direct link: https://app.trackpilots.com/resellers/organisations
+
+---
+
+## ➕ Create an Organisation
+
+To provision a new child organisation:
+
+1. Go to **Resellers → Organisations**
+2. Click the **Add Organisation** button in the top-right corner
+3. Fill in the following details:
+
+| Field | Description | Required |
+|---|---|---|
+| Full Name | Name of the admin user for this organisation | ✅ Yes |
+| Work Email ID | Login email for the organisation admin | ✅ Yes |
+| Company Name | Name of the client organisation | ✅ Yes |
+| Company Size | Number of employees (1–10, 11–50, 51–200, 201–500, 500+) | ✅ Yes |
+| Password | Login password (min 8 chars, uppercase, lowercase, digit, special char) | ✅ Yes |
+
+4. Click **Create**
+
+🎉 The organisation is created instantly and appears in your organisations grid.
+
+<Callout type="info">
+🎊 A confetti animation plays on successful creation to confirm the organisation has been provisioned.
+</Callout>
+
+---
+
+## 🗂️ Organisation Cards
+
+Each organisation is displayed as a card in a grid layout. The card shows:
+
+### Header
+- **Organisation avatar** — First letter of the organisation name (purple circle)
+- **Organisation name**
+- **Billing mode badge** — `prepaid` (blue) or other modes (green)
+- **3-dot menu** — Options to delete the organisation
+
+### Metrics
+| Metric | Description |
+|---|---|
+| 👥 Teams | Number of teams created inside this organisation |
+| 👤 Users | Total number of users across all teams |
+
+---
+
+## ⚠️ Onboarding Status
+
+A newly created organisation starts with **zero teams**. Until the first team is set up, the card shows an **Onboarding Pending** alert:
+
+- Amber pulsing dot with the message: *"Onboarding Pending — Complete the Team Setup"*
+- **Complete Team Setup** button — Opens the organisation dashboard so you can configure teams
+
+<Callout type="warning">
+⚠️ **Complete Onboarding First**
+
+Employee tracking cannot begin until at least one team is created inside the organisation. Always complete the team setup before inviting employees.
+</Callout>
+
+---
+
+## 🔑 API Credentials
+
+Once an organisation has at least one team, its API credentials are visible on the card:
+
+| Credential | Description |
+|---|---|
+| **Organisation ID** | Unique identifier for this organisation |
+| **API Key** | Secret token for API authentication (partially masked) |
+
+Both values have a **copy button** (📋) that shows a "Copied!" confirmation for 2 seconds.
+
+<Callout type="warning">
+🛡️ **Keep API Keys Secure**
+
+Treat the API Key like a password. Never expose it in client-side code or public repositories. Rotate it immediately if compromised.
+</Callout>
+
+---
+
+## 🔗 View Organisation Dashboard
+
+Click **View Dashboard** on any fully onboarded organisation card to open that organisation's Trackpilots workspace in a new tab.
+
+- You are automatically signed in as the organisation admin
+- The dashboard loads at `https://reseller.trackpilots.com` with a scoped auth token
+- No separate login is required
+
+<Callout type="info">
+🔄 **Seamless Account Switching**
+
+The "View Dashboard" feature uses a secure token-based sign-in flow. The token is scoped to that organisation only and does not grant access to other reseller organisations.
+</Callout>
+
+---
+
+## 🗑️ Delete an Organisation
+
+To delete an organisation:
+
+1. Click the **3-dot menu (⋮)** on the organisation card
+2. Select **Delete**
+3. Confirm the action in the modal — type-check the organisation name is shown
+4. Click **Delete** to confirm
+
+<Callout type="warning">
+⚠️ **Irreversible Action**
+
+Deleting an organisation permanently removes all teams, employees, tracking data, and settings associated with it. This action **cannot be undone**.
+</Callout>
+
+---
+
+## 📊 Organisation Data Fields
+
+| Field | Description |
+|---|---|
+| `organisationId` | Unique UUID for the organisation |
+| `organisationName` | Client company name |
+| `organisationEmailId` | Admin login email |
+| `apiToken` | Full API key (masked in UI, copyable) |
+| `apiTokenId` | API token identifier |
+| `teamCount` | Number of teams in this organisation |
+| `userCount` | Total users across all teams |
+| `billingMode` | Billing type (e.g., `prepaid`) |
+| `perLicenseCost` | Cost per user licence |
+| `createdAt` | Organisation creation timestamp |
+
+---
+
+## ✅ Summary
+
+| Action | Where |
+|---|---|
+| Create organisation | Top-right "Add Organisation" button |
+| Complete team setup | "Complete Team Setup" on onboarding card |
+| Copy Organisation ID | Card → Organisation ID → 📋 icon |
+| Copy API Key | Card → API Key → 📋 icon |
+| Open client dashboard | Card → "View Dashboard" button |
+| Delete organisation | Card → ⋮ menu → Delete |
+
+---
+
+<Callout type="info">
+🚀 **Next Steps**
+
+After creating an organisation, set up webhooks to receive real-time tracking events from it.
+👉 [Reseller Webhooks](/docs/resellers/webhook)
+</Callout>

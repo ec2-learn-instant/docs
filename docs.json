@@ -91,6 +91,16 @@
             ]
           },
           {
+            "group": "Reseller",
+            "icon": "store",
+            "pages": [
+              "docs/resellers/organisations",
+              "docs/resellers/webhook",
+              "docs/resellers/simulations",
+              "docs/resellers/pricing"
+            ]
+          },
+          {
             "group": "Billing",
             "icon": "money-bill-wave",
             "pages": ["docs/billing/billing"]

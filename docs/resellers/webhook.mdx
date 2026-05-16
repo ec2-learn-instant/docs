@@ -1,0 +1,203 @@
+---
+title: "Webhook"
+description: "Configure reseller webhooks and monitor live tracking events from all child organisations"
+icon: "webhook"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+📡 **Reseller Webhooks**
+
+Reseller webhooks deliver real-time tracking events from **all your child organisations** to a single endpoint — giving you a unified event stream across your entire reseller network.
+</Callout>
+
+---
+
+## 📌 Overview
+
+The **Webhook** page lets you configure webhook endpoints to receive tracking events from every organisation under your reseller account. It also includes a **Live Desktop Event Feed** — a real-time stream that lets you monitor incoming events directly in the dashboard without any external tooling.
+
+👉 Direct link: https://app.trackpilots.com/resellers/webhook
+
+---
+
+## ➕ Create a Webhook
+
+1. Go to **Resellers → Webhook**
+2. Click **Add Webhook**
+3. Fill in the form:
+
+| Field | Description | Required |
+|---|---|---|
+| Webhook Name | A friendly name to identify this webhook | ✅ Yes |
+| Webhook URL | Your HTTPS endpoint (e.g. `https://yourdomain.com/reseller/events`) | ✅ Yes |
+| Events | At least one event type to subscribe to | ✅ Yes |
+
+4. Click **Create Webhook**
+
+<Callout type="warning">
+🔒 **HTTPS Required**
+
+Only public HTTPS URLs are accepted. Localhost, private IPs (10.x, 192.168.x, 172.16–31.x), and HTTP URLs are rejected for security reasons.
+</Callout>
+
+---
+
+## ✏️ Edit a Webhook
+
+Click the **edit icon (✏️)** on any webhook card to open the edit modal. You can update the webhook name, URL, and subscribed events. Click **Update Webhook** to save changes.
+
+---
+
+## 📡 Supported Events
+
+Subscribe to one or more of the following desktop tracking events:
+
+| Event Name | Trigger |
+|---|---|
+| `desktop.app_tracking.captured` | Fired when app/website usage is tracked on an employee's desktop |
+| `desktop.screenshot_tracking.captured` | Fired when a screenshot is captured from an employee's desktop |
+| `desktop.activity_tracking.captured` | Fired when activity data (idle/active status) is recorded |
+
+Each event is delivered as a **signed POST request** to your webhook URL with the full event payload and security headers.
+
+---
+
+## 🔐 Webhook Secret
+
+Every webhook is assigned a unique **secret key** used to sign outgoing payloads. The secret is:
+
+- Partially masked in the UI (`first8chars••••••••••••••••••••••••`)
+- Copyable via the 📋 copy button
+- Used to verify the `x-webhook-signature` header on incoming requests
+
+See the [Webhooks guide](/docs/developer-tools/webhooks) for the full HMAC SHA256 signature verification flow.
+
+---
+
+## 📋 Webhook Card Fields
+
+| Field | Description |
+|---|---|
+| Webhook Name | Display name |
+| Webhook URL | Endpoint that receives events |
+| Subscribed Events | Badge list of event types |
+| Secret | Masked API secret with copy button |
+| Created | Date the webhook was created |
+
+---
+
+## 🗑️ Delete a Webhook
+
+Click the **delete icon (🗑️)** on a webhook card, then confirm in the modal. Deletion is immediate and permanent — no further events will be delivered to that endpoint.
+
+---
+
+## 📺 Live Desktop Event Feed
+
+The Live Desktop Event Feed is a real-time dashboard panel that streams incoming tracking events from all your reseller organisations as they happen.
+
+<Callout type="info">
+⚡ **Real-Time via Socket.IO**
+
+Events are pushed over a persistent WebSocket connection. No page refresh is needed — new events appear instantly as they arrive from employee desktops across your organisations.
+</Callout>
+
+The feed only appears when **at least one event type is configured** in a webhook.
+
+---
+
+### 🔌 Connection Status
+
+The top-right of the feed header shows:
+
+| Badge | Meaning |
+|---|---|
+| 🟢 Connected | WebSocket is live and receiving events |
+| ⚫ Disconnected | Connection lost — events are not streaming |
+| 🔴 Live | Feed is actively listening |
+
+---
+
+### 🗂️ Event Tabs
+
+Tabs are shown only for event types you have subscribed to in your webhooks:
+
+| Tab | Color | Event Type |
+|---|---|---|
+| Tracking Event | 🔵 Blue | `desktop.app_tracking.captured` |
+| Screenshot Event | 🟠 Orange | `desktop.screenshot_tracking.captured` |
+| Activity Event | 🟢 Green | `desktop.activity_tracking.captured` |
+
+The badge on each tab shows the total number of events received in that session.
+
+---
+
+### 📋 Event Cards (Left Panel)
+
+The left panel shows the **latest 10 events** for the selected tab. Each event card displays:
+
+| Field | Description |
+|---|---|
+| Parent Organisation Name | Name of your reseller parent account |
+| Reseller Organisation Name | Name of the child organisation that generated the event |
+| UserId | ID of the employee whose desktop sent the event |
+| TeamId | ID of the team the employee belongs to |
+| Timestamp | Exact date/time the event was received |
+| Relative time | Human-readable age (e.g. "3 sec ago", "2 min ago") |
+| Payload | Full JSON event payload in a scrollable code block |
+
+Every ID field has a 📋 **copy button** for quick clipboard access.
+
+**New Event Highlight:**
+The most recently received card shows a **"New Event"** badge (replacing the event type label) with a colored border highlight. Both disappear automatically after **3 seconds**.
+
+---
+
+### 🌊 Live Pool (Right Panel)
+
+The Live Pool is a **chronological log** of all incoming events across all tabs (max 30 entries). Each entry shows:
+
+- Event type with color-coded dot
+- Organisation name
+- Timestamp + relative time
+- **"New Event"** badge on the far right for the most recent entry (disappears after 3 seconds)
+
+**Pause / Resume:**
+Click the ⏸️ pause button to stop new entries from appearing in the pool (events still arrive in the background). Click ▶️ resume to restart live updates.
+
+---
+
+### 🔔 Toast Notifications
+
+When a new event arrives, a **toast notification** appears in the top-right of the feed for 3 seconds showing:
+
+- Event type icon and name
+- Organisation name
+- Exact timestamp + relative time
+
+---
+
+## ✅ Summary
+
+| Feature | Description |
+|---|---|
+| Create webhook | Configure a URL + events to receive |
+| Edit webhook | Update name, URL, or subscribed events |
+| Copy secret | One-click copy for HMAC signature verification |
+| Live Event Feed | Real-time stream of events from all organisations |
+| Event tabs | Filter feed by tracking / screenshot / activity |
+| Event cards | Full event detail with copy buttons for all IDs |
+| Live Pool | Cross-type chronological event log |
+| Pause/Resume | Control live feed updates |
+| New Event badge | Visual highlight for the latest event (auto-dismisses in 3s) |
+
+---
+
+<Callout type="info">
+🧪 **Test Your Webhook Before Going Live**
+
+Use the built-in Simulations tool to send a signed test payload to your endpoint and verify it's responding correctly before processing real events.
+👉 [Reseller Simulations](/docs/resellers/simulations)
+</Callout>

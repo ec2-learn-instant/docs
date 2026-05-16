@@ -1,0 +1,251 @@
+---
+title: "Simulations"
+description: "Send signed test payloads to your reseller webhook endpoint to verify it's working correctly"
+icon: "flask"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="warning">
+🧪 **Beta Feature**
+
+Reseller Webhook Simulations is currently in beta. The core functionality is stable, but additional event types and options will be added in future releases.
+</Callout>
+
+---
+
+## 📌 Overview
+
+The **Simulations** page lets you send a realistic, cryptographically signed test payload to your reseller webhook endpoint — without waiting for a real employee desktop event to fire.
+
+Use simulations to:
+- Verify your endpoint URL is reachable
+- Confirm your HMAC signature verification logic is correct
+- Inspect the exact payload structure for each event type
+- Debug response errors before going live
+
+👉 Direct link: https://app.trackpilots.com/resellers/simulations
+
+<Callout type="info">
+🔐 **Real Signatures**
+
+Simulation payloads are signed with the same HMAC SHA256 algorithm as live events. Your server's signature verification code will work identically for both.
+</Callout>
+
+---
+
+## 🚀 How to Run a Simulation
+
+1. Go to **Resellers → Simulations**
+2. **Select a Webhook** from the dropdown — lists all configured reseller webhooks with their URLs
+3. **Select an Event Type** — only events subscribed to on the selected webhook are shown:
+   - `desktop.app_tracking.captured`
+   - `desktop.screenshot_tracking.captured`
+   - `desktop.activity_tracking.captured`
+4. Review the **Request Payload Preview** (right panel) to see the exact JSON that will be sent
+5. Click **Send Test Event**
+6. View the **Simulation Result** panel for the full response details
+
+---
+
+## 📦 Request Payload Preview
+
+Before sending, the right panel shows a formatted preview of the payload that will be delivered to your endpoint. The preview updates automatically when you change the webhook or event selection.
+
+All simulation payloads include `"simulation": true` so you can distinguish them from live events in your server logs.
+
+---
+
+## 📨 Payload Structures
+
+### App Tracking Event — `desktop.app_tracking.captured`
+
+```json
+{
+  "event": "desktop.app_tracking.captured",
+  "version": "v1",
+  "agent": "desktop-agent",
+  "simulation": true,
+  "timestamp": 1716000000000,
+  "data": [
+    {
+      "organisation": { "organisationId": "<uuid>" },
+      "team": { "teamId": "<uuid>" },
+      "user": { "userId": "<uuid>" },
+      "tracking": {
+        "trackingId": "<uuid>",
+        "app": {
+          "name": "Google Chrome",
+          "type": "website",
+          "category": "Unknown Category",
+          "iconUrl": "https://www.google.com/favicon.ico",
+          "domain": "google.com",
+          "fullUrl": "https://www.google.com",
+          "productivityStatus": "neutral"
+        },
+        "time": {
+          "startDate": "2024-01-15T09:00:00.000Z",
+          "endDate": "2024-01-15T09:00:20.000Z",
+          "durationInSeconds": 20
+        },
+        "trackingMode": "online",
+        "operatingSystem": "macos"
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Screenshot Tracking Event — `desktop.screenshot_tracking.captured`
+
+```json
+{
+  "event": "desktop.screenshot_tracking.captured",
+  "version": "v1",
+  "agent": "desktop-agent",
+  "simulation": true,
+  "timestamp": 1716000000000,
+  "data": [
+    {
+      "organisation": { "organisationId": "<uuid>" },
+      "team": { "teamId": "<uuid>" },
+      "user": { "userId": "<uuid>" },
+      "screenshot": {
+        "screenshotId": "<uuid>",
+        "imageBuffer": "[simulation-placeholder: binary image buffer not included]",
+        "app": {
+          "name": "Google Chrome",
+          "type": "website",
+          "category": "Unknown Category",
+          "iconUrl": "https://www.google.com/favicon.ico",
+          "domain": "google.com",
+          "fullUrl": "https://www.google.com",
+          "productivityStatus": "productive"
+        },
+        "time": { "capturedAt": "2024-01-15T09:00:00.000Z" },
+        "operatingSystem": "macos",
+        "workType": "remote",
+        "isIdle": false
+      }
+    }
+  ]
+}
+```
+
+<Callout type="info">
+🖼️ **imageBuffer in Simulations**
+
+In simulation payloads, `imageBuffer` contains a placeholder string instead of a real binary image. In live events, this field carries the actual screenshot binary. Make sure your server handles both gracefully.
+</Callout>
+
+---
+
+### Activity Tracking Event — `desktop.activity_tracking.captured`
+
+```json
+{
+  "event": "desktop.activity_tracking.captured",
+  "version": "v1",
+  "agent": "desktop-agent",
+  "simulation": true,
+  "timestamp": 1716000000000,
+  "data": {
+    "organisation": { "organisationId": "<uuid>" },
+    "team": { "teamId": "<uuid>" },
+    "user": { "userId": "<uuid>" },
+    "activity": { "workMode": true }
+  }
+}
+```
+
+---
+
+## 📊 Simulation Result Panel
+
+After sending, the result panel shows:
+
+| Field | Description |
+|---|---|
+| **HTTP Status** | Response code from your server (2xx = success, 4xx/5xx = error) |
+| **Latency** | Round-trip time in milliseconds |
+| **Result** | ✅ Delivered or ❌ Failed |
+| **Delivery Headers** | The `x-webhook-signature` and `x-webhook-timestamp` headers sent with the request |
+| **Sent Payload** | The full JSON body that was POSTed to your endpoint |
+| **Endpoint Response** | The raw response body your server returned |
+
+All three code blocks have a 📋 copy button for easy inspection.
+
+---
+
+## 🔐 Signature Verification
+
+The simulation sends the same headers as a live webhook:
+
+| Header | Description |
+|---|---|
+| `x-webhook-signature` | HMAC SHA256 of `timestamp.body` signed with your webhook secret |
+| `x-webhook-timestamp` | Unix timestamp in milliseconds when the request was sent |
+
+Your server should verify the signature using:
+
+```
+HMAC_SHA256(timestamp + "." + rawBody, WEBHOOK_SECRET) === x-webhook-signature
+```
+
+See the [Webhooks guide](/docs/developer-tools/webhooks) for a complete Node.js implementation with timing-safe comparison.
+
+---
+
+## ❌ Error Reference
+
+| HTTP Status | Error Shown | Meaning |
+|---|---|---|
+| `404` | Webhook not found | The webhook was deleted after selection |
+| `400` | Event type not registered | The selected event is not in this webhook's subscribed events |
+| `503` | Service unavailable | Simulation service is temporarily down — retry in a moment |
+| Network error | Network error | Your endpoint is unreachable from Trackpilots servers |
+| Other | Simulation failed | Unexpected error — check your endpoint logs |
+
+---
+
+## 🧪 Test Locally with ngrok
+
+To test simulations against a local server:
+
+1. Start your local webhook server (e.g. on port `3000`)
+2. Run ngrok to expose it:
+   ```bash
+   ngrok http 3000
+   ```
+3. Copy the generated HTTPS URL (e.g. `https://abc123.ngrok.io`)
+4. Create or edit a reseller webhook with this URL
+5. Run a simulation — your local server will receive the signed payload
+
+<Callout type="warning">
+⚠️ **ngrok URLs are Temporary**
+
+ngrok URLs change each session (on the free plan). Update your webhook URL each time you restart ngrok.
+</Callout>
+
+---
+
+## ✅ Summary
+
+| Step | Action |
+|---|---|
+| 1 | Select a configured reseller webhook |
+| 2 | Choose an event type to simulate |
+| 3 | Preview the request payload |
+| 4 | Click **Send Test Event** |
+| 5 | Inspect status, latency, headers, payload, and response |
+
+---
+
+<Callout type="info">
+🔗 **No webhooks yet?**
+
+You need at least one reseller webhook configured before running simulations.
+👉 [Create a Reseller Webhook](/docs/resellers/webhook)
+</Callout>
