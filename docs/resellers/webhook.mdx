@@ -88,6 +88,111 @@ See the [Webhooks guide](/docs/developer-tools/webhooks) for the full HMAC SHA25
 
 ---
 
+## 🧑‍💻 Sample Webhook Receiver (Node.js + Express)
+
+Below is the exact receiver implementation for the reseller webhook endpoint.
+
+<Callout type="warning">
+⚠️ **Different from Standard Webhooks**
+
+The reseller webhook uses `express.json()` (parsed JSON body) — not `express.raw()`. The signature is computed against `JSON.stringify(req.body)`, not the raw buffer. Using the wrong body type will cause all signature checks to fail.
+</Callout>
+
+```js
+import express from "express";
+import crypto from "crypto";
+
+const app = express();
+
+// 🔔 Reseller Webhook Endpoint
+app.post(
+  "/webhooks/reseller",
+  express.json({ limit: "50mb" }),
+  (req, res) => {
+    try {
+      // 🔐 Reseller webhook secret (set in your environment variables)
+      const webhookSecret = process.env.RESELLER_WEBHOOK_SECRET;
+      if (!webhookSecret) {
+        console.error("❌ RESELLER_WEBHOOK_SECRET env var is not set");
+        return res.status(500).send("Webhook secret not configured");
+      }
+
+      // Read signature headers
+      const signature = req.headers["x-webhook-signature"];
+      const timestamp = req.headers["x-webhook-timestamp"];
+      if (!signature || !timestamp) {
+        return res.status(400).send("Missing signature");
+      }
+
+      // 🔏 Build the payload string for signing
+      // Note: sign against JSON.stringify(req.body), not the raw buffer
+      const payloadToSign = `${timestamp}.${JSON.stringify(req.body)}`;
+
+      const expectedSignature = crypto
+        .createHmac("sha256", webhookSecret)
+        .update(payloadToSign)
+        .digest("hex");
+
+      // 🛑 Verify using constant-time comparison (prevents timing attacks)
+      if (
+        !crypto.timingSafeEqual(
+          Buffer.from(signature, "hex"),
+          Buffer.from(expectedSignature, "hex"),
+        )
+      ) {
+        return res.status(401).send("Invalid signature");
+      }
+
+      // ✅ Verified — process the event
+      const event = req.body;
+      console.log("🎯 Verified Reseller Event:", JSON.stringify(event, null, 2));
+
+      // Handle event types
+      switch (event.event) {
+        case "desktop.app_tracking.captured":
+          // process app tracking data
+          break;
+        case "desktop.screenshot_tracking.captured":
+          // process screenshot data
+          break;
+        case "desktop.activity_tracking.captured":
+          // process work mode / privacy mode change
+          break;
+        default:
+          console.log("Unknown event type:", event.event);
+      }
+
+      return res.status(200).json({ received: true });
+    } catch (error) {
+      console.error("❌ [Reseller Webhook] error:", error);
+      return res.status(500).send("Webhook processing failed");
+    }
+  },
+);
+
+app.listen(3000, () => {
+  console.log("🚀 Reseller webhook server running on http://localhost:3000");
+});
+```
+
+---
+
+## 🔐 Signature Verification Formula
+
+```
+HMAC_SHA256(timestamp + "." + JSON.stringify(body), RESELLER_WEBHOOK_SECRET)
+```
+
+| Component | Value |
+|---|---|
+| `timestamp` | Value of the `x-webhook-timestamp` header |
+| `body` | The parsed JSON request body |
+| `RESELLER_WEBHOOK_SECRET` | Your webhook secret (from the Reseller Webhook card) |
+
+Store the secret in an environment variable — never hardcode it in your source code.
+
+---
+
 ## 🗑️ Delete a Webhook
 
 Click the **delete icon (🗑️)** on a webhook card, then confirm in the modal. Deletion is immediate and permanent — no further events will be delivered to that endpoint.
