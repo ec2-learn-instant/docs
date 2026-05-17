@@ -1,0 +1,129 @@
+---
+title: "Discord Integration"
+description: "Receive real-time work mode and privacy mode alerts in your Discord server"
+icon: "discord"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+🟣 **Discord Integration**
+
+Add the Trackpilots bot to your Discord server and receive instant work mode alerts in any text channel.
+</Callout>
+
+---
+
+## 📌 Overview
+
+The Discord integration uses a **Discord Bot** to post work mode and privacy mode alerts into a channel of your choice. The bot requires only the permission to send messages — it cannot read your messages or access any other data.
+
+**What you'll need:**
+- A Discord server where you have the **Manage Server** permission
+- Admin or developer access in Trackpilots
+
+---
+
+## 🚀 How to Connect Discord
+
+### Step 1 — Authorize the Bot
+
+1. Log in to [app.trackpilots.com](https://app.trackpilots.com)
+2. Navigate to **Integrations** in the left sidebar
+3. Locate the **Discord** card and click **Connect**
+4. You will be redirected to Discord's authorization page
+5. Select the **server** where you want Trackpilots to post alerts
+6. Click **Authorize**
+
+Trackpilots requests only the `bot` scope with **Send Messages** permission (`2048`). It cannot read messages or access any other channels.
+
+### Step 2 — Select a Channel
+
+After authorizing:
+
+1. You'll be redirected back to the Integrations page
+2. The Discord card will show **Pending — Select Channel**
+3. Click **Select Channel** to open the channel picker
+4. Choose from the list of text channels in your server
+5. Click **Connect**
+
+A welcome message is automatically posted to your chosen channel confirming the connection.
+
+### Step 3 — Connection Confirmed
+
+The Discord card will show **Connected** status, displaying the server name and channel name.
+
+---
+
+## 🔔 Notification Rules
+
+Once connected, you can configure which events trigger Discord notifications.
+
+| Rule | Trigger | Default |
+|---|---|---|
+| Work / Privacy Mode Change | When any member switches mode | Enabled |
+
+To update rules:
+1. Click **Manage** on the Discord integration card
+2. Toggle the rules on or off
+3. Click **Save Rules**
+
+---
+
+## 🧪 Test the Integration
+
+After connecting, use the **Send Test Message** button on the Discord card to verify your connection. A test message will be posted to your configured channel immediately.
+
+If the test fails with a **Missing Access** error, the bot does not have permission to post in that channel. To fix this:
+- Open Discord → Server Settings → Roles
+- Ensure the Trackpilots bot role has **Send Messages** permission in the selected channel
+
+---
+
+## 🔌 Disconnect Discord
+
+To remove the Discord integration:
+
+1. Go to **Integrations** → **Discord**
+2. Click **Disconnect**
+3. Confirm the action
+
+This stops all Discord notifications. The bot remains in your server — you can remove it manually from Discord's Server Settings → Integrations if no longer needed.
+
+---
+
+## 💬 Sample Notification
+
+When a team member switches modes, your Discord channel receives:
+
+```
+🟢 John Doe switched to Work Mode — 17 May 2026, 09:30 AM
+```
+
+```
+🔴 Jane Smith switched to Privacy Mode — 17 May 2026, 11:00 AM
+```
+
+---
+
+## 🔐 Permissions Requested
+
+| Permission | Value | Purpose |
+|---|---|---|
+| `Send Messages` | `2048` | Post work mode alerts to the selected channel |
+
+Trackpilots does **not** request permissions to read messages, manage channels, or access member data.
+
+---
+
+<Callout type="warning">
+⚠️ **Channel Access**
+
+The bot must have Send Messages permission in the selected channel. If your channel overrides the default role permissions, grant the Trackpilots bot role explicit access to that channel.
+</Callout>
+
+---
+
+<Callout type="info">
+📖 See the [Integrations Overview](/docs/integrations/overview) for a comparison of all supported platforms.
+</Callout>

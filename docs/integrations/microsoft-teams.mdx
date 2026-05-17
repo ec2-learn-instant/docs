@@ -1,0 +1,112 @@
+---
+title: "Microsoft Teams Integration"
+description: "Receive real-time work mode and privacy mode alerts in your Microsoft Teams channels"
+icon: "microsoft"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+🔵 **Microsoft Teams Integration**
+
+Connect Trackpilots to Microsoft Teams to automatically post work mode alerts into any channel in your organization.
+</Callout>
+
+---
+
+## 📌 Overview
+
+The Microsoft Teams integration uses an **Incoming Webhook** connector to deliver Trackpilots notifications directly into a Teams channel. No app store approval required — it takes under two minutes to set up.
+
+**What you'll need:**
+- Microsoft Teams with permission to add connectors to a channel
+- Admin or developer access in Trackpilots
+
+---
+
+## 🚀 How to Connect Microsoft Teams
+
+### Step 1 — Create an Incoming Webhook in Teams
+
+1. Open **Microsoft Teams** and go to the channel where you want alerts
+2. Click the **⋯ (More options)** menu next to the channel name
+3. Select **Connectors**
+4. Search for **Incoming Webhook** and click **Configure**
+5. Give it a name (e.g., `Trackpilots`) and optionally upload an icon
+6. Click **Create**
+7. **Copy the webhook URL** — you'll need this in Trackpilots
+
+### Step 2 — Connect in Trackpilots
+
+1. Log in to [app.trackpilots.com](https://app.trackpilots.com)
+2. Navigate to **Integrations** in the left sidebar
+3. Locate the **Microsoft Teams** card and click **Connect**
+4. Paste the **Incoming Webhook URL** from Step 1
+5. Click **Connect**
+
+### Step 3 — Connection Confirmed
+
+The Teams card will show **Connected** status. A welcome message is automatically posted to your Teams channel confirming the connection.
+
+---
+
+## 🔔 Notification Rules
+
+Once connected, you can configure which events trigger Teams notifications.
+
+| Rule | Trigger | Default |
+|---|---|---|
+| Work / Privacy Mode Change | When any member switches mode | Enabled |
+
+To update rules:
+1. Click **Manage** on the Teams integration card
+2. Toggle the rules on or off
+3. Click **Save Rules**
+
+---
+
+## 🧪 Test the Integration
+
+After connecting, use the **Send Test Message** button on the Teams card to verify your connection. A test message will be posted to your configured channel immediately.
+
+---
+
+## 🔌 Disconnect Teams
+
+To remove the Teams integration:
+
+1. Go to **Integrations** → **Microsoft Teams**
+2. Click **Disconnect**
+3. Confirm the action
+
+This stops all Teams notifications. The Incoming Webhook connector remains in Teams — you can delete it from the Teams connector settings if no longer needed.
+
+---
+
+## 💬 Sample Notification
+
+When a team member switches modes, your Teams channel receives an adaptive card:
+
+```
+🟢 John Doe switched to Work Mode
+17 May 2026, 09:30 AM
+```
+
+```
+🔴 Jane Smith switched to Privacy Mode
+17 May 2026, 11:00 AM
+```
+
+---
+
+<Callout type="warning">
+⚠️ **Webhook URL Security**
+
+Treat your Incoming Webhook URL like a password. Anyone with this URL can post messages to your Teams channel. Do not share it publicly.
+</Callout>
+
+---
+
+<Callout type="info">
+📖 See the [Integrations Overview](/docs/integrations/overview) for a comparison of all supported platforms.
+</Callout>

@@ -1,0 +1,110 @@
+---
+title: "Slack Integration"
+description: "Receive real-time work mode and privacy mode alerts in your Slack workspace"
+icon: "slack"
+---
+
+import { Callout } from "mintlify";
+
+<Callout type="info">
+💜 **Slack Integration**
+
+Connect Trackpilots to Slack to automatically post work mode alerts into any channel in your workspace.
+</Callout>
+
+---
+
+## 📌 Overview
+
+The Slack integration allows Trackpilots to send real-time notifications to a Slack channel whenever a team member switches between **Work Mode** and **Privacy Mode**.
+
+**What you'll need:**
+- A Slack workspace where you have permission to install apps
+- Admin or developer access in Trackpilots
+
+---
+
+## 🚀 How to Connect Slack
+
+### Step 1 — Open Integrations
+
+1. Log in to [app.trackpilots.com](https://app.trackpilots.com)
+2. Navigate to **Integrations** in the left sidebar
+3. Locate the **Slack** card and click **Connect**
+
+### Step 2 — Authorize via OAuth
+
+You will be redirected to Slack's authorization page.
+
+1. Select the **Slack workspace** you want to connect
+2. Choose the **channel** where Trackpilots should post alerts
+3. Click **Allow**
+
+Trackpilots requests only the `incoming-webhook` scope — it can only post to the selected channel and nothing else.
+
+### Step 3 — Connection Confirmed
+
+After authorization, you'll be redirected back to the Integrations page. The Slack card will show **Connected** status.
+
+A welcome message is automatically posted to your chosen channel confirming the connection.
+
+---
+
+## 🔔 Notification Rules
+
+Once connected, you can configure which events trigger Slack notifications.
+
+| Rule | Trigger | Default |
+|---|---|---|
+| Work / Privacy Mode Change | When any member switches mode | Enabled |
+
+To update rules:
+1. Click **Manage** on the Slack integration card
+2. Toggle the rules on or off
+3. Click **Save Rules**
+
+---
+
+## 🧪 Test the Integration
+
+After connecting, use the **Send Test Message** button on the Slack card to verify your connection. A test message will be posted to your configured channel immediately.
+
+---
+
+## 🔌 Disconnect Slack
+
+To remove the Slack integration:
+
+1. Go to **Integrations** → **Slack**
+2. Click **Disconnect**
+3. Confirm the action
+
+This stops all Slack notifications. Your Slack workspace is not affected — Trackpilots is simply removed from the channel.
+
+---
+
+## 💬 Sample Notification
+
+When a team member switches modes, your Slack channel receives:
+
+```
+🟢 John Doe switched to Work Mode — 17 May 2026, 09:30 AM
+```
+
+```
+🔴 Jane Smith switched to Privacy Mode — 17 May 2026, 11:00 AM
+```
+
+---
+
+<Callout type="warning">
+⚠️ **Channel Permissions**
+
+Make sure the Trackpilots Slack app has permission to post in your selected channel. Private channels require the app to be explicitly invited.
+</Callout>
+
+---
+
+<Callout type="info">
+📖 See the [Integrations Overview](/docs/integrations/overview) for a comparison of all supported platforms.
+</Callout>

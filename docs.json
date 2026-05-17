@@ -91,6 +91,16 @@
             ]
           },
           {
+            "group": "Integrations",
+            "icon": "plug",
+            "pages": [
+              "docs/integrations/overview",
+              "docs/integrations/slack",
+              "docs/integrations/microsoft-teams",
+              "docs/integrations/discord"
+            ]
+          },
+          {
             "group": "Reseller",
             "icon": "store",
             "pages": [
