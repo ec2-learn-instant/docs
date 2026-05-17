@@ -1,6 +1,6 @@
 ---
 title: "Slack Integration"
-description: "Receive real-time work mode and privacy mode alerts in your Slack workspace"
+description: "Connect Trackpilots to your Slack workspace and receive work mode alerts in any channel"
 icon: "slack"
 ---
 
@@ -9,102 +9,56 @@ import { Callout } from "mintlify";
 <Callout type="info">
 💜 **Slack Integration**
 
-Connect Trackpilots to Slack to automatically post work mode alerts into any channel in your workspace.
+Receive instant work mode and privacy mode alerts directly in your Slack channel.
 </Callout>
 
 ---
 
-## 📌 Overview
+## 🚀 How to Connect
 
-The Slack integration allows Trackpilots to send real-time notifications to a Slack channel whenever a team member switches between **Work Mode** and **Privacy Mode**.
+1. Go to **[Integrations](https://app.trackpilots.com/integrations)** in your Trackpilots dashboard
+2. Click **Connect to Slack**
+3. Select the **Slack workspace** you want to connect
+4. Choose the **channel** where alerts should be posted
+5. Click **Allow**
 
-**What you'll need:**
-- A Slack workspace where you have permission to install apps
-- Admin or developer access in Trackpilots
-
----
-
-## 🚀 How to Connect Slack
-
-### Step 1 — Open Integrations
-
-1. Log in to [app.trackpilots.com](https://app.trackpilots.com)
-2. Navigate to **Integrations** in the left sidebar
-3. Locate the **Slack** card and click **Connect**
-
-### Step 2 — Authorize via OAuth
-
-You will be redirected to Slack's authorization page.
-
-1. Select the **Slack workspace** you want to connect
-2. Choose the **channel** where Trackpilots should post alerts
-3. Click **Allow**
-
-Trackpilots requests only the `incoming-webhook` scope — it can only post to the selected channel and nothing else.
-
-### Step 3 — Connection Confirmed
-
-After authorization, you'll be redirected back to the Integrations page. The Slack card will show **Connected** status.
-
-A welcome message is automatically posted to your chosen channel confirming the connection.
+You'll be redirected back to Trackpilots. The Slack card will show **Connected** status, and a welcome message will appear in your chosen channel.
 
 ---
 
-## 🔔 Notification Rules
+## 🔔 Notification Alerts
 
-Once connected, you can configure which events trigger Slack notifications.
-
-| Rule | Trigger | Default |
-|---|---|---|
-| Work / Privacy Mode Change | When any member switches mode | Enabled |
-
-To update rules:
-1. Click **Manage** on the Slack integration card
-2. Toggle the rules on or off
-3. Click **Save Rules**
-
----
-
-## 🧪 Test the Integration
-
-After connecting, use the **Send Test Message** button on the Slack card to verify your connection. A test message will be posted to your configured channel immediately.
-
----
-
-## 🔌 Disconnect Slack
-
-To remove the Slack integration:
-
-1. Go to **Integrations** → **Slack**
-2. Click **Disconnect**
-3. Confirm the action
-
-This stops all Slack notifications. Your Slack workspace is not affected — Trackpilots is simply removed from the channel.
-
----
-
-## 💬 Sample Notification
-
-When a team member switches modes, your Slack channel receives:
+Once connected, your Slack channel will receive a message whenever a team member switches modes:
 
 ```
 🟢 John Doe switched to Work Mode — 17 May 2026, 09:30 AM
-```
-
-```
 🔴 Jane Smith switched to Privacy Mode — 17 May 2026, 11:00 AM
 ```
 
 ---
 
-<Callout type="warning">
-⚠️ **Channel Permissions**
+## ⚙️ Manage Notifications
 
-Make sure the Trackpilots Slack app has permission to post in your selected channel. Private channels require the app to be explicitly invited.
-</Callout>
+You can turn notification rules on or off at any time:
+
+1. Go to **Integrations** → **Slack**
+2. Toggle the rules on or off
+3. Click **Save Rules**
+
+---
+
+## 🧪 Test the Connection
+
+Click **Send Test Message** on the Slack card to send a test alert to your channel instantly.
+
+---
+
+## 🔌 Disconnect
+
+Click **Disconnect** on the Slack card to stop all Slack notifications.
 
 ---
 
 <Callout type="info">
-📖 See the [Integrations Overview](/docs/integrations/overview) for a comparison of all supported platforms.
+📖 Back to [Integrations Overview](/docs/integrations/overview)
 </Callout>
